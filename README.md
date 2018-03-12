@@ -1,2 +1,2 @@
 # Software-Engineering
-Course project of CZ2006 @NTU
+Course project of CZ2006 @NTUs
