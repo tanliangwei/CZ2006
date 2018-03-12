@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SoftwareEng</string>
+    <string name="google_maps_API_key">AIzaSyBGEY6qWiCGFDybzlsj5z_bVSfxB64pY28</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
