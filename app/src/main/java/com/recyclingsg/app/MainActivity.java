@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,35 +93,51 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
 
         initAutoCompleteField();
+        initWasteTypeSpinner();
 
-
+        //add button
 
     }
 
 
-    private void initSearchField() {
-        Log.d(TAG, "initSearchField: initializing");
+//    private void initSearchField() {
+//        Log.d(TAG, "initSearchField: initializing");
+//
+//        //mSearchText = (EditText) findViewById(R.id.search_field);
+//        //initAutoComplete();
+//
+//
+//
+//        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || actionId == EditorInfo.IME_ACTION_DONE
+//                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+//                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+//                    Log.d(TAG, "onEditorAction: Searching..");
+//
+//                    //execute method for searching
+//                }
+//
+//                return false;
+//            }
+//        });
+//    }
 
-        //mSearchText = (EditText) findViewById(R.id.search_field);
-        //initAutoComplete();
+    public void initWasteTypeSpinner(){
+        Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
+        Spinner spinner = (Spinner) findViewById(R.id.trash_type_selection_spinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.trash_types, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
 
-
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    Log.d(TAG, "onEditorAction: Searching..");
-
-                    //execute method for searching
-                }
-
-                return false;
-            }
-        });
     }
 
     public void initAutoCompleteField(){
@@ -175,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             //       placeResult.addOnCompleteListener(mUpdatePlaceDetailsCallback);
 
 
-            Toast.makeText(getApplicationContext(), "Clicked: " + primaryText,
+            Toast.makeText(getApplicationContext(), "Selected Location: " + primaryText,
                     Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
 
@@ -186,5 +204,25 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             }
         }
     };
+    private AdapterView.OnItemSelectedListener mWasteTypeSpinnerListener = new AdapterView.OnItemSelectedListener(){
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Object o = parent.getItemAtPosition(position);
+
+            Toast.makeText(getApplicationContext(), "Selected Waste Type: " + o.toString(),
+                    Toast.LENGTH_SHORT).show();
+
+            Log.d(TAG, "onItemSelected: Selected " + id + ": " + o.toString());
+
+            //set String of collectionpointmanager
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            
+        }
+    };
+
 
 }

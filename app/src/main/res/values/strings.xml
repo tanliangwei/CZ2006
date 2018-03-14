@@ -5,4 +5,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name = "country_code"> SG</string>
+    <string name="waste_type">Select Waste</string>
+    
+    <string-array name="trash_types">
+        <item>GeneralWaste</item>
+        <item>eWaste</item>
+        <item>CashForTrash</item>
+    </string-array>
+
 </resources>

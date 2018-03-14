@@ -82,7 +82,18 @@
         </AutoCompleteTextView>
 
 
-
-
     </android.support.constraint.ConstraintLayout>
+
+    <Spinner
+        android:id="@+id/trash_type_selection_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/waste_type"
+        android:background="@android:color/holo_blue_dark"
+
+
+        app:layout_constraintStart_toStartOf="@id/search_bar"
+        app:layout_constraintTop_toBottomOf="@id/search_bar" />
+
+
 </android.support.constraint.ConstraintLayout>
