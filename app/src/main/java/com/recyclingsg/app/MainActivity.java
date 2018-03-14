@@ -1,18 +1,67 @@
 package com.recyclingsg.app;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBufferResponse;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.tasks.Task;
+
+import android.app.Dialog;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.PlaceBufferResponse;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.Task;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
 
@@ -22,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     //vars
     private GoogleMapFragment mGoogleMapManager;
     private EditText mSearchText;
+    protected GeoDataClient mGeoDataClient;
+    private PlaceAutocompleteAdapter mAdapter;
 
 
 
@@ -39,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         fragmentTransaction.commit();
 
 
-        initSearchField();
+        initAutoCompleteField();
 
 
 
@@ -49,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private void initSearchField() {
         Log.d(TAG, "initSearchField: initializing");
 
-        mSearchText = (EditText) findViewById(R.id.search_field);
-        initAutoComplete();
+        //mSearchText = (EditText) findViewById(R.id.search_field);
+        //initAutoComplete();
 
 
 
@@ -71,11 +122,19 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         });
     }
 
-    public void initAutoComplete(){
+    public void initAutoCompleteField(){
+        Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
+        mGeoDataClient = Places.getGeoDataClient(this,null);
         ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item,new CollectionPointManager().getNodes());
-        AutoCompleteTextView mAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        mAutoComplete.setThreshold(1);
-        mAutoComplete.setAdapter(adapter);
+        AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        mAutoCompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data Client.
+        mAdapter = new PlaceAutocompleteAdapter(this, mGeoDataClient, GoogleMapFragment.getBoundsCoordSg(), null);
+        mAutoCompleteView.setAdapter(mAdapter);
+
 
     }
 
@@ -91,4 +150,41 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
 
     }
+
+
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = mAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            Log.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data Client to retrieve a Place object with
+             additional details about the place.
+              */
+            Task<PlaceBufferResponse> placeResult = mGeoDataClient.getPlaceById(placeId);
+            //       placeResult.addOnCompleteListener(mUpdatePlaceDetailsCallback);
+
+
+            Toast.makeText(getApplicationContext(), "Clicked: " + primaryText,
+                    Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+
+            if (placeResult.isSuccessful()){
+                PlaceBufferResponse places = placeResult.getResult();
+                mGoogleMapManager.setUserSelectedLocation(places.get(0).getLatLng());
+                places.release();
+            }
+        }
+    };
+
 }

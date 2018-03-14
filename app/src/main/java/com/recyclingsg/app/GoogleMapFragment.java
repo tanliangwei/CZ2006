@@ -17,14 +17,49 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.List;
+
+import android.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.util.List;
 
 
 /**
@@ -35,7 +70,7 @@ import com.google.android.gms.tasks.Task;
  * Use the {@link GoogleMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoogleMapFragment extends Fragment implements OnMapReadyCallback{
+public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,12 +89,25 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback{
     private String mParam2;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
-
-
-
-
     private OnFragmentInteractionListener mListener;
+    private LatLng userSelectedLocation;
+
+
+    private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
+            new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
+
+    public static LatLngBounds getBoundsCoordSg() {
+        return BOUNDS_COORD_SG;
+    }
+
+    public LatLng getUserSelectedLocation() {
+        return userSelectedLocation;
+    }
+
+    public void setUserSelectedLocation(LatLng userSelectedLocation) {
+        Log.d(TAG, "setUserSelectedLocation: User selected a location" );
+        this.userSelectedLocation = userSelectedLocation;
+    }
 
     public GoogleMapFragment() {
         // Required empty public constructor
@@ -175,9 +223,16 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback{
     private void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+    }
+    private void moveCameraToUserSelectedLocation (float zoom){
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + userSelectedLocation.latitude + ", lng: " + userSelectedLocation.longitude );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userSelectedLocation, zoom));
+
     }
 
-    public void displayNodes(Node[] nodes){
+
+    public void displayNodes(List<Node> nodes){
         for (Node node : nodes){
             MarkerOptions options = new MarkerOptions()
                     .position(node.getLatLng())

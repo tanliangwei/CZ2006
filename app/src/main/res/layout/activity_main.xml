@@ -37,7 +37,24 @@
             android:id="@+id/ic_magnify"
             android:src="@drawable/ic_magnify"
             />
-        <EditText
+        <!--<EditText-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--app:layout_constraintStart_toEndOf="@id/ic_magnify"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--android:inputType="text"-->
+        <!--android:textSize="18sp"-->
+        <!--android:textColor="#000"-->
+        <!--android:id="@+id/search_field"-->
+        <!--android:hint="Recycling Areas"-->
+        <!--/>-->
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -49,19 +66,15 @@
             android:inputType="text"
             android:textSize="18sp"
             android:textColor="#000"
-            android:id="@+id/search_field"
-            android:hint="Recycling Areas"
-            />
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/search_bar"
-            app:layout_constraintStart_toStartOf="@id/search_field"
-
             android:ems="10"
-            android:text="">
+            android:text=""
+            android:hint="Search Location"
+            >
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/search_bar"-->
+            <!--app:layout_constraintStart_toStartOf="@id/search_field"-->
 
 
             <requestFocus/>
