@@ -45,35 +45,6 @@ import java.util.concurrent.TimeoutException;
  */
 
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.text.style.CharacterStyle;
-import android.text.style.StyleSpan;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import com.google.android.gms.common.data.DataBufferUtils;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.AutocompletePredictionBufferResponse;
-import com.google.android.gms.location.places.GeoDataClient;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.tasks.RuntimeExecutionException;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 /**
  * Adapter that handles Autocomplete requests from the Places Geo Data Client.
  * {@link AutocompletePrediction} results from the API are frozen and stored directly in this
