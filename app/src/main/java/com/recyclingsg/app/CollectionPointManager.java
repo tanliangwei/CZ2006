@@ -18,6 +18,7 @@ public class CollectionPointManager {
 
     //to be removed
     private List<Node> nodes;
+    private String trashType;
 
     public CollectionPointManager(){
         nodes = new ArrayList<Node>(){{
@@ -33,5 +34,13 @@ public class CollectionPointManager {
 
     public List<Node> getNodes() {
         return nodes;
+    }
+
+    public String getTrashType() {
+        return trashType;
+    }
+
+    public void setTrashType(String trashType) {
+        this.trashType = trashType;
     }
 }

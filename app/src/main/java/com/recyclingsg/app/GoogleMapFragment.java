@@ -82,6 +82,10 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String TAG = "GoogleMapFragment";
 
+    private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
+            new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
+
+
 //static final variables
 
 
@@ -93,8 +97,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng userSelectedLocation;
 
 
-    private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
-            new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
 
     public static LatLngBounds getBoundsCoordSg() {
         return BOUNDS_COORD_SG;
@@ -104,9 +106,9 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         return userSelectedLocation;
     }
 
-    public void setUserSelectedLocation(LatLng userSelectedLocation) {
-        Log.d(TAG, "setUserSelectedLocation: User selected a location" );
-        this.userSelectedLocation = userSelectedLocation;
+    public void setUserSelectedLocation(Place userSelectedPlace) {
+        Log.d(TAG, "setUserSelectedLocation: User Selects Location: " + userSelectedPlace.getName() );
+        this.userSelectedLocation = userSelectedPlace.getLatLng();
     }
 
     public GoogleMapFragment() {
@@ -225,10 +227,9 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
     }
-    private void moveCameraToUserSelectedLocation (float zoom){
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + userSelectedLocation.latitude + ", lng: " + userSelectedLocation.longitude );
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userSelectedLocation, zoom));
 
+    public void moveCameraToUserSelectedLocation (){
+        moveCamera(userSelectedLocation,DEFAULT_ZOOM);
     }
 
 
