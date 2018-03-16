@@ -40,7 +40,9 @@ public class DatabaseManager {
     public DatabaseManager(){}
 
     //API functions
-
+    public void pullPublicEWasteFromDatabase(){}
+    public void pullPublicRecyclablesFromDatabase(){}
+    public void pullPublicCashForTrash(){}
 
 
     //function for querying
