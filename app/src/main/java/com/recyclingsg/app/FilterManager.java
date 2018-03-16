@@ -13,20 +13,27 @@ public class FilterManager {
 
     public FilterManager(){}
     private ArrayList<TrashCollectionPoint> openTrashCollectionPoints =new ArrayList<TrashCollectionPoint>();
+    ArrayList<TrashCollectionPoint> closedTrashCollectionPoints = new ArrayList<TrashCollectionPoint>();
 
-    public ArrayList<TrashCollectionPoint> filterByCurrentDate(ArrayList<TrashCollectionPoint> beforeFilterTrashCollectionPoints){
+    public void filterByCurrentDate(ArrayList<TrashCollectionPoint> beforeFilterTrashCollectionPoints){
         Date CurrentDate = new Date();
         DateFormat sdf = new SimpleDateFormat("HHmm");
         String CurrentDateString = sdf.format(CurrentDate);
         int currentTimeInt = Integer.parseInt(CurrentDateString);
-
         for(int x = 0; x < beforeFilterTrashCollectionPoints.size(); x++){
-            ArrayList<TrashCollectionPoint>
             if((beforeFilterTrashCollectionPoints.get(x).getOpenTimeInInt() >= currentTimeInt) && beforeFilterTrashCollectionPoints.get(x).getCloseTimeInInt() <= currentTimeInt){
-
+            closedTrashCollectionPoints.add(beforeFilterTrashCollectionPoints.get(x));
+            } else {
+                openTrashCollectionPoints.add(beforeFilterTrashCollectionPoints.get(x));
             }
         }
+    }
+    public ArrayList<TrashCollectionPoint> getOpenTrashCollectionPoints(){
+        return openTrashCollectionPoints;
+    }
 
+    public ArrayList<TrashCollectionPoint> getClosedTrashCollectionPoints(){
+        return closedTrashCollectionPoints;
     }
 
 }
