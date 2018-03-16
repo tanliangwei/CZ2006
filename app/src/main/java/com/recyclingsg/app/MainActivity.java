@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         // to call startup functions.
         Configuration.getInstance();
         Configuration.startUp();
-        
+
         setContentView(R.layout.activity_main);
 
         mCollectionPointManager = new CollectionPointManager();
