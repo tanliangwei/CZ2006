@@ -9,13 +9,30 @@ import java.util.ArrayList;
 public class DatabaseManager {
 
     //The attributes
+    private ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints;
+    private ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints;
+    private ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints;
+
+    //get and set functions
+    public void setEWastePublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+        EWastePublicTrashCollectionPoints = list;
+    }
+    public void setRecyclablesPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+        RecyclablesPublicTrashCollectionPoints = list;
+    }
+    public void setCashForTrashPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+        CashForTrashPublicTrashCollectionPoints = list;
+    }
+    public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
 
-
-
-    //function for querying 
+    //function for querying
     public ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
         ArrayList<TrashCollectionPoint> implementthisshit = new ArrayList<TrashCollectionPoint>();
-        return  implementthisshit;
+        return implementthisshit;
     }
+    
+
 }
