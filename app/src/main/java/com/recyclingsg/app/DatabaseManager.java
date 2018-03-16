@@ -9,23 +9,23 @@ import java.util.ArrayList;
 public class DatabaseManager {
 
     //The attributes
-    private ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints;
-    private ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints;
-    private ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints;
+    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints;
+    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints;
+    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints;
 
     //get and set functions
-    public void setEWastePublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+    public static void setEWastePublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
         EWastePublicTrashCollectionPoints = list;
     }
-    public void setRecyclablesPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+    public static void setRecyclablesPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
         RecyclablesPublicTrashCollectionPoints = list;
     }
-    public void setCashForTrashPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
+    public static void setCashForTrashPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
         CashForTrashPublicTrashCollectionPoints = list;
     }
-    public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
-    public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
-    public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
     //the constructor and instance management code
     private static DatabaseManager instance;
@@ -40,20 +40,20 @@ public class DatabaseManager {
     public DatabaseManager(){}
 
     //loads all data. This is called in the startup class
-    public void loadData(){
+    public static void loadData(){
         pullPublicCashForTrash();
         pullPublicEWasteFromDatabase();
         pullPublicRecyclablesFromDatabase();
     }
 
     //API functions
-    public void pullPublicEWasteFromDatabase(){}
-    public void pullPublicRecyclablesFromDatabase(){}
-    public void pullPublicCashForTrash(){}
+    public static void pullPublicEWasteFromDatabase(){}
+    public static void pullPublicRecyclablesFromDatabase(){}
+    public static void pullPublicCashForTrash(){}
 
 
     //function for querying
-    public ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
+    public static ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
         ArrayList<TrashCollectionPoint> implementthisshit = new ArrayList<TrashCollectionPoint>();
         return implementthisshit;
     }

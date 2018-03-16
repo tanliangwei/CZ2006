@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // to call startup functions.
+        Configuration.getInstance();
+        Configuration.startUp();
+        
         setContentView(R.layout.activity_main);
 
         mCollectionPointManager = new CollectionPointManager();

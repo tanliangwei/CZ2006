@@ -18,8 +18,9 @@ public class Configuration {
     public Configuration(){}
 
     //load all the necessary things.
-    public void startUp(){
+    public static void startUp(){
         DatabaseManager.getInstance();
+        DatabaseManager.loadData();
 
     }
 }
