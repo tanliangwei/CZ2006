@@ -51,5 +51,14 @@ public class DatabaseManager {
         return implementthisshit;
     }
 
+    /**
+     * add private trash collection point
+     * @param collectionPoint the collection point to add
+     * @return true if success
+     */
+    public boolean addPrivatePoint(PrivateTrashCollectionPoint collectionPoint){
+        return true;
+    }
+
 
 }
