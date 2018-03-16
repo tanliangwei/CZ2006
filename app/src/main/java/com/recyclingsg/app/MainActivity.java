@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
 
 
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // to call startup functions.
+        Configuration.getInstance();
+        Configuration.startUp();
+
         setContentView(R.layout.activity_main);
 
         mCollectionPointManager = new CollectionPointManager();
@@ -259,6 +265,20 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             Log.d(TAG, "onClick: taking user to query results");
 
             // display relevant collection points
+//            switch (userSelectedTrashType) {
+//                case "eWaste":
+//                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
+//                    mGoogleMapManager.displayNodes();
+//                    break;
+//                case "Cash For Trash":
+//                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+//                    break;
+//                case "Recyclables":
+//                    filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
+//                    break;
+//
+//            }
+
 
 
 
@@ -268,8 +288,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             if (selectedLocation==true) {
                 mGoogleMapManager.moveCameraToUserSelectedLocation();
             }
-
-
         }
     };
 
