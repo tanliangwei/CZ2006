@@ -1,0 +1,4 @@
+#Tue Mar 13 01:11:44 SGT 2018
+base.0=/Users/tanliangwei/Desktop/CZ2006 Project/Software-Engineering/MyApplication/app/build/intermediates/transforms/dexMerger/debug/10
+path.0=classes.dex
+renamed.0=classes.dex
