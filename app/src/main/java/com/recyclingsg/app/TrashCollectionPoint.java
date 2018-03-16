@@ -3,6 +3,8 @@ package com.recyclingsg.app;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,5 +78,19 @@ public abstract class TrashCollectionPoint{
 
     public void setDayOpen(int[] dayOpen){this.dayOpen=dayOpen;}
     public int[] getDayOpen(){return dayOpen;}
+
+    public int getOpenTimeInInt(){
+        DateFormat sdf = new SimpleDateFormat("HHmm");
+        String openTimeDateString = sdf.format(this.getOpenTime());
+        int openTimeInt = Integer.parseInt(openTimeDateString);
+        return openTimeInt;
+    }
+
+    public int getCloseTimeInInt(){
+        DateFormat sdf = new SimpleDateFormat("HHmm");
+        String closeTimeDateString = sdf.format(this.getOpenTime());
+        int closeTimeInt = Integer.parseInt(closeTimeDateString);
+        return closeTimeInt;
+    }
 
 }

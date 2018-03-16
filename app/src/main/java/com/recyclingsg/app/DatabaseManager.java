@@ -27,12 +27,29 @@ public class DatabaseManager {
     public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
+    //the constructor and instance management code
+    private static DatabaseManager instance;
+    //this ensures that there is only one instance of  DatabaseManager in the whole story
+    public static DatabaseManager getInstance() {
+        if (instance == null) {
+            instance = new DatabaseManager();
+        }
+        return instance;
+    }
+    //constructor for database manger
+    public DatabaseManager(){}
+
+    //API functions
+    public void pullPublicEWasteFromDatabase(){}
+    public void pullPublicRecyclablesFromDatabase(){}
+    public void pullPublicCashForTrash(){}
+
 
     //function for querying
     public ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
         ArrayList<TrashCollectionPoint> implementthisshit = new ArrayList<TrashCollectionPoint>();
         return implementthisshit;
     }
-    
+
 
 }
