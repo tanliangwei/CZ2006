@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private FilterManager filterManager = new FilterManager();
 
 
 
@@ -262,6 +264,19 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             Log.d(TAG, "onClick: taking user to query results");
 
             // display relevant nodes
+//            switch (userSelectedTrashType) {
+//                case "eWaste":
+//                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
+//                    mGoogleMapManager.displayNodes();
+//                    break;
+//                case "Cash For Trash":
+//                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+//                    break;
+//                case "Recyclables":
+//                    filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
+//                    break;
+//
+//            }
 
             //move camera
 

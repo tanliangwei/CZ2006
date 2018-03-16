@@ -15,7 +15,7 @@ public class FilterManager {
     private ArrayList<TrashCollectionPoint> openTrashCollectionPoints =new ArrayList<TrashCollectionPoint>();
     ArrayList<TrashCollectionPoint> closedTrashCollectionPoints = new ArrayList<TrashCollectionPoint>();
 
-    public void filterByCurrentDate(ArrayList<TrashCollectionPoint> beforeFilterTrashCollectionPoints){
+    public void filterByCurrentDate(ArrayList<PublicTrashCollectionPoint> beforeFilterTrashCollectionPoints){
         Date CurrentDate = new Date();
         DateFormat sdf = new SimpleDateFormat("HHmm");
         String CurrentDateString = sdf.format(CurrentDate);
