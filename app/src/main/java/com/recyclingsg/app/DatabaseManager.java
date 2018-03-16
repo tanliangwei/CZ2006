@@ -39,6 +39,13 @@ public class DatabaseManager {
     //constructor for database manger
     public DatabaseManager(){}
 
+    //loads all data. This is called in the startup class
+    public void loadData(){
+        pullPublicCashForTrash();
+        pullPublicEWasteFromDatabase();
+        pullPublicRecyclablesFromDatabase();
+    }
+
     //API functions
     public void pullPublicEWasteFromDatabase(){}
     public void pullPublicRecyclablesFromDatabase(){}
