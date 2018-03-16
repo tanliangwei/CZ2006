@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
+    private String userSelectedTrashType;
 
 
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
 
                 //set trashType in collectionpointmanager
-                mCollectionPointManager.setTrashType(trashTypeSelected.toString());
+                userSelectedTrashType = (trashTypeSelected.toString());
 
             }
         }
@@ -257,13 +258,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         public void onClick(View view) {
             Log.d(TAG, "onClick: taking user to query results");
 
-            // display relevant nodes
+            // display relevant collection points
+
+
+
 
             //move camera
 
             if (selectedLocation==true) {
                 mGoogleMapManager.moveCameraToUserSelectedLocation();
             }
+
+
         }
     };
 
