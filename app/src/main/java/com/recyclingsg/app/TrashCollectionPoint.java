@@ -4,6 +4,7 @@ package com.recyclingsg.app;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public abstract class TrashCollectionPoint{
     private String collectionPointName;
     private int zipCode;
     private Date openTime;
-    private Date closetime;
+    private Date closeTime;
     private ArrayList<TrashPrices> trash;
     private LatLng coordinate;
     private int[] dayOpen;
@@ -36,12 +37,34 @@ public abstract class TrashCollectionPoint{
     public void setOpenTime(Date openTime){
         openTime=this.openTime;
     }
+    public void setOpenTime(int x){
+        //getting the hours
+        int hours = x/100;
+        int minutes = x%100;
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.HOUR_OF_DAY,hours);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        setOpenTime(calendar.getTime());
+    }
     public Date getOpenTime(){
         return openTime;
     }
 
-    public void setClosetime(Date closetime){ closetime = this.closetime;}
-    public Date getClosetime(){return closetime;}
+    public void setCloseTime(Date closetime){ closetime = this.closeTime;}
+    public void setCloseTime(int x){
+        //getting the hours
+        int hours = x/100;
+        int minutes = x%100;
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.HOUR_OF_DAY,hours);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        setCloseTime(calendar.getTime());
+    }
+    public Date getCloseTime(){return closeTime;}
 
     public void setTrash(ArrayList<TrashPrices> trash){
         trash=this.trash;

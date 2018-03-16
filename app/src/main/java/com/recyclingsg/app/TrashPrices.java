@@ -5,5 +5,11 @@ package com.recyclingsg.app;
  */
 
 public class TrashPrices {
+
     public static final String[] typeOfTrash = {"General Waste", "eWaste", "Cash For Trash"};
+    private String trashName;
+
+    public void setTrashName(String name){trashName = name;}
+    
+
 }
