@@ -21,21 +21,21 @@ public abstract class TrashCollectionPoint{
     private int[] dayOpen;
 
     public void setCollectionPointName(String name){
-        collectionPointName = name;
+        this.collectionPointName = name;
     }
     public String getCollectionPointName(){
         return collectionPointName;
     }
 
     public void setZipCode(int zipCode){
-        zipCode = this.zipCode;
+        this.zipCode = zipCode;
     }
     public int getZipCode(){
         return zipCode;
     }
 
     public void setOpenTime(Date openTime){
-        openTime=this.openTime;
+        this.openTime=openTime;
     }
     public void setOpenTime(int x){
         //getting the hours
@@ -52,7 +52,7 @@ public abstract class TrashCollectionPoint{
         return openTime;
     }
 
-    public void setCloseTime(Date closetime){ closetime = this.closeTime;}
+    public void setCloseTime(Date closeTime){ this.closeTime = closeTime;}
     public void setCloseTime(int x){
         //getting the hours
         int hours = x/100;
@@ -67,14 +67,14 @@ public abstract class TrashCollectionPoint{
     public Date getCloseTime(){return closeTime;}
 
     public void setTrash(ArrayList<TrashPrices> trash){
-        trash=this.trash;
+        this.trash=trash;
     }
     public ArrayList<TrashPrices> getTrash(){return trash; }
 
-    public void setCoordinate(LatLng coordinate){coordinate=this.coordinate;}
+    public void setCoordinate(LatLng coordinate){this.coordinate=coordinate;}
     public LatLng getCoordinate(){return coordinate;}
 
-    public void setDayOpen(int[] dayOpen){dayOpen=this.dayOpen;}
+    public void setDayOpen(int[] dayOpen){this.dayOpen=dayOpen;}
     public int[] getDayOpen(){return dayOpen;}
 
 }
