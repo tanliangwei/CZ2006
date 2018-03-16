@@ -5,4 +5,13 @@ package com.recyclingsg.app;
  */
 
 public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
+    private String owner;
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
 }

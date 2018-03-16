@@ -21,6 +21,7 @@ public abstract class TrashCollectionPoint{
     private ArrayList<TrashPrices> trash;
     private LatLng coordinate;
     private int[] dayOpen;
+    private String description;
 
     public void setCollectionPointName(String name){
         this.collectionPointName = name;
@@ -93,4 +94,11 @@ public abstract class TrashCollectionPoint{
         return closeTimeInt;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
