@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.david.softwareeng.FacebookLogin"></activity>
+        <activity android:name=".FacebookLogin"></activity>
         <activity
             android:name=".ToActivity"
             android:label="@string/app_name">
