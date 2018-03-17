@@ -1,4 +1,4 @@
-package com.example.david.softwareeng;
+package com.recyclingsg.app;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.recyclingsg.app.R;
 
+
 public class FacebookLogin extends AppCompatActivity {
     LoginButton loginButton;
     TextView textview;
@@ -20,6 +21,7 @@ public class FacebookLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        textview = findViewById(R.id.text_view);
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
         loginButton=(LoginButton)findViewById(R.id.login_button);
@@ -27,7 +29,10 @@ public class FacebookLogin extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                textview.setText("Login Success \n"+loginResult.getAccessToken().getUserId()+"\n"+loginResult.getAccessToken().getToken());
+                textview.setText("Login Success \n");
+                String userId = loginResult.getAccessToken().getUserId();
+                userManager.setUserId(userId);
+
             }
 
             @Override
@@ -40,8 +45,6 @@ public class FacebookLogin extends AppCompatActivity {
 
             }
         });
-
-
 
     }
 
