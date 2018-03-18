@@ -21,6 +21,5 @@ public class Configuration {
     public static void startUp(){
         DatabaseManager.getInstance();
         DatabaseManager.loadData();
-
     }
 }

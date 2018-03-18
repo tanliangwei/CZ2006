@@ -54,11 +54,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         super.onCreate(savedInstanceState);
         // to call startup functions.
         Configuration.getInstance();
-        try {
-            Configuration.startUp();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Configuration.startUp();
 
         setContentView(R.layout.activity_main);
 

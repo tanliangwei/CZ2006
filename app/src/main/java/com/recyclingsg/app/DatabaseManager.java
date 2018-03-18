@@ -1,5 +1,8 @@
 package com.recyclingsg.app;
 
+import android.nfc.Tag;
+import android.util.Log;
+
 import java.util.ArrayList;
 import com.google.gson.*;
 import java.io.BufferedReader;
@@ -16,22 +19,13 @@ import java.net.MalformedURLException;
  */
 
 public class DatabaseManager {
+    private static final String TAG = "DatabaseManager";
 
     //The attributes
-    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints;
-    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints;
-    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints;
+    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
 
-    //get and set functions
-    public static void setEWastePublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        EWastePublicTrashCollectionPoints = list;
-    }
-    public static void setRecyclablesPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        RecyclablesPublicTrashCollectionPoints = list;
-    }
-    public static void setCashForTrashPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        CashForTrashPublicTrashCollectionPoints = list;
-    }
     public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
     public static ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
     public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
@@ -39,55 +33,45 @@ public class DatabaseManager {
     //the constructor and instance management code
     private static DatabaseManager instance;
     //this ensures that there is only one instance of  DatabaseManager in the whole story
-    public static DatabaseManager getInstance() throws Exception{
+    public static DatabaseManager getInstance(){
         if (instance == null) {
             try {
                 instance = new DatabaseManager();
             } catch (Exception e) {
+                Log.e(TAG, "failed to construct DatabaseManager instance");
                 e.printStackTrace();
             }
         }
         return instance;
     }
     //constructor for database manger
-    public DatabaseManager() throws Exception {}
+    public DatabaseManager(){}
 
     //loads all data. This is called in the startup class
-    public static void loadData() throws Exception{
+    public static void loadData(){
         //Pull public cash for trash
-        try {
-            pullPublicCashForTrash();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        pullPublicCashForTrash();
         //Pull public eWaste
-        try {
-            pullPublicEWasteFromDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //Pull public recyclable
-        try {
-            pullPublicRecyclablesFromDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        pullPublicEWasteFromDatabase();
+        //Pull public recyclable, currently unsupported
+        // pullPublicRecyclablesFromDatabase();
     }
 
     //API functions
-    public static void pullPublicEWasteFromDatabase() throws Exception{
-        pullPublicData("general_waste");
-    }
-    public static void pullPublicRecyclablesFromDatabase() throws Exception{
-        pullPublicData("cash-for-trash");
-    }
-    public static void pullPublicCashForTrash() throws Exception{
+    public static void pullPublicEWasteFromDatabase(){
         pullPublicData("e-waste-recycling");
     }
 
-    private static void pullPublicData(final String type) throws Exception{
+    public static void pullPublicCashForTrash(){
+        pullPublicData("cash-for-trash");
+    }
+
+    // unsupported
+//    public static void pullPublicRecyclablesFromDatabase(){
+//        pullPublicData("public-recyclable");
+//    }
+
+    private static void pullPublicData(final String type){
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
 
@@ -100,6 +84,7 @@ public class DatabaseManager {
                 try {
                     url = new URL(sURL);
                 } catch (MalformedURLException e) {
+                    Log.e(TAG, "invalid url for pulling data");
                     e.printStackTrace();
                 }
 
@@ -107,11 +92,13 @@ public class DatabaseManager {
                 try {
                     request = (HttpURLConnection)url.openConnection();
                 } catch (IOException e) {
+                    Log.e(TAG, "Failed to open url connection");
                     e.printStackTrace();
                 }
                 try {
                     request.connect();
                 } catch (IOException e) {
+                    Log.e(TAG, "Failed to connect to url");
                     e.printStackTrace();
                 }
 
@@ -120,6 +107,7 @@ public class DatabaseManager {
                 try {
                     root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
                 } catch (IOException e) {
+                    Log.e(TAG, "Failed to get reply content");
                     e.printStackTrace();
                 }
 
@@ -128,6 +116,7 @@ public class DatabaseManager {
                     rootobj = root.getAsJsonObject();
                 }
                 int count = rootobj.get("count").getAsInt();
+                Log.e(TAG, "successfully pulled "+count+type+"points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     //Collecting collectionPoint information
