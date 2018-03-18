@@ -1,15 +1,16 @@
 package com.recyclingsg.app;
 
-import android.nfc.Tag;
 import android.util.Log;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import com.google.gson.*;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -200,16 +201,76 @@ public class DatabaseManager {
      * @param collectionPoint the collection point to add
      * @return true if success
      */
-    public boolean addPrivatePoint(PrivateTrashCollectionPoint collectionPoint){
-        String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+    public boolean addPrivatePoint(final PrivateTrashCollectionPoint collectionPoint){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+                HttpURLConnection conn;
+                try{
+                    conn = (HttpURLConnection) new URL(url).openConnection();
+                    conn.setConnectTimeout(15000);
+                    conn.setReadTimeout(10000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
 
+                    StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
+                    params.append("&userId=");
+                    params.append(URLEncoder.encode(collectionPoint.getOwnerId().toString(),"UTF-8"));
+                    params.append("&userName=");
+                    params.append(URLEncoder.encode(collectionPoint.getOwnerName().toString(),"UTF-8"));
+                    params.append("&longitude=");
+                    params.append(URLEncoder.encode(String.valueOf(collectionPoint.getCoordinate().longitude),"UTF-8"));
+                    params.append("&latitude=");
+                    params.append(URLEncoder.encode(String.valueOf(collectionPoint.getCoordinate().latitude),"UTF-8"));
+                    params.append("&postalCode=");
+                    params.append(URLEncoder.encode(String.valueOf(collectionPoint.getZipCode()),"UTF-8"));
+
+
+                    StringBuilder trashNamesBuilder = new StringBuilder();
+                    for (TrashPrices t : collectionPoint.getTrash()){
+                        trashNamesBuilder.append(t.getTrashName());
+                        trashNamesBuilder.append(" ");
+                    }
+                    String trashNames = trashNamesBuilder.toString();
+                    params.append("&trash_type=");
+                    params.append(URLEncoder.encode(trashNames,"UTF-8"));
+
+                    String description = collectionPoint.getDescription();
+                    if(description != null) {
+                        params.append("&description=");
+                        params.append(URLEncoder.encode(description,"UTF-8"));
+                    }
+
+                    String pointName = collectionPoint.getCollectionPointName();
+                    if(pointName != null){
+                        params.append("&pointName=");
+                        params.append(URLEncoder.encode(pointName,"UTF-8"));
+                    }
+
+                    String address = collectionPoint.getAddress();
+                    if(address != null) {
+                        params.append("&address=");
+                        params.append(URLEncoder.encode(address, "UTF-8"));
+                    }
+
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+
+                    writer.write(params.toString());
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+                    conn.connect();
+                }
+                catch (IOException e){
+                    Log.e(TAG,e.getMessage());
+                }
             }
         });
         thread.start();
         return true;
     }
-
 }
