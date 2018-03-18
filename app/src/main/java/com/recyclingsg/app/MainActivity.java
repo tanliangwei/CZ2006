@@ -1,6 +1,6 @@
 package com.recyclingsg.app;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +31,6 @@ import com.google.android.gms.tasks.Task;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
-
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
@@ -46,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
+
+    Button button;
 
     public MainActivity() throws Exception {
     }
@@ -71,7 +71,17 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initWasteTypeSpinner();
         initSearchButton();
 
+        button=(Button) findViewById(R.id.Login);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
 
 
 //    private void initSearchField() {
