@@ -47,14 +47,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
 
+    public MainActivity() throws Exception {
+    }
 
-
-
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         // to call startup functions.
         Configuration.getInstance();
-        Configuration.startUp();
+        try {
+            Configuration.startUp();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         setContentView(R.layout.activity_main);
 
