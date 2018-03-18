@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private FilterManager filterManager = new FilterManager();
+    private String userSelectedTrashType;
 
     Button button;
 
