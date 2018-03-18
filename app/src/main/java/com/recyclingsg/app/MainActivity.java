@@ -47,8 +47,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     Button button;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public MainActivity() throws Exception {
+    }
+
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         // to call startup functions.
         Configuration.getInstance();

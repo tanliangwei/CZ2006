@@ -1,5 +1,8 @@
 package com.recyclingsg.app;
 
+import android.nfc.Tag;
+import android.util.Log;
+
 import java.util.ArrayList;
 import com.google.gson.*;
 import java.io.BufferedReader;
@@ -16,22 +19,13 @@ import java.net.MalformedURLException;
  */
 
 public class DatabaseManager {
+    private static final String TAG = "DatabaseManager";
 
     //The attributes
-    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints;
-    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints;
-    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints;
+    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
 
-    //get and set functions
-    public static void setEWastePublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        EWastePublicTrashCollectionPoints = list;
-    }
-    public static void setRecyclablesPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        RecyclablesPublicTrashCollectionPoints = list;
-    }
-    public static void setCashForTrashPublicTrashCollectionPoints(ArrayList<PublicTrashCollectionPoint> list){
-        CashForTrashPublicTrashCollectionPoints = list;
-    }
     public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
     public static ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
     public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
@@ -39,106 +33,125 @@ public class DatabaseManager {
     //the constructor and instance management code
     private static DatabaseManager instance;
     //this ensures that there is only one instance of  DatabaseManager in the whole story
-    public static DatabaseManager getInstance() {
+    public static DatabaseManager getInstance(){
         if (instance == null) {
             try {
                 instance = new DatabaseManager();
             } catch (Exception e) {
+                Log.e(TAG, "failed to construct DatabaseManager instance");
                 e.printStackTrace();
             }
         }
         return instance;
     }
     //constructor for database manger
-    public DatabaseManager() throws Exception {}
+    public DatabaseManager(){}
 
     //loads all data. This is called in the startup class
-    public static void loadData() throws Exception{
+    public static void loadData(){
         //Pull public cash for trash
-        try {
-            pullPublicCashForTrash();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        pullPublicCashForTrash();
         //Pull public eWaste
-        try {
-            pullPublicEWasteFromDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //Pull public recyclable
-        try {
-            pullPublicRecyclablesFromDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        pullPublicEWasteFromDatabase();
+        //Pull public recyclable, currently unsupported
+        // pullPublicRecyclablesFromDatabase();
     }
 
     //API functions
-    public static void pullPublicEWasteFromDatabase() throws Exception{
-        pullPublicData("general_waste");
-    }
-    public static void pullPublicRecyclablesFromDatabase() throws Exception{
-        pullPublicData("cash-for-trash");
-    }
-    public static void pullPublicCashForTrash() throws Exception{
+    public static void pullPublicEWasteFromDatabase(){
         pullPublicData("e-waste-recycling");
     }
 
-    private static void pullPublicData(String type) throws Exception{
+    public static void pullPublicCashForTrash(){
+        pullPublicData("cash-for-trash");
+    }
 
-        String sURL = "http://www.sjtume.cn/cz2006/api/get-public-points?token=9ca2218ae5c6f5166850cc749085fa6d&point_type="; //Url to server
-        sURL = sURL + type;
+    // unsupported
+//    public static void pullPublicRecyclablesFromDatabase(){
+//        pullPublicData("public-recyclable");
+//    }
 
+    private static void pullPublicData(final String type){
         // Connect to the URL using java's native library
-        //URL url = new URL(sURL);
+        Thread thread = new Thread(new Runnable() {
 
-        try{
-            URL url = new URL(sURL);
-            HttpURLConnection request = (HttpURLConnection)url.openConnection();
-            request.connect();
+            @Override
+            public void run(){
+                String sURL = "http://www.sjtume.cn/cz2006/api/get-public-points?token=9ca2218ae5c6f5166850cc749085fa6d&point_type="; //Url to server
+                sURL = sURL + type;
 
-            JsonParser jp = new JsonParser();
-            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                URL url = null;
+                try {
+                    url = new URL(sURL);
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, "invalid url for pulling data");
+                    e.printStackTrace();
+                }
 
-            JsonObject rootobj = root.getAsJsonObject();
-            int count = rootobj.get("count").getAsInt();
-            JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
-            for (int i = 0; i < collectionPointArray.size(); i++) {
-                //Collecting collectionPoint information
-                JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
-                int id = ith_object.get("id").getAsInt();
-                double latitude = ith_object.get("latitude").getAsDouble();
-                double longitude = ith_object.get("longitude").getAsDouble();
-                int openTime = 0; //Unspecified in database yet
-                int closeTime = 2359; //Unspecified in database yet
-                int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
-                String name = ith_object.get("name").getAsString();
-                String description = ith_object.get("description").getAsString();
-                ArrayList<String> trash_type = new ArrayList<String>();
-                JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
-                if (jArray != null) {
-                    for (int j = 0; j < jArray.size(); j++) {
-                        trash_type.add(jArray.get(j).getAsString());
+                HttpURLConnection request = null;
+                try {
+                    request = (HttpURLConnection)url.openConnection();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to open url connection");
+                    e.printStackTrace();
+                }
+                try {
+                    request.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to connect to url");
+                    e.printStackTrace();
+                }
+
+                JsonParser jp = new JsonParser();
+                JsonElement root = null;
+                try {
+                    root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to get reply content");
+                    e.printStackTrace();
+                }
+
+                JsonObject rootobj = null;
+                if(root != null){
+                    rootobj = root.getAsJsonObject();
+                }
+                int count = rootobj.get("count").getAsInt();
+                Log.e(TAG, "successfully pulled "+count+type+"points");
+                JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
+                for (int i = 0; i < collectionPointArray.size(); i++) {
+                    //Collecting collectionPoint information
+                    JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
+                    int id = ith_object.get("id").getAsInt();
+                    double latitude = ith_object.get("latitude").getAsDouble();
+                    double longitude = ith_object.get("longitude").getAsDouble();
+                    int openTime = 0; //Unspecified in database yet
+                    int closeTime = 2359; //Unspecified in database yet
+                    int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
+                    String name = ith_object.get("name").getAsString();
+                    String description = ith_object.get("description").getAsString();
+                    ArrayList<String> trash_type = new ArrayList<String>();
+                    JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
+                    if (jArray != null) {
+                        for (int j = 0; j < jArray.size(); j++) {
+                            trash_type.add(jArray.get(j).getAsString());
+                        }
+                    }
+
+                    //Push into Collectionpoint ArrayList
+                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, daysOpen);
+                    if(type == "cash-for-trash"){
+                        CashForTrashPublicTrashCollectionPoints.add(temp);
+                    }else if(type == "e-waste-recycling"){
+                        EWastePublicTrashCollectionPoints.add(temp);
+                    }else{
+                        RecyclablesPublicTrashCollectionPoints.add(temp);
                     }
                 }
-
-                //Push into Collectionpoint ArrayList
-                PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, daysOpen);
-                if(type == "cash-for-trash"){
-                    CashForTrashPublicTrashCollectionPoints.add(temp);
-                }else if(type == "e-waste-recycling"){
-                    EWastePublicTrashCollectionPoints.add(temp);
-                }else{
-                    RecyclablesPublicTrashCollectionPoints.add(temp);
-                }
             }
+        });
 
-        } catch (MalformedURLException e) {
-            System.out.println("PulldataException" + e);
-        }
+        thread.start();
+
     }
 
     private static void pullPrivateData(){
@@ -151,11 +164,13 @@ public class DatabaseManager {
         ArrayList<TrashCollectionPoint> retCollectionPoint = new ArrayList<TrashCollectionPoint>();
         ArrayList<PublicTrashCollectionPoint> tempArray;
         String trashType = null;
+
         try {
             trashType = to_trashType(trashQuery);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         if(trashType == "cash-for-trash"){
             tempArray = CashForTrashPublicTrashCollectionPoints;
         }else if(trashType == "e-waste-recycling"){

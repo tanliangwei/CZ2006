@@ -20,7 +20,7 @@ public class Configuration {
     //load all the necessary things.
     public static void startUp(){
         DatabaseManager.getInstance();
-        //DatabaseManager.loadData();
+        DatabaseManager.loadData();
 
     }
 }
