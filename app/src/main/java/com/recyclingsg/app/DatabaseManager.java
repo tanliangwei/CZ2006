@@ -74,7 +74,6 @@ public class DatabaseManager {
     private static void pullPublicData(final String type){
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run(){
                 String sURL = "http://www.sjtume.cn/cz2006/api/get-public-points?token=9ca2218ae5c6f5166850cc749085fa6d&point_type="; //Url to server
@@ -149,9 +148,7 @@ public class DatabaseManager {
                 }
             }
         });
-
         thread.start();
-
     }
 
     private static void pullPrivateData(){
@@ -204,6 +201,14 @@ public class DatabaseManager {
      * @return true if success
      */
     public boolean addPrivatePoint(PrivateTrashCollectionPoint collectionPoint){
+        String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+        thread.start();
         return true;
     }
 
