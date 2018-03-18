@@ -5,4 +5,24 @@ package com.recyclingsg.app;
  */
 
 public class UserManager {
+    private static String userID;
+    private static String userName;
+
+    public static String getUserId() {
+        return userID;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserID(String id) {
+        userID = id;
+    }
+
+    public static void setUserName(String name) {
+        userName = name;
+    }
 }
+
+

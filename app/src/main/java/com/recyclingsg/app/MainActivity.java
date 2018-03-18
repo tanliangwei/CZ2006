@@ -47,12 +47,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     Button button;
 
-    private DatabaseManager databaseManager = DatabaseManager.getInstance();
-    private FilterManager filterManager = new FilterManager();
-    private String userSelectedTrashType;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
