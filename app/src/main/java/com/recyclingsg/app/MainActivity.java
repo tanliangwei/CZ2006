@@ -41,12 +41,22 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
+
     Button button;
+
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private FilterManager filterManager = new FilterManager();
+    private String userSelectedTrashType;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // to call startup functions.
+        Configuration.getInstance();
+        Configuration.startUp();
+
         setContentView(R.layout.activity_main);
 
         mCollectionPointManager = new CollectionPointManager();
@@ -133,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
-        ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
         // Register a listener that receives callbacks when a suggestion has been selected
@@ -219,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
 
                 //set trashType in collectionpointmanager
-                mCollectionPointManager.setTrashType(trashTypeSelected.toString());
+                userSelectedTrashType = (trashTypeSelected.toString());
 
             }
         }
@@ -265,7 +274,24 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         public void onClick(View view) {
             Log.d(TAG, "onClick: taking user to query results");
 
-            // display relevant nodes
+            // display relevant collection points
+//            switch (userSelectedTrashType) {
+//                case "eWaste":
+//                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
+//                    mGoogleMapManager.displayNodes();
+//                    break;
+//                case "Cash For Trash":
+//                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+//                    break;
+//                case "Recyclables":
+//                    filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
+//                    break;
+//
+//            }
+
+
+
+
 
             //move camera
 
