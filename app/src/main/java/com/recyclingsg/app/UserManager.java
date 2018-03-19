@@ -23,6 +23,13 @@ public class UserManager {
     public static void setUserName(String name) {
         userName = name;
     }
+
+    public void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
+        ptcp.setOwnerId(userID);
+        ptcp.setOwnerName(userName);
+        DatabaseManager.getInstance();
+        DatabaseManager.addPrivateTrashCollectionPointToUser(ptcp);
+    }
 }
 
 
