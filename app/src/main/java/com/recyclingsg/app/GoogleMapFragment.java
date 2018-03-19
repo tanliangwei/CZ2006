@@ -2,6 +2,8 @@ package com.recyclingsg.app;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +29,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.barcode.Barcode;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -171,7 +176,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
 
 
         //show marker on map
-        displayNodes(new CollectionPointManager().getNodes());
+//        displayCollectionPoints(new CollectionPointManager().getNodes());
     }
 
 
@@ -203,11 +208,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void displayNodes(List<Node> nodes){
-        for (Node node : nodes){
+    public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
+        for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
-                    .position(node.getLatLng())
-                    .title(node.getName());
+                    .position(c_point.getCoordinate())
+                    .title(c_point.getCollectionPointName());
             mMap.addMarker(options);
         }
 
@@ -273,6 +278,29 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
         return false;
+    }
+
+
+    private LatLng getLatLngFromAddress(String strAddress){
+
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> address;
+        LatLng latLng = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+
+            latLng = new LatLng(location.getLatitude(),location.getLongitude());
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return latLng;
     }
 
 

@@ -1,6 +1,6 @@
 package com.recyclingsg.app;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +31,6 @@ import com.google.android.gms.tasks.Task;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
-
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
@@ -45,12 +43,19 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private boolean selectedLocation = false;
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
+    private String userSelectedTrashType;
 
+    Button button;
 
+    public MainActivity() throws Exception {
+    }
 
-
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        // to call startup functions.
+        Configuration.getInstance();
+        Configuration.startUp();
+
         setContentView(R.layout.activity_main);
 
         mCollectionPointManager = new CollectionPointManager();
@@ -66,7 +71,17 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initWasteTypeSpinner();
         initSearchButton();
 
+        button=(Button) findViewById(R.id.Login);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
 
 
 //    private void initSearchField() {
@@ -127,7 +142,12 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
+<<<<<<< HEAD
         //ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+||||||| merged common ancestors
+        ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+=======
+>>>>>>> 0cfcb1f70aa86229f45068e86f55aea504b18701
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
         // Register a listener that receives callbacks when a suggestion has been selected
@@ -213,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
 
                 //set trashType in collectionpointmanager
-                mCollectionPointManager.setTrashType(trashTypeSelected.toString());
+                userSelectedTrashType = (trashTypeSelected.toString());
 
             }
         }
@@ -259,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         public void onClick(View view) {
             Log.d(TAG, "onClick: taking user to query results");
 
-            // display relevant nodes
+            // display relevant collection points
 //            switch (userSelectedTrashType) {
 //                case "eWaste":
 //                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
@@ -273,6 +293,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 //                    break;
 //
 //            }
+
+
+
+
 
             //move camera
 
