@@ -30,7 +30,7 @@ public class TrashCollectionPointManager {
 
 
     public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, TrashPrices trashPrices, int openTIme, int closeTime, String description){
-        
+
     }
 
 
