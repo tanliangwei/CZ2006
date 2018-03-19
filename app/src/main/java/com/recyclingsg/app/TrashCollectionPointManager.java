@@ -11,12 +11,12 @@ import java.util.List;
  * Created by Howard on 12/3/2018.
  */
 
-public class CollectionPointManager {
+public class TrashCollectionPointManager {
 
     //to be removed
 
 
-    public CollectionPointManager(){
+    public TrashCollectionPointManager(){
 //        nodes = new ArrayList<Node>(){{
 //            add (new Node("Jurong Recycling Station", "a1234", new LatLng(1.3343,(103.742))));
 //            add (new Node("Pasir Ris Recyling Station", "b4321", new LatLng(1.3721, 103.9474)));
@@ -27,6 +27,18 @@ public class CollectionPointManager {
 //        }};
 
     }
+
+
+    //to bring user to new activity.
+    public void openCollectionPointActivity(){
+
+    }
+
+    public void createPrivateTrashCollectionPoint(){
+        
+    }
+
+
 
 //    public PrivateTrashCollectionPoint createCollectionPoint(String name, int zipCode, int openTime, int closeTime, TrashPrices[] trash, LatLng coordinates, int[]dayOpen, User owner, Date expiryDate, Date startDate)
 //    {

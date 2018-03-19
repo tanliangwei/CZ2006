@@ -22,6 +22,7 @@ public abstract class TrashCollectionPoint{
     private LatLng coordinate;
     private int[] dayOpen;
     private String description;
+    private String address;
 
     public void setCollectionPointName(String name){
         this.collectionPointName = name;
@@ -100,5 +101,13 @@ public abstract class TrashCollectionPoint{
 
     public String getDescription() {
         return description;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

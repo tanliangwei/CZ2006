@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
-    private CollectionPointManager mCollectionPointManager;
+    private TrashCollectionPointManager mCollectionPointManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
 
-    Button button;
+    Button loginButton;
 
     public MainActivity() throws Exception {
     }
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
         setContentView(R.layout.activity_main);
 
-        mCollectionPointManager = new CollectionPointManager();
+        mCollectionPointManager = new TrashCollectionPointManager();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -71,11 +71,20 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initWasteTypeSpinner();
         initSearchButton();
 
-        button=(Button) findViewById(R.id.Login);
-        button.setOnClickListener(new OnClickListener() {
+        loginButton=(Button) findViewById(R.id.Login);
+        loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                startActivity(intent);
+            }
+        });
+
+        loginButton=(Button) findViewById(R.id.addPost);
+        loginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                 startActivity(intent);
             }
         });
@@ -271,34 +280,45 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick: taking user to query results");
 
-            // display relevant collection points
-//            switch (userSelectedTrashType) {
-//                case "eWaste":
-//                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
-//                    mGoogleMapManager.displayNodes();
-//                    break;
-//                case "Cash For Trash":
-//                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-//                    break;
-//                case "Recyclables":
-//                    filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
-//                    break;
-//
-//            }
+            query(view);
 
-
-
-
-
-            //move camera
-
-            if (selectedLocation==true) {
-                mGoogleMapManager.moveCameraToUserSelectedLocation();
-            }
         }
     };
+
+    private void query(View view) {
+        Log.d(TAG, "onClick: taking user to query results");
+
+        // display relevant collection points
+            switch (userSelectedTrashType) {
+                case "eWaste":
+                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                    break;
+                case "Cash For Trash":
+                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+
+                    break;
+                case "Recyclables":
+                    filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+
+                    break;
+
+            }
+
+
+
+
+
+        //move camera
+
+        if (selectedLocation==true) {
+            mGoogleMapManager.moveCameraToUserSelectedLocation();
+        }
+
+    }
 
 
 }
