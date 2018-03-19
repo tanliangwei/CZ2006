@@ -8,6 +8,11 @@ public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
     private String ownerName;
     private String ownerId;
 
+    //constructor
+    public PrivateTrashCollectionPoint(){
+        super();
+    }
+
     public String getOwnerId() {
         return ownerId;
     }

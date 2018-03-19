@@ -110,4 +110,6 @@ public abstract class TrashCollectionPoint{
     public String getAddress() {
         return address;
     }
+
+
 }

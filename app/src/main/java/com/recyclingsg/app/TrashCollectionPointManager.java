@@ -29,12 +29,7 @@ public class TrashCollectionPointManager {
     }
 
 
-    //to bring user to new activity.
-    public void openCollectionPointActivity(){
-
-    }
-
-    public void createPrivateTrashCollectionPoint(){
+    public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, TrashPrices trashPrices, int openTIme, int closeTime, String description){
         
     }
 
