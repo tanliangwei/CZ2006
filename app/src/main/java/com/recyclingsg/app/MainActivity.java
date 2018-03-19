@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
-        ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+        //ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
         // Register a listener that receives callbacks when a suggestion has been selected
