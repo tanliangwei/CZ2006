@@ -125,6 +125,4 @@ public abstract class TrashCollectionPoint{
         setTrash(trashPrices);
         setDayOpen(daysOpen);
     }
-
-
 }

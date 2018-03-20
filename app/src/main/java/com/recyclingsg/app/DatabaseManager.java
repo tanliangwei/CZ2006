@@ -273,4 +273,15 @@ public class DatabaseManager {
         thread.start();
         return true;
     }
+
+    /**
+     * add the deposit record to the server
+     * @param depositRecord the deposit record to add
+     * @return true if success
+     */
+    public static boolean addDepositRecord(final DepositRecord depositRecord){
+        String dateStr = depositRecord.getDate().toString();
+        String userId = depositRecord.getUserId();
+        return true;
+    }
 }
