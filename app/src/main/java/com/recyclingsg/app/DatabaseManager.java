@@ -201,7 +201,7 @@ public class DatabaseManager {
      * @param collectionPoint the collection point to add
      * @return true if success
      */
-    public boolean addPrivatePoint(final PrivateTrashCollectionPoint collectionPoint){
+    public static boolean addPrivateTrashCollectionPointToUser(final PrivateTrashCollectionPoint collectionPoint){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
