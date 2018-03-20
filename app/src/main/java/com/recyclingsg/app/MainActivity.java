@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
 
-    Button button;
+    Button loginButton;
 
     public MainActivity() throws Exception {
     }
@@ -71,11 +71,20 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initWasteTypeSpinner();
         initSearchButton();
 
-        button=(Button) findViewById(R.id.Login);
-        button.setOnClickListener(new OnClickListener() {
+        loginButton=(Button) findViewById(R.id.Login);
+        loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                startActivity(intent);
+            }
+        });
+
+        loginButton=(Button) findViewById(R.id.addPost);
+        loginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                 startActivity(intent);
             }
         });

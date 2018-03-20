@@ -126,5 +126,14 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
+    <Button
+        android:id="@+id/addPost"
+        android:text="Post Collection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/trash_type_selection_spinner"
+
+        />
+
 
 </android.support.constraint.ConstraintLayout>

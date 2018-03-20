@@ -15,5 +15,7 @@
         <item>CashForTrash</item>
     </string-array>
     <string name="user_login">User Login</string>
+    <string name="title_activity_post_private_collection_point">PostPrivateCollectionPointActivity
+    </string>
 
 </resources>
