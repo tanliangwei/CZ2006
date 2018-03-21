@@ -110,4 +110,19 @@ public abstract class TrashCollectionPoint{
     public String getAddress() {
         return address;
     }
+
+    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName, int[] daysOpen ){
+        setCollectionPointName(name);
+        LatLng coordinates = new LatLng(xCoordinate,yCoordinate);
+        setCoordinate(coordinates);
+        setOpenTime(openTime);
+        setCloseTime(closeTime);
+        ArrayList<TrashPrices> trashPrices = new ArrayList<TrashPrices>();
+        for(String t:trashName){
+            TrashPrices trash = new TrashPrices(t, 0);
+            trashPrices.add(trash);
+        }
+        setTrash(trashPrices);
+        setDayOpen(daysOpen);
+    }
 }

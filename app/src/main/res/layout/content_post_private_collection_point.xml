@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.recyclingsg.app.PostPrivateCollectionPointActivity"
+    tools:showIn="@layout/activity_post_private_collection_point"
+    android:background="#fff">
+
+    <EditText
+        android:hint="Address"
+        android:id="@+id/address_fill_up_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    />
+    <EditText
+        android:id="@+id/zip_fill_up_field"
+        android:hint="Zip Code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/address_fill_up_field"
+        />
+    <EditText
+        android:id="@+id/contact_details_fill_up_field"
+        android:hint="Contact Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/zip_fill_up_field"
+        />
+    <EditText
+        android:id="@+id/typeOfTrash_fill_up_field"
+        android:hint="Type Of Trash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/contact_details_fill_up_field"
+        />
+    <EditText
+        android:id="@+id/prices_fill_up_field"
+        android:hint="Prices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/typeOfTrash_fill_up_field"
+        />
+    <EditText
+        android:id="@+id/opening_time_fill_up_field"
+        android:hint="Opening Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/prices_fill_up_field"
+        />
+    <EditText
+        android:id="@+id/closing_time_fill_up_field"
+        android:hint="Closing Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/opening_time_fill_up_field"
+        />
+
+    <Button
+        android:id="@+id/postPrivateCollectionPointButton"
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingBottom="10dp"
+        />
+
+
+
+</android.support.constraint.ConstraintLayout>

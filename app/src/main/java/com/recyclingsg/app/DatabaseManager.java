@@ -27,9 +27,9 @@ public class DatabaseManager {
     private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints = new ArrayList<>();
     private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
 
-    public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
-    public static ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
-    public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
     //the constructor and instance management code
     private static DatabaseManager instance;
@@ -201,7 +201,7 @@ public class DatabaseManager {
      * @param collectionPoint the collection point to add
      * @return true if success
      */
-    public static boolean addPrivateTrashCollectionPointToUser(final PrivateTrashCollectionPoint collectionPoint){
+    public static boolean savePrivateTrashCollectionPoint(final PrivateTrashCollectionPoint collectionPoint){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -271,6 +271,17 @@ public class DatabaseManager {
             }
         });
         thread.start();
+        return true;
+    }
+
+    /**
+     * add the deposit record to the server
+     * @param depositRecord the deposit record to add
+     * @return true if success
+     */
+    public static boolean addDepositRecord(final DepositRecord depositRecord){
+        String dateStr = depositRecord.getDate().toString();
+        String userId = depositRecord.getUserId();
         return true;
     }
 }
