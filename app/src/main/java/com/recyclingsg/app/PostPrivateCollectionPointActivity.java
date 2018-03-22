@@ -36,9 +36,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         postPrivateCollectionPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addressFillField.getText()==null ||
-                        zipFillField.getText()==null ||
-                        contactDetailsFillField.getText()==null ||
+                if (addressFillField.getText()==((EditText) findViewById(R.id.address_fill_up_field)).getHint() ||
+                        zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
+                        contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
                         typeOfTrashFillField.getText()==null ||
                         pricesFillField.getText()==null ||
                         openingTimeFillField.getText()==null ||
@@ -52,6 +52,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                     Log.d(TAG, "onClick: address" + addressFillField.getText().toString());
 
                     //save texts
+
 
                     Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
                     startActivity(intent);
