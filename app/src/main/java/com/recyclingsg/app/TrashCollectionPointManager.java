@@ -16,6 +16,8 @@ public class TrashCollectionPointManager {
     //to be removed
 
 
+
+
     public TrashCollectionPointManager(){
 //        nodes = new ArrayList<Node>(){{
 //            add (new Node("Jurong Recycling Station", "a1234", new LatLng(1.3343,(103.742))));

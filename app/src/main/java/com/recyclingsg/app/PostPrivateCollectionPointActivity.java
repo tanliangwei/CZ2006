@@ -16,6 +16,14 @@ import android.widget.Toast;
 public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
     private static final String TAG = "PrivatePointActivity";
+    EditText addressFillField;
+    EditText zipFillField;
+    EditText contactDetailsFillField;
+    EditText typeOfTrashFillField;
+    EditText pricesFillField ;
+    EditText openingTimeFillField;
+    EditText closingTimeFillField;
+    Button postPrivateCollectionPointButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,41 +32,47 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final EditText addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
-        final EditText zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
-        final EditText contactDetailsFillField = (EditText) findViewById(R.id.contact_details_fill_up_field);
-        final EditText typeOfTrashFillField = (EditText) findViewById(R.id.typeOfTrash_fill_up_field);
-        final EditText pricesFillField = (EditText) findViewById(R.id.prices_fill_up_field);
-        final EditText openingTimeFillField = (EditText) findViewById(R.id.opening_time_fill_up_field);
-        final EditText closingTimeFillField = (EditText) findViewById(R.id.closing_time_fill_up_field);
-        Button postPrivateCollectionPointButton = (Button) findViewById(R.id.postPrivateCollectionPointButton);
+        addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
+        zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
+        contactDetailsFillField = (EditText) findViewById(R.id.contact_details_fill_up_field);
+        typeOfTrashFillField = (EditText) findViewById(R.id.typeOfTrash_fill_up_field);
+        pricesFillField = (EditText) findViewById(R.id.prices_fill_up_field);
+        openingTimeFillField = (EditText) findViewById(R.id.opening_time_fill_up_field);
+        closingTimeFillField = (EditText) findViewById(R.id.closing_time_fill_up_field);
+        postPrivateCollectionPointButton = (Button) findViewById(R.id.postPrivateCollectionPointButton);
 
         postPrivateCollectionPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addressFillField.getText()==((EditText) findViewById(R.id.address_fill_up_field)).getHint() ||
-                        zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
-                        contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
-                        typeOfTrashFillField.getText()==null ||
-                        pricesFillField.getText()==null ||
-                        openingTimeFillField.getText()==null ||
-                        closingTimeFillField.getText()==null ){
-                    Log.d(TAG, "onClick: null fields present");
-                    Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Log.d(TAG, "onClick: submitted post");
-
-                    Log.d(TAG, "onClick: address" + addressFillField.getText().toString());
-
-                    //save texts
-
-
-                    Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
+                submitCollectionPointForm();
             }
         });
+    }
+
+    private void submitCollectionPointForm(){
+        if (addressFillField.getText()==((EditText) findViewById(R.id.address_fill_up_field)).getHint() ||
+                zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
+                contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
+                typeOfTrashFillField.getText()==null ||
+                pricesFillField.getText()==null ||
+                openingTimeFillField.getText()==null ||
+                closingTimeFillField.getText()==null ){
+            Log.d(TAG, "onClick: null fields present");
+            Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Log.d(TAG, "onClick: submitted post");
+
+            Log.d(TAG, "onClick: address" + addressFillField.getText().toString());
+
+
+
+            //save texts
+
+
+            Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
 
