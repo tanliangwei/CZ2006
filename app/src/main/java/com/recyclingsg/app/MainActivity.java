@@ -299,9 +299,11 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     break;
                 case "Cash For Trash":
+                    Log.d(TAG, "query: selected Cash for Trash");;
                     filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getOpenTrashCollectionPoints());
 
+                    Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
                 case "Recyclables":
                     filterManager.filterByCurrentDate(databaseManager.getRecyclablesPublicTrashCollectionPoints());
