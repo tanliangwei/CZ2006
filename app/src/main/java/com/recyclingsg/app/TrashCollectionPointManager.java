@@ -29,10 +29,10 @@ public class TrashCollectionPointManager {
     }
 
 
-    public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, TrashPrices trashPrices, int openTIme, int closeTime, String description){
+    public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashPrices> trashPrices, int openTIme, int closeTime, String description,int[] days) {
 
+        PrivateTrashCollectionPoint ptcp ;
     }
-
 
 
 //    public PrivateTrashCollectionPoint createCollectionPoint(String name, int zipCode, int openTime, int closeTime, TrashPrices[] trash, LatLng coordinates, int[]dayOpen, User owner, Date expiryDate, Date startDate)

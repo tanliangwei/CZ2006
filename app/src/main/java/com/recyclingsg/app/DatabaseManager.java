@@ -136,9 +136,10 @@ public class DatabaseManager {
                             trash_type.add(jArray.get(j).getAsString());
                         }
                     }
+                    ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
 
                     //Push into Collectionpoint ArrayList
-                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, daysOpen);
+                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen);
                     if(type == "cash-for-trash"){
                         CashForTrashPublicTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
