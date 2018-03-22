@@ -31,7 +31,9 @@ public class TrashCollectionPointManager {
 
     public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashPrices> trashPrices, int openTIme, int closeTime, String description,int[] days) {
 
-        PrivateTrashCollectionPoint ptcp ;
+        PrivateTrashCollectionPoint ptcp = null;
+        UserManager.getInstance();
+        UserManager.addPrivateTrashCollectionPointToUser(ptcp);
 
     }
 

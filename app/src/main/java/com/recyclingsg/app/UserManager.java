@@ -44,7 +44,7 @@ public class UserManager {
         userName = name;
     }
 
-    public void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
+    public static void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
         ptcp.setOwnerId(userID);
         ptcp.setOwnerName(userName);
         DatabaseManager.getInstance();
