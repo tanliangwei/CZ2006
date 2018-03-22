@@ -1,10 +1,14 @@
 package com.recyclingsg.app;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -15,8 +19,19 @@ public class TrashCollectionPointManager {
 
     //to be removed
 
-
-
+    private static TrashCollectionPointManager instance;
+    //this ensures that there is only one instance of  DatabaseManager in the whole story
+    public static TrashCollectionPointManager getInstance(){
+        if (instance == null) {
+            try {
+                instance = new TrashCollectionPointManager();
+            } catch (Exception e) {
+                Log.e(TAG, "failed to construct TrashCollectionPointManager instance");
+                e.printStackTrace();
+            }
+        }
+        return instance;
+    }
 
     public TrashCollectionPointManager(){
 //        nodes = new ArrayList<Node>(){{
@@ -31,7 +46,7 @@ public class TrashCollectionPointManager {
     }
 
 
-    public void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashPrices> trashPrices, int openTIme, int closeTime, String description,int[] days) {
+    public static void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashPrices> trashPrices, int openTIme, int closeTime, String description,int[] days) {
 
         PrivateTrashCollectionPoint ptcp = null;
         UserManager.getInstance();
