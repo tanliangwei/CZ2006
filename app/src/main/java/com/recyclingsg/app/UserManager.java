@@ -5,8 +5,12 @@ package com.recyclingsg.app;
  */
 
 public class UserManager {
+
     private static String userID;
     private static String userName;
+
+
+
 
     public static String getUserId() {
         return userID;

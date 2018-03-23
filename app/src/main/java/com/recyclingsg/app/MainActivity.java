@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private String userSelectedTrashType;
 
     Button loginButton;
+    Button addPostButton;
 
     public MainActivity() throws Exception {
     }
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             }
         });
 
-        loginButton=(Button) findViewById(R.id.addPost);
-        loginButton.setOnClickListener(new OnClickListener() {
+        addPostButton=(Button) findViewById(R.id.addPost);
+        addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);

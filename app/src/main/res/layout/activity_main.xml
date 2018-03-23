@@ -119,11 +119,11 @@
     <Button
         android:id="@+id/Login"
         style="@style/com_facebook_loginview_silver_style"
-        android:layout_width="53dp"
+        android:layout_width="0dp"
         android:layout_height="58dp"
-        android:onClick="sendMessage"
         android:text="Login"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 
     <Button
