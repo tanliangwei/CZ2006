@@ -152,10 +152,18 @@ public class DatabaseManager {
                             trash_type.add(jArray.get(j).getAsString());
                         }
                     }
+
+                    //TODO trash price unset
                     ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
+
+                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
+                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
+                    String addressStreetName = ith_object.get("address_building_name").getAsString();
 
                     //Push into Collectionpoint ArrayList
                     PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description);
+                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    temp.setAddress(address);
                     if(type == "cash-for-trash"){
                         CashForTrashPublicTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
