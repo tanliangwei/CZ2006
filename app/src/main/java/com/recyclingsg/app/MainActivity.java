@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     Button loginButton;
     Button addPostButton;
+    Button navigate;
 
     public MainActivity() throws Exception {
     }
@@ -71,7 +72,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-
+        navigate=findViewById(R.id.Navigation);
+        navigate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if(mapIntent.resolveActivity(getPackageManager())!=null){
+                    startActivity(mapIntent);
+                }
+            }
+        });
         loginButton=(Button) findViewById(R.id.Login);
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
