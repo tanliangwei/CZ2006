@@ -39,6 +39,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_private_collection_point);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final GoogleMapFragment mGoogleMapFragment = new GoogleMapFragment();
 
         addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
         zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
@@ -107,7 +108,8 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             //TrashPrices trashPrice = new TrashPrices(typeOfTrashFillField.getText(),pricesFillField.getText().)
 
 
-            //save texts
+                    //save texts
+
 
 
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
