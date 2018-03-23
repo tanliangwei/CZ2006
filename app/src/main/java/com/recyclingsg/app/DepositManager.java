@@ -53,9 +53,10 @@ public class DepositManager {
     }
 
     // to calculate revenue
+    //TODO TrashInfo compatibility issue
     public static float calculateRevenue(TrashInfo trashInfo, float Units){
-        float price = trashInfo.getPrices();
-        return price*Units;
+        // float price = trashInfo.getPrices();
+        return 0;
     }
 
 }
