@@ -27,4 +27,14 @@
         <item>Trash3</item>
     </string-array>
 
+    <string-array name="privateCollectionPointFields">
+        <item>Address</item>
+        <item>Zip Code</item>
+        <item>Contact Details</item>
+        <item>Type Of Trash</item>
+        <item>Prices</item>
+        <item>Opening Time</item>
+        <item>Closing Time</item>
+    </string-array>
+
 </resources>

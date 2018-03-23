@@ -97,17 +97,17 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
     //this function is called when the submit button is pressed
     private void submitCollectionPointForm(){
-//        if (addressFillField.getText()==(findViewById(R.id.address_fill_up_field)).getHint() ||
-//                zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
-//                contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
-//                typeOfTrashFillField.getText()==null ||
-//                pricesFillField.getText()==null ||
-//                openingTimeFillField.getText()==null ||
-//                closingTimeFillField.getText()==null ){
-//            Log.d(TAG, "onClick: null fields present");
-//            Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
-//        }
-//        else {
+        if (addressFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[0]) ||
+                zipFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[1]) ||
+                contactDetailsFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[2]) ||
+                typeOfTrashFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[3]) ||
+                pricesFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[4]) ||
+                openingTimeFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[5]) ||
+                closingTimeFillField.getText().equals(getResources().getStringArray(R.array.privateCollectionPointFields)[6]) ){
+            Log.d(TAG, "onClick: null fields present");
+            Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
+        }
+        else {
             Log.d(TAG, "onClick: submitted post");
 
 
@@ -115,14 +115,14 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             //TrashPrices trashPrice = new TrashPrices(typeOfTrashFillField.getText(),pricesFillField.getText().)
 
 
-                    //save texts
-            LatLng privateCollectionCoordinates = getLatLngFromAddress(addressFillField.getText().toString());
-            Log.d(TAG, "onClick: address" + addressFillField.getText().toString() + "LatLng = "
+            //save texts
+            LatLng privateCollectionCoordinates = getLatLngFromAddress(zipFillField.getText().toString());
+            Log.d(TAG, "onClick: address" + zipFillField.getText().toString() + "LatLng = "
                     + privateCollectionCoordinates);
 
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
             startActivity(intent);
-        
+        }
     }
 
 
@@ -157,14 +157,14 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 //        });
 //    }
 
-    public LatLng getLatLngFromAddress(String strAddress){
+    public LatLng getLatLngFromAddress(String zipCode){
 
         Geocoder coder = new Geocoder(getBaseContext());
         List<Address> address;
         LatLng latLng = null;
 
         try {
-            address = coder.getFromLocationName(strAddress,5);
+            address = coder.getFromLocationName("Singapore " +zipCode,5);
             if (address==null) {
                 return null;
             }

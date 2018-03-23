@@ -183,8 +183,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
-        ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
-        //ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
 
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
@@ -325,18 +323,21 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 case "eWaste":
                     filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                    filterManager.getClosedTrashCollectionPoints().clear();
                     break;
                 case "Cash For Trash":
                     Log.d(TAG, "query: selected Cash for Trash");;
                     filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                    filterManager.getClosedTrashCollectionPoints().clear();
 
-                    Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
+                    Log.d(TAG, "query: Collection Points are" + filterManager.getClosedTrashCollectionPoints());
                     break;
 
                 case "Second Hand":
                     filterManager.filterByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                    filterManager.getClosedTrashCollectionPoints().clear();
                     break;
 
             }
