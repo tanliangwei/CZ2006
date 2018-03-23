@@ -23,6 +23,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_private_collection_point);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final GoogleMapFragment mGoogleMapFragment = new GoogleMapFragment();
 
         final EditText addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
         final EditText zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
@@ -38,7 +39,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (addressFillField.getText()==((EditText) findViewById(R.id.address_fill_up_field)).getHint() ||
                         zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
-                        contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
+                        contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.contact_details_fill_up_field)).getHint() ||
                         typeOfTrashFillField.getText()==null ||
                         pricesFillField.getText()==null ||
                         openingTimeFillField.getText()==null ||
@@ -52,6 +53,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                     Log.d(TAG, "onClick: address" + addressFillField.getText().toString());
 
                     //save texts
+//                    mGoogleMapFragment.
 
 
                     Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);

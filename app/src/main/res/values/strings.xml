@@ -10,9 +10,9 @@
     <string name="waste_type">Select Waste</string>
 
     <string-array name="trash_types">
-        <item>GeneralWaste</item>
+        <item>Second Hand</item>
         <item>eWaste</item>
-        <item>CashForTrash</item>
+        <item>Cash For Trash</item>
     </string-array>
     <string name="user_login">User Login</string>
     <string name="title_activity_post_private_collection_point">PostPrivateCollectionPointActivity
