@@ -89,6 +89,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             }
         });
 
+        Button depositBtn = findViewById(R.id.depositTrash);
+        depositBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -321,6 +330,5 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         }
 
     }
-
 
 }

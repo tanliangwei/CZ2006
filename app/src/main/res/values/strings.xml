@@ -18,4 +18,13 @@
     <string name="title_activity_post_private_collection_point">PostPrivateCollectionPointActivity
     </string>
 
+
+    <string-array name="trashTypeName">
+        <item>Cans</item>
+        <item>Bottles</item>
+        <item>Trash1</item>
+        <item>Trash2</item>
+        <item>Trash3</item>
+    </string-array>
+
 </resources>
