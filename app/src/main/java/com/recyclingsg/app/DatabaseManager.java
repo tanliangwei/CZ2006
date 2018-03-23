@@ -25,27 +25,27 @@ public class DatabaseManager {
     //The attributes
     // public trash collection points
     private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PublicTrashCollectionPoint> SecondHandPublicTrashCollectionPoints = new ArrayList<>();
     private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
 
     //private trash collection points
     private static ArrayList<PrivateTrashCollectionPoint> EWastePrivateTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PrivateTrashCollectionPoint> RecyclablesPrivateTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PrivateTrashCollectionPoint> SecondHandPrivateTrashCollectionPoints = new ArrayList<>();
     private static ArrayList<PrivateTrashCollectionPoint> CashForTrashPrivateTrashCollectionPoints = new ArrayList<>();
 
     //getter methods
     public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
         return EWastePrivateTrashCollectionPoints;
     }
-    public static ArrayList<PrivateTrashCollectionPoint> getRecyclablesPrivateTrashCollectionPoints() {
-        return RecyclablesPrivateTrashCollectionPoints;
+    public static ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
+        return SecondHandPrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
         return CashForTrashPrivateTrashCollectionPoints;
     }
 
     public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
-    public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
     //the constructor and instance management code
@@ -71,8 +71,8 @@ public class DatabaseManager {
         pullPublicCashForTrash();
         //Pull public eWaste
         pullPublicEWasteFromDatabase();
-        //Pull public recyclable, currently unsupported
-        // pullPublicRecyclablesFromDatabase();
+        //Pull public SecondHand, currently unsupported
+        pullPublicSecondHandFromDatabase();
     }
 
     //API functions
@@ -84,8 +84,8 @@ public class DatabaseManager {
         pullPublicData("cash-for-trash");
     }
     // unsupported
-    public static void pullPublicRecyclablesFromDatabase(){
-        pullPublicData("public-recyclable");
+    public static void pullPublicSecondHandFromDatabase(){
+        pullPublicData("second-hand");
     }
 
     private static void pullPublicData(final String type){
@@ -161,7 +161,7 @@ public class DatabaseManager {
                     }else if(type == "e-waste-recycling"){
                         EWastePublicTrashCollectionPoints.add(temp);
                     }else{
-                        RecyclablesPublicTrashCollectionPoints.add(temp);
+                        SecondHandPublicTrashCollectionPoints.add(temp);
                     }
                 }
             }
@@ -244,7 +244,7 @@ public class DatabaseManager {
                     }else if(type == "e-waste-recycling"){
                         EWastePrivateTrashCollectionPoints.add(temp);
                     }else{
-                        RecyclablesPrivateTrashCollectionPoints.add(temp);
+                        SecondHandPrivateTrashCollectionPoints.add(temp);
                     }
                 }
             }
@@ -270,7 +270,7 @@ public class DatabaseManager {
         }else if(trashType == "e-waste-recycling"){
             tempArray = EWastePublicTrashCollectionPoints;
         }else{
-            tempArray = RecyclablesPublicTrashCollectionPoints;
+            tempArray = SecondHandPublicTrashCollectionPoints;
         }
 
         for(int i = 0; i < tempArray.size(); i++){
