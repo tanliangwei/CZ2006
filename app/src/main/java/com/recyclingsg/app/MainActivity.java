@@ -46,7 +46,13 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private String userSelectedTrashType;
 
     Button loginButton;
+<<<<<<< HEAD
     Button customInfoWindowButton;
+||||||| merged common ancestors
+=======
+    Button addPostButton;
+    Button navigate;
+>>>>>>> 54611cdde02caa126b95bfe5269c95afc7302962
 
     public MainActivity() throws Exception {
     }
@@ -71,7 +77,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-
+        navigate=findViewById(R.id.Navigation);
+        navigate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if(mapIntent.resolveActivity(getPackageManager())!=null){
+                    startActivity(mapIntent);
+                }
+            }
+        });
         loginButton=(Button) findViewById(R.id.Login);
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -81,12 +98,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             }
         });
 
-        loginButton=(Button) findViewById(R.id.addPost);
-        loginButton.setOnClickListener(new OnClickListener() {
+        addPostButton=(Button) findViewById(R.id.addPost);
+        addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
-                startActivity(intent);
+                if(FacebookLogin.getLoginStatus()==null){
+                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
