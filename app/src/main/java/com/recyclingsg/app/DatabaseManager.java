@@ -85,7 +85,7 @@ public class DatabaseManager {
     }
     // unsupported
     public static void pullPublicSecondHandFromDatabase(){
-        pullPublicData("second-hand");
+        pullPublicData("2nd-hand-goods-collection-points");
     }
 
     private static void pullPublicData(final String type){
@@ -280,7 +280,7 @@ public class DatabaseManager {
     }
 
     public static String to_trashType(TrashPrices trashQuery) throws Exception{
-        if(trashQuery.getTrashName() == "General Waste"){
+        if(trashQuery.getTrashName() == "Second Hand Goods"){
             return "general_waste";
         }else if(trashQuery.getTrashName() == "eWaste"){
             return  "e-waste-recycling";

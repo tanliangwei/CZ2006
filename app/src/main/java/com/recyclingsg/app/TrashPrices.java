@@ -6,7 +6,7 @@ package com.recyclingsg.app;
 
 public class TrashPrices {
 
-    public static final String[] typeOfTrash = {"General Waste", "eWaste", "Cash For Trash"};
+    public static final String[] typeOfTrash = {"Second Hand Goods", "eWaste", "Cash For Trash"};
     private String trashName;
     private float prices;
 
