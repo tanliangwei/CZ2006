@@ -9,55 +9,152 @@
     tools:showIn="@layout/activity_post_private_collection_point"
     android:background="#fff">
 
-    <EditText
-        android:hint="Address"
-        android:id="@+id/address_fill_up_field"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    />
-    <EditText
-        android:id="@+id/zip_fill_up_field"
-        android:hint="Zip Code"
+        android:orientation="horizontal"
+        android:id="@+id/parent_address_bar"
+        android:paddingLeft="20px">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="          Address"
+            android:id="@+id/txtTotalAmt" >
+        </TextView>
+        <EditText
+            android:hint="Address"
+            android:id="@+id/address_fill_up_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/address_fill_up_field"
-        />
-    <EditText
-        android:id="@+id/contact_details_fill_up_field"
-        android:hint="Contact Details"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_address_bar"
+        android:id="@+id/parent_zip_bar">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="         ZIP code">
+        </TextView>
+        <EditText
+            android:id="@+id/zip_fill_up_field"
+            android:hint="Zip Code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/zip_fill_up_field"
-        />
-    <EditText
-        android:id="@+id/typeOfTrash_fill_up_field"
-        android:hint="Type Of Trash"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_zip_bar"
+        android:id="@+id/parent_contact_bar">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="         Contact ">
+        </TextView>
+        <EditText
+            android:id="@+id/contact_details_fill_up_field"
+            android:hint="Contact Details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/contact_details_fill_up_field"
-        />
-    <EditText
-        android:id="@+id/prices_fill_up_field"
-        android:hint="Prices"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_contact_bar"
+        android:id="@+id/parent_type_of_trash_bar">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Type of Trash">
+        </TextView>
+        <EditText
+            android:id="@+id/typeOfTrash_fill_up_field"
+            android:hint="Type Of Trash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/typeOfTrash_fill_up_field"
-        />
-    <EditText
-        android:id="@+id/opening_time_fill_up_field"
-        android:hint="Opening Time"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_type_of_trash_bar"
+        android:id="@+id/parent_price_fill_field">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="             Prices">
+        </TextView>
+        <EditText
+            android:id="@+id/prices_fill_up_field"
+            android:hint="Prices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/prices_fill_up_field"
-        />
-    <EditText
-        android:id="@+id/closing_time_fill_up_field"
-        android:hint="Closing Time"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_price_fill_field"
+        android:id="@+id/parent_open_time_field">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Opening Time">
+        </TextView>
+        <EditText
+            android:id="@+id/opening_time_fill_up_field"
+            android:hint="Opening Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/opening_time_fill_up_field"
-        />
-
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_open_time_field"
+        android:id="@+id/parent_close_time_field">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="  Closing Time">
+        </TextView>
+        <EditText
+            android:id="@+id/closing_time_fill_up_field"
+            android:hint="Closing Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingLeft="20px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/parent_close_time_field"
+        android:id="@+id/parent_camera_field">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="    Take Photo">
+        </TextView>
+    </LinearLayout>
     <Button
         android:id="@+id/postPrivateCollectionPointButton"
         android:text="Submit"
@@ -67,6 +164,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingBottom="10dp"
+        android:layout_marginBottom="80px"
         />
 
 

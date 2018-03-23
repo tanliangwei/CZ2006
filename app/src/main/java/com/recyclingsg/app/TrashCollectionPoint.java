@@ -111,17 +111,28 @@ public abstract class TrashCollectionPoint{
         return address;
     }
 
-    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName, int[] daysOpen ){
+    //constructor
+    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName, ArrayList<Integer> trashCost, int[] daysOpen ){
         setCollectionPointName(name);
         LatLng coordinates = new LatLng(xCoordinate,yCoordinate);
         setCoordinate(coordinates);
         setOpenTime(openTime);
         setCloseTime(closeTime);
         ArrayList<TrashPrices> trashPrices = new ArrayList<TrashPrices>();
-        for(String t:trashName){
-            TrashPrices trash = new TrashPrices(t, 0);
+        for(int i=0;i<trashPrices.size();i++){
+            TrashPrices trash = new TrashPrices(trashName.get(i), trashCost.get(i));
             trashPrices.add(trash);
         }
+        setTrash(trashPrices);
+        setDayOpen(daysOpen);
+    }
+
+    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashPrices> trashPrices, int[] daysOpen ){
+        setCollectionPointName(name);
+        LatLng coordinates = new LatLng(xCoordinate,yCoordinate);
+        setCoordinate(coordinates);
+        setOpenTime(openTime);
+        setCloseTime(closeTime);
         setTrash(trashPrices);
         setDayOpen(daysOpen);
     }
