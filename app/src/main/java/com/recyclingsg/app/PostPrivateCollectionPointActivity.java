@@ -116,9 +116,11 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
             //save texts
-            LatLng privateCollectionCoordinates = getLatLngFromAddress(zipFillField.getText().toString());
-            Log.d(TAG, "onClick: address" + zipFillField.getText().toString() + "LatLng = "
-                    + privateCollectionCoordinates);
+
+
+            //LatLng privateCollectionCoordinates = getLatLngFromAddress(zipFillField.getText().toString());
+            //Log.d(TAG, "onClick: address" + zipFillField.getText().toString() + "LatLng = "
+             //       + privateCollectionCoordinates);
 
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
             startActivity(intent);
@@ -157,26 +159,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 //        });
 //    }
 
-    public LatLng getLatLngFromAddress(String zipCode){
 
-        Geocoder coder = new Geocoder(getBaseContext());
-        List<Address> address;
-        LatLng latLng = null;
-
-        try {
-            address = coder.getFromLocationName("Singapore " +zipCode,5);
-            if (address==null) {
-                return null;
-            }
-            Address location=address.get(0);
-
-            latLng = new LatLng(location.getLatitude(),location.getLongitude());
-
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return latLng;
-    }
 
 }
