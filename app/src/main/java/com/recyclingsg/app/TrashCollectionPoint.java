@@ -14,6 +14,7 @@ import java.util.Date;
  */
 
 public abstract class TrashCollectionPoint{
+    private String TrashCollectionPointID;
     private String collectionPointName;
     private int zipCode;
     private Date openTime;
@@ -23,6 +24,13 @@ public abstract class TrashCollectionPoint{
     private int[] dayOpen;
     private String description;
     private String address;
+
+    public String getTrashCollectionPointID() {
+        return TrashCollectionPointID;
+    }
+    public void setTrashCollectionPointID(String trashCollectionPointID) {
+        TrashCollectionPointID = trashCollectionPointID;
+    }
 
     public void setCollectionPointName(String name){
         this.collectionPointName = name;

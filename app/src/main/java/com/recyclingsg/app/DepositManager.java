@@ -32,16 +32,18 @@ public class DepositManager {
     //public DepositRecord(String userid, Date date, float units, TrashPrices trashPrices, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
     public static void createDepositRecord(TrashPrices trashPrices, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         UserManager.getInstance();
-        String ID = UserManager.getUserId();
-        String Name = UserManager.getUserName();
+        String UserID = UserManager.getUserId();
+        String UserName = UserManager.getUserName();
 
         //get score and revenue
         ScoreManager.getInstance();
         float score = ScoreManager.calculateScore(trashPrices, units);
         float revenue = calculateRevenue(trashPrices, units);
 
+        String trashCollectionPointID =  trashCollectionPoint.getTrashCollectionPointID();
 
-        DepositRecord dr = new DepositRecord(ID, date,units, trashPrices,score,"id",revenue,Name);
+
+        DepositRecord dr = new DepositRecord(UserID, date,units, trashPrices,score,trashCollectionPointID,revenue,UserName);
 
 
     }
