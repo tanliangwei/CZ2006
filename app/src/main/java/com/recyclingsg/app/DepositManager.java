@@ -1,6 +1,5 @@
 package com.recyclingsg.app;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.Date;
@@ -30,21 +29,21 @@ public class DepositManager {
     //constructor for database manger
     public DepositManager(){}
 
-    //public DepositRecord(String userid, Date date, float units, TrashPrices trashPrices, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
-    public static void createDepositRecord(TrashPrices trashPrices, float units, Date date, TrashCollectionPoint trashCollectionPoint){
+    //public DepositRecord(String userid, Date date, float units, TrashInfo trashInfo, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
+    public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         UserManager.getInstance();
         String UserID = UserManager.getUserId();
         String UserName = UserManager.getUserName();
 
         //get score and revenue
         ScoreManager.getInstance();
-        float score = ScoreManager.calculateScore(trashPrices, units);
-        float revenue = calculateRevenue(trashPrices, units);
+        float score = ScoreManager.calculateScore(trashInfo, units);
+        float revenue = calculateRevenue(trashInfo, units);
 
         String trashCollectionPointID =  trashCollectionPoint.getTrashCollectionPointID();
 
 
-        DepositRecord dr = new DepositRecord(UserID, date,units, trashPrices,score,trashCollectionPointID,revenue,UserName);
+        DepositRecord dr = new DepositRecord(UserID, date,units, trashInfo,score,trashCollectionPointID,revenue,UserName);
 
         //adding to data base
         DatabaseManager.getInstance();
@@ -54,8 +53,8 @@ public class DepositManager {
     }
 
     // to calculate revenue
-    public static float calculateRevenue(TrashPrices trashPrices, float Units){
-        float price = trashPrices.getPrices();
+    public static float calculateRevenue(TrashInfo trashInfo, float Units){
+        float price = trashInfo.getPrices();
         return price*Units;
     }
 

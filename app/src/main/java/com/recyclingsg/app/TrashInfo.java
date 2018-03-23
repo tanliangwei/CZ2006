@@ -17,7 +17,7 @@ String trashType = myAcceptableTrash.getTrashType();
 PriceInfo paperPrice = myAcceptableTrash.getTrashPrice("paper");
 */
 
-public class TrashPrices {
+public class TrashInfo {
     public static final String[] typeOfTrash = {"Second Hand Goods", "eWaste", "Cash For Trash"};
     // the general category of the trash, should be one of cash-for-trash, e-waste, second-hand-goods
     private String trashType;
@@ -38,7 +38,7 @@ public class TrashPrices {
     @Deprecated
     public String getTrashName(){return getTrashType();}
 
-    public TrashPrices(String name, float prices){
+    public TrashInfo(String name, float prices){
         setTrashType(name);
     }
 

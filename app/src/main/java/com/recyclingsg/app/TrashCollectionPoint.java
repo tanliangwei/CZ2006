@@ -19,7 +19,7 @@ public abstract class TrashCollectionPoint{
     private int zipCode;
     private Date openTime;
     private Date closeTime;
-    private ArrayList<TrashPrices> trash;
+    private ArrayList<TrashInfo> trash;
     private LatLng coordinate;
     private int[] dayOpen;
     private String description;
@@ -78,10 +78,10 @@ public abstract class TrashCollectionPoint{
     }
     public Date getCloseTime(){return closeTime;}
 
-    public void setTrash(ArrayList<TrashPrices> trash){
+    public void setTrash(ArrayList<TrashInfo> trash){
         this.trash=trash;
     }
-    public ArrayList<TrashPrices> getTrash(){return trash; }
+    public ArrayList<TrashInfo> getTrash(){return trash; }
 
     public void setCoordinate(LatLng coordinate){this.coordinate=coordinate;}
     public LatLng getCoordinate(){return coordinate;}
@@ -126,9 +126,9 @@ public abstract class TrashCollectionPoint{
         setCoordinate(coordinates);
         setOpenTime(openTime);
         setCloseTime(closeTime);
-        ArrayList<TrashPrices> trashPrices = new ArrayList<TrashPrices>();
+        ArrayList<TrashInfo> trashPrices = new ArrayList<TrashInfo>();
         for(int i=0;i<trashPrices.size();i++){
-            TrashPrices trash = new TrashPrices(trashName.get(i), trashCost.get(i));
+            TrashInfo trash = new TrashInfo(trashName.get(i), trashCost.get(i));
             trashPrices.add(trash);
         }
         setTrash(trashPrices);
@@ -136,7 +136,7 @@ public abstract class TrashCollectionPoint{
         setDescription(description);
     }
 
-    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashPrices> trashPrices, int[] daysOpen,String description ){
+    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrices, int[] daysOpen, String description ){
         setCollectionPointName(name);
         LatLng coordinates = new LatLng(xCoordinate,yCoordinate);
         setCoordinate(coordinates);

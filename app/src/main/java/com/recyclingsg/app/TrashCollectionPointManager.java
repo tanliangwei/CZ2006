@@ -2,11 +2,7 @@ package com.recyclingsg.app;
 
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static com.recyclingsg.app.UserManager.*;
@@ -47,7 +43,7 @@ public class TrashCollectionPointManager {
     }
 
 
-    public static void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashPrices> trashPrices, int openTIme, int closeTime, String description,int[] days) {
+    public static void createPrivateTrashCollectionPoint(String address, int zip, int contactDetail, ArrayList<TrashInfo> trashPrices, int openTIme, int closeTime, String description, int[] days) {
 
         PrivateTrashCollectionPoint ptcp = null;
         UserManager.getInstance();
@@ -56,7 +52,7 @@ public class TrashCollectionPointManager {
     }
 
 
-//    public PrivateTrashCollectionPoint createCollectionPoint(String name, int zipCode, int openTime, int closeTime, TrashPrices[] trash, LatLng coordinates, int[]dayOpen, User owner, Date expiryDate, Date startDate)
+//    public PrivateTrashCollectionPoint createCollectionPoint(String name, int zipCode, int openTime, int closeTime, TrashInfo[] trash, LatLng coordinates, int[]dayOpen, User owner, Date expiryDate, Date startDate)
 //    {
 //        PrivateTrashCollectionPoint newPrivateTrashCollectionPoint = new PrivateTrashCollectionPoint(name,zipCode,openTime,closeTime,trash,coordinates,dayOpen,owner,expiryDate,startDate);
 //        return newPrivateTrashCollectionPoint;
