@@ -16,7 +16,7 @@ public class DepositRecord {
     private float Revenue;
     private String NameOfUser;
 
-    //getter and setter methods 
+    //getter and setter methods
     public float getUnits() {
         return units;
     }
