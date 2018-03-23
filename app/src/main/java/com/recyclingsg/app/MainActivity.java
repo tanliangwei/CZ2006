@@ -46,13 +46,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private String userSelectedTrashType;
 
     Button loginButton;
-<<<<<<< HEAD
-    Button customInfoWindowButton;
-||||||| merged common ancestors
-=======
     Button addPostButton;
     Button navigate;
->>>>>>> 54611cdde02caa126b95bfe5269c95afc7302962
 
     public MainActivity() throws Exception {
     }
