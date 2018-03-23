@@ -208,6 +208,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
 
     public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
         mMap.clear();
+        Log.d(TAG, "displayCollectionPoints: Map clearing");
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())

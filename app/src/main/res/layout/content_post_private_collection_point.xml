@@ -26,6 +26,7 @@
             android:id="@+id/address_fill_up_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="text"
             />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,6 +44,7 @@
         <EditText
             android:id="@+id/zip_fill_up_field"
             android:hint="Zip Code"
+            android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -61,9 +63,9 @@
         </TextView>
         <EditText
             android:id="@+id/contact_details_fill_up_field"
-            android:hint="Contact Details"
+            android:hint="Contact Number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:inputType="number">
         </EditText>
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -119,6 +121,7 @@
         <EditText
             android:id="@+id/opening_time_fill_up_field"
             android:hint="Opening Time"
+            android:inputType="time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -138,6 +141,7 @@
         <EditText
             android:id="@+id/closing_time_fill_up_field"
             android:hint="Closing Time"
+            android:inputType="time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
