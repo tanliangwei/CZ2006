@@ -225,6 +225,8 @@ public class DatabaseManager {
                     int openTime = 0; //Unspecified in database yet
                     int closeTime = 2359; //Unspecified in database yet
                     int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
+                    String ownerName = ith_object.get("owner_name").getAsString();
+                    String ownerID = ith_object.get("owner_id").getAsString();
                     String name = ith_object.get("name").getAsString();
                     String description = ith_object.get("description").getAsString();
                     ArrayList<String> trash_type = new ArrayList<String>();
