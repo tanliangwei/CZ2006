@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -23,8 +24,11 @@ import java.util.Arrays;
 public class FacebookLogin extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
     LoginButton loginButton;
-
+    private static AccessToken token = null;
     CallbackManager callbackManager;
+    public static AccessToken getLoginStatus(){
+        return token;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,7 @@ public class FacebookLogin extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
+                token = AccessToken.getCurrentAccessToken();
                 final String userId = loginResult.getAccessToken().getUserId();
 
                 UserManager.setUserID(userId);
