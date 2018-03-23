@@ -377,68 +377,69 @@ public class DatabaseManager {
     public static boolean addDepositRecord(final DepositRecord depositRecord){
         String dateStr = depositRecord.getDate().toString();
 
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
-//                HttpURLConnection conn;
-//                try{
-//                    conn = (HttpURLConnection) new URL(url).openConnection();
-//                    conn.setConnectTimeout(15000);
-//                    conn.setReadTimeout(10000);
-//                    conn.setRequestMethod("POST");
-//                    conn.setDoInput(true);
-//                    conn.setDoOutput(true);
-//
-//                    StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
-//                    params.append("&userId=");
-//                    params.append(URLEncoder.encode(depositRecord.getUserId().toString(),"UTF-8"));
-//
-//
-//                    StringBuilder trashNamesBuilder = new StringBuilder();
-//                    for (TrashPrices t : collectionPoint.getTrash()){
-//                        trashNamesBuilder.append(t.getTrashName());
-//                        trashNamesBuilder.append(" ");
-//                    }
-//                    String trashNames = trashNamesBuilder.toString();
-//                    params.append("&trash_type=");
-//                    params.append(URLEncoder.encode(trashNames,"UTF-8"));
-//
-//                    String description = collectionPoint.getDescription();
-//                    if(description != null) {
-//                        params.append("&description=");
-//                        params.append(URLEncoder.encode(description,"UTF-8"));
-//                    }
-//
-//                    String pointName = collectionPoint.getCollectionPointName();
-//                    if(pointName != null){
-//                        params.append("&pointName=");
-//                        params.append(URLEncoder.encode(pointName,"UTF-8"));
-//                    }
-//
-//                    String address = collectionPoint.getAddress();
-//                    if(address != null) {
-//                        params.append("&address=");
-//                        params.append(URLEncoder.encode(address, "UTF-8"));
-//                    }
-//
-//                    OutputStream os = conn.getOutputStream();
-//                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-//
-//                    writer.write(params.toString());
-//                    writer.flush();
-//                    writer.close();
-//                    os.close();
-//
-//                    conn.connect();
-//                }
-//                catch (IOException e){
-//                    Log.e(TAG,e.getMessage());
-//                }
-//            }
-//        });
-//        thread.start();
-//        return true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+                HttpURLConnection conn;
+                try{
+                    conn = (HttpURLConnection) new URL(url).openConnection();
+                    conn.setConnectTimeout(15000);
+                    conn.setReadTimeout(10000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+
+                    StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
+                    params.append("&userId=");
+                    params.append(URLEncoder.encode(depositRecord.getUserId().toString(),"UTF-8"));
+                    params.append("&userName=");
+                    params.append(URLEncoder.encode(depositRecord.getNameOfUser().toString(),"UTF-8"));
+                    params.append("&date=");
+                    params.append(URLEncoder.encode(String.valueOf((depositRecord.getDate().getTime()*1000)),"UTF-8"));
+                    params.append("&point=");
+                    params.append(URLEncoder.encode(String.valueOf(depositRecord.getTrashCollectionPointID()),"UTF-8"));
+                    params.append("&score=");
+                    params.append(URLEncoder.encode(String.valueOf(depositRecord.getScore()),"UTF-8"));
+
+                    String trashType = depositRecord.getTrashPrices().getTrashName();
+                    params.append("&trash_type=");
+                    params.append(URLEncoder.encode(trashType,"UTF-8"));
+
+                    String trashName = String.valueOf(" ");
+                    if(trashName != null) {
+                        params.append("&trash_name=");
+                        params.append(URLEncoder.encode(trashName,"UTF-8"));
+                    }
+
+                    String unit = String.valueOf(depositRecord.getUnits());
+                    if(unit != null){
+                        params.append("&trash_unit=");
+                        params.append(URLEncoder.encode(unit,"UTF-8"));
+                    }
+
+                    String revenue = String.valueOf(depositRecord.getRevenue());
+                    if(revenue != null) {
+                        params.append("&profit=");
+                        params.append(URLEncoder.encode(revenue, "UTF-8"));
+                    }
+
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+
+                    writer.write(params.toString());
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+                    conn.connect();
+                }
+                catch (IOException e){
+                    Log.e(TAG,e.getMessage());
+                }
+            }
+        });
+        thread.start();
         return true;
     }
 }
