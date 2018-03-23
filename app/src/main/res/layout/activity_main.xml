@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/mapfragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/search_bar"
@@ -117,25 +117,41 @@
         app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
     <Button
-        android:id="@+id/Login"
-        style="@style/com_facebook_loginview_silver_style"
-        android:layout_width="53dp"
-        android:layout_height="58dp"
-        android:onClick="sendMessage"
-        android:text="Login"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <Button
         android:id="@+id/addPost"
-        android:text="Post Collection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Post Collection"
         app:layout_constraintTop_toBottomOf="@id/trash_type_selection_spinner"
 
         />
 
     <Button
+
+        android:id="@+id/Login"
+        style="@style/com_facebook_loginview_silver_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:text="Login"
+        app:layout_constraintBottom_toTopOf="@+id/trash_type_selection_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/search_bar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Navigation"
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.398"
+        tools:layout_editor_absoluteX="288dp" />
+
         android:id="@+id/depositTrash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -147,6 +163,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addPost" />
+
 
 
 </android.support.constraint.ConstraintLayout>
