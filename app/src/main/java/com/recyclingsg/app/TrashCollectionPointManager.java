@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static com.recyclingsg.app.UserManager.*;
 
 
 /**
@@ -50,7 +51,7 @@ public class TrashCollectionPointManager {
 
         PrivateTrashCollectionPoint ptcp = null;
         UserManager.getInstance();
-        UserManager.addPrivateTrashCollectionPointToUser(ptcp);
+        addPrivateTrashCollectionPointToUser(ptcp);
 
     }
 

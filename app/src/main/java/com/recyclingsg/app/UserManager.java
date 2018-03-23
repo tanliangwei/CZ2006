@@ -13,7 +13,7 @@ public class UserManager {
     private static String userName;
 
     private static UserManager instance;
-    //this ensures that there is only one instance of  DatabaseManager in the whole story
+    //this ensures that there is only one instance of  User Manager in the whole story
     public static UserManager getInstance(){
         if (instance == null) {
             try {
