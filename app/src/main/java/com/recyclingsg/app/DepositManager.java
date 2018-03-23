@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.Date;
@@ -45,9 +46,14 @@ public class DepositManager {
 
         DepositRecord dr = new DepositRecord(UserID, date,units, trashPrices,score,trashCollectionPointID,revenue,UserName);
 
+        //adding to data base
+        DatabaseManager.getInstance();
+        DatabaseManager.addDepositRecord(dr);
+
 
     }
 
+    // to calculate revenue
     public static float calculateRevenue(TrashPrices trashPrices, float Units){
         float price = trashPrices.getPrices();
         return price*Units;
