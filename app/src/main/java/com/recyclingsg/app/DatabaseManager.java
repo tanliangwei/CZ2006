@@ -156,7 +156,7 @@ public class DatabaseManager {
                     ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
 
                     //Push into Collectionpoint ArrayList
-                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen);
+                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description);
                     if(type == "cash-for-trash"){
                         CashForTrashPublicTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
@@ -239,7 +239,7 @@ public class DatabaseManager {
                     ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
 
                     //Push into Collection point ArrayList
-                    PrivateTrashCollectionPoint temp = new PrivateTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen);
+                    PrivateTrashCollectionPoint temp = new PrivateTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description,ownerName,ownerID);
                     if(type == "cash-for-trash"){
                         CashForTrashPrivateTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
