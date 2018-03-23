@@ -216,7 +216,7 @@
 								<Message Idref="f2w6.4aAUG1KJww." Name="querying()"/>
 							</MasterView>
 						</Message>
-						<Message Asynchronous="false" BacklogActivityId="0" Documentation_plain="" DurationHeight="30" EndRelationshipFromMetaModelElement="IowGL4aAUG1KJw8_" EndRelationshipToMetaModelElement="BFtCB4aAUG1KJwxq" FromActivation="z.cGL4aAUG1KJw.G" Id="73LCB4aAUG1KJwx_" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashPrices: TrashPrices)" PmAuthor="Howard" PmCreateDateTime="2018-03-01T14:32:42.999" PmLastModified="2018-03-05T12:24:50.480" QualityScore="-1" ReturnMessage="d0piB4aAUG1KJwy1" SequenceNumber="6.1.1.3" ToActivation="d3LCB4aAUG1KJwx7" Type="Message" UserIDLastNumericValue="0">
+						<Message Asynchronous="false" BacklogActivityId="0" Documentation_plain="" DurationHeight="30" EndRelationshipFromMetaModelElement="IowGL4aAUG1KJw8_" EndRelationshipToMetaModelElement="BFtCB4aAUG1KJwxq" FromActivation="z.cGL4aAUG1KJw.G" Id="73LCB4aAUG1KJwx_" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashInfo: TrashPrices)" PmAuthor="Howard" PmCreateDateTime="2018-03-01T14:32:42.999" PmLastModified="2018-03-05T12:24:50.480" QualityScore="-1" ReturnMessage="d0piB4aAUG1KJwy1" SequenceNumber="6.1.1.3" ToActivation="d3LCB4aAUG1KJwx7" Type="Message" UserIDLastNumericValue="0">
 							<FromEnd>
 								<MessageEnd BacklogActivityId="0" Documentation_plain="" EndModelElement="IowGL4aAUG1KJw8_" Id="73LCB4aAUG1KJwyA" PmAuthor="Howard" PmCreateDateTime="2018-03-01T14:32:42.999" QualityScore="-1" UserIDLastNumericValue="0"/>
 							</FromEnd>
@@ -224,7 +224,7 @@
 								<MessageEnd BacklogActivityId="0" Documentation_plain="" EndModelElement="BFtCB4aAUG1KJwxq" Id="73LCB4aAUG1KJwyB" PmAuthor="Howard" PmCreateDateTime="2018-03-01T14:32:42.999" QualityScore="-1" UserIDLastNumericValue="0"/>
 							</ToEnd>
 							<MasterView>
-								<Message Idref="_3LCB4aAUG1KJwyC" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashPrices: TrashPrices)"/>
+								<Message Idref="_3LCB4aAUG1KJwyC" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashInfo: TrashPrices)"/>
 							</MasterView>
 						</Message>
 						<Message Asynchronous="false" BacklogActivityId="0" Documentation_plain="" DurationHeight="30" EndRelationshipFromMetaModelElement="BFtCB4aAUG1KJwxq" EndRelationshipToMetaModelElement="IowGL4aAUG1KJw8_" FromActivation="d3LCB4aAUG1KJwx7" Id="d0piB4aAUG1KJwy1" Name="TrashCollectionPoint[]" PmAuthor="Howard" PmCreateDateTime="2018-03-01T14:36:00.622" PmLastModified="2018-03-05T12:19:08.225" QualityScore="-1" SequenceNumber="6.1.1.4" ToActivation="z.cGL4aAUG1KJw.G" Type="Message" UserIDLastNumericValue="0">
@@ -667,7 +667,7 @@
 						<Point X="604.0" Y="862.0"/>
 					</Points>
 				</Message>
-				<Message Background="rgb(0, 0, 0)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" Folded="false" Foreground="rgb(0, 0, 0)" From="wowGL4aAUG1KJw8." FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="100" Id="_3LCB4aAUG1KJwyC" MetaModelElement="73LCB4aAUG1KJwx_" Model="73LCB4aAUG1KJwx_" ModelElementNameAlignment="9" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashPrices: TrashPrices)" PaintThroughLabel="2" RequestRebuild="false" RequestRebuildFromEnd="false" RequestRebuildToEnd="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowArgumentsInMessageOperationSignature="0" ShowConnectorName="2" ShowMessageName="0" ShowMessageOperationSignature="0" ShowParameterNamesInMessageOperationSignature="0" ShowParameterTypesInMessageOperationSignature="0" To=".FtCB4aAUG1KJwxp" ToConnectType="0" ToPinType="1" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="300" X="677" Y="930" ZOrder="52">
+				<Message Background="rgb(0, 0, 0)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" Folded="false" Foreground="rgb(0, 0, 0)" From="wowGL4aAUG1KJw8." FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="100" Id="_3LCB4aAUG1KJwyC" MetaModelElement="73LCB4aAUG1KJwx_" Model="73LCB4aAUG1KJwx_" ModelElementNameAlignment="9" Name="filterCollectionPoints(CollectionPoints : TrashCollectionPoint[], trashInfo: TrashPrices)" PaintThroughLabel="2" RequestRebuild="false" RequestRebuildFromEnd="false" RequestRebuildToEnd="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowArgumentsInMessageOperationSignature="0" ShowConnectorName="2" ShowMessageName="0" ShowMessageOperationSignature="0" ShowParameterNamesInMessageOperationSignature="0" ShowParameterTypesInMessageOperationSignature="0" To=".FtCB4aAUG1KJwxp" ToConnectType="0" ToPinType="1" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="300" X="677" Y="930" ZOrder="52">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>

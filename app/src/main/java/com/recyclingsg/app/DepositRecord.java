@@ -10,17 +10,17 @@ public class DepositRecord {
     private String userId;
     private Date date;
     private float units;
-    private TrashPrices trashPrices;
+    private TrashInfo trashInfo;
     private float score;
     private String TrashCollectionPointID;
     private float Revenue;
     private String NameOfUser;
 
-    public DepositRecord(String userid, Date date, float units, TrashPrices trashPrices, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser) {
+    public DepositRecord(String userid, Date date, float units, TrashInfo trashInfo, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser) {
         this.userId = userid;
         this.date = date;
         this.units = units;
-        this.trashPrices = trashPrices;
+        this.trashInfo = trashInfo;
         this.score = score;
         this.TrashCollectionPointID = TrashCollectionPointID;
         this.Revenue = Reveneue;
@@ -34,11 +34,11 @@ public class DepositRecord {
     public void setUnits(float units) {
         this.units = units;
     }
-    public TrashPrices getTrashPrices() {
-        return trashPrices;
+    public TrashInfo getTrashInfo() {
+        return trashInfo;
     }
-    public void setTrashPrices(TrashPrices trashPrices) {
-        this.trashPrices = trashPrices;
+    public void setTrashInfo(TrashInfo trashInfo) {
+        this.trashInfo = trashInfo;
     }
     public float getScore() {
         return score;

@@ -112,7 +112,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
             TrashCollectionPointManager.getInstance();
-            //TrashPrices trashPrice = new TrashPrices(typeOfTrashFillField.getText(),pricesFillField.getText().)
+            //TrashInfo trashPrice = new TrashInfo(typeOfTrashFillField.getText(),pricesFillField.getText().)
 
 
             //save texts

@@ -27,7 +27,7 @@ public class ScoreManager {
     public ScoreManager(){}
 
     //calculating score, now hard coded to 5
-    public static float calculateScore(TrashPrices trashPrice, float units){
+    public static float calculateScore(TrashInfo trashPrice, float units){
         return 5;
     }
 }

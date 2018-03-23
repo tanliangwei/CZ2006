@@ -68,8 +68,23 @@ public class DepositActivity extends AppCompatActivity {
                         //Do nothing
                     }
                 });
-            } else {
-                //TODO other cash types
+            } else { //(selectedCategory.equals("secondHand")
+                trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
+                adapter = ArrayAdapter.createFromResource(this, R.array.trashTypeName, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                trashTypeSpinner.setAdapter(adapter);
+
+                trashTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        //Do nothing
+                    }
+                });
             }
         }
 
@@ -81,6 +96,7 @@ public class DepositActivity extends AppCompatActivity {
             //Intent intent = new Intent(this, .class);
             //startActivity(intent);
             //TODO
+
         }
     }
 

@@ -112,14 +112,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         depositBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(FacebookLogin.getLoginStatus()==null) {
-                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                    startActivity(intent);
-                }
-                else {
+              //  if(FacebookLogin.getLoginStatus()==null) {
+                   // Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                   // startActivity(intent);
+               // }
+               // else {
                     Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
                     startActivity(intent);
-                }
+                //}
             }
         });
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Initialise values of Spinner
-        for (String x : TrashPrices.typeOfTrash)
+        for (String x : TrashInfo.typeOfTrash)
             mSpinnerAdapter.add(x);
 
         mSpinnerAdapter.add("Select Waste Type");

@@ -266,7 +266,7 @@ public class DatabaseManager {
     }
 
     //function for querying
-    public static ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
+    public static ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashInfo trashQuery){
         ArrayList<TrashCollectionPoint> retCollectionPoint = new ArrayList<TrashCollectionPoint>();
         ArrayList<PublicTrashCollectionPoint> tempArray;
         String trashType = null;
@@ -291,9 +291,9 @@ public class DatabaseManager {
         return retCollectionPoint;
     }
 
-    public static String to_trashType(TrashPrices trashQuery) throws Exception{
+    public static String to_trashType(TrashInfo trashQuery) throws Exception{
         if(trashQuery.getTrashName() == "Second Hand Goods"){
-            return "general_waste";
+            return "2nd-hand-goods-collection-points";
         }else if(trashQuery.getTrashName() == "eWaste"){
             return  "e-waste-recycling";
         }else if(trashQuery.getTrashName() == "Cash For Trash") {
@@ -336,7 +336,7 @@ public class DatabaseManager {
 
 
                     StringBuilder trashNamesBuilder = new StringBuilder();
-                    for (TrashPrices t : collectionPoint.getTrash()){
+                    for (TrashInfo t : collectionPoint.getTrash()){
                         trashNamesBuilder.append(t.getTrashName());
                         trashNamesBuilder.append(" ");
                     }
@@ -414,7 +414,7 @@ public class DatabaseManager {
                     params.append("&score=");
                     params.append(URLEncoder.encode(String.valueOf(depositRecord.getScore()),"UTF-8"));
 
-                    String trashType = depositRecord.getTrashPrices().getTrashName();
+                    String trashType = depositRecord.getTrashInfo().getTrashName();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashType,"UTF-8"));
 

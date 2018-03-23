@@ -15,11 +15,11 @@ public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
 
         super(name,xCoordinate,yCoordinate,openTime,closeTime,trashName, trashPrice,daysOpen,description);
     }
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashPrices> trashPrice, int[] daysOpen,String description){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description){
 
         super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description);
     }
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashPrices> trashPrice, int[] daysOpen,String description,String ownerName,String ownerID){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description, String ownerName, String ownerID){
 
         super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description);
         setOwnerName(ownerName);
