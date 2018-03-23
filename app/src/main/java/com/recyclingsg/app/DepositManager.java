@@ -29,9 +29,14 @@ public class DepositManager {
     //constructor for database manger
     public DepositManager(){}
 
-    public static void createDepositRecord(TrashPrices trashPrices, float unit, Date date, TrashCollectionPoint trashCollectionPoint){
+    public static void createDepositRecord(TrashPrices trashPrices, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         UserManager.getInstance();
         String ID = UserManager.getUserId();
+
+        ScoreManager.getInstance();
+        ScoreManager.calculateScore(trashPrices, units);
+
+        DepositRecord dr = new DepositRecord();
 
 
     }
