@@ -112,8 +112,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         depositBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-                startActivity(intent);
+                if(FacebookLogin.getLoginStatus()==null) {
+                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
