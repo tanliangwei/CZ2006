@@ -13,6 +13,7 @@ import static com.recyclingsg.app.UserManager.*;
  */
 
 public class TrashCollectionPointManager {
+    private String userSelectedTrashPointID;
 
     //to be removed
 
@@ -40,6 +41,14 @@ public class TrashCollectionPointManager {
 //
 //        }};
 
+    }
+
+    public String getUserSelectedTrashPointID(){
+        return userSelectedTrashPointID;
+    }
+
+    public void setUserSelectedTrashPointID(String id){
+        userSelectedTrashPointID = id;
     }
 
 

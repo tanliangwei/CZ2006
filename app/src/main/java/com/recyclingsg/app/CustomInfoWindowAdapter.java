@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.Marker;
  */
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
     private Marker markerShowingInfoWindow;
     private Context mContext;
     private View popUP;
@@ -70,6 +71,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 //        });
 
             popUpTitle.setText(marker.getTitle());
+            trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
             popUpContent.setText("Hello dudes");
             customInfoWindowButton.setText("Hello Mello");
             popUP = popUp;
