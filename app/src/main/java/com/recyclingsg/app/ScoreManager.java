@@ -25,4 +25,9 @@ public class ScoreManager {
     }
     //constructor for database manger
     public ScoreManager(){}
+
+    //calculating score, now hard coded to 5
+    public static float calculateScore(TrashPrices trashPrice, float units){
+        return 5;
+    }
 }
