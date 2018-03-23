@@ -9,8 +9,13 @@ import static android.content.ContentValues.TAG;
  */
 
 public class UserManager {
+
     private static String userID;
     private static String userName;
+
+
+
+
 
     private static UserManager instance;
     //this ensures that there is only one instance of  User Manager in the whole story
@@ -27,6 +32,7 @@ public class UserManager {
     }
 
     public UserManager(){}
+
 
     public static String getUserId() {
         return userID;
