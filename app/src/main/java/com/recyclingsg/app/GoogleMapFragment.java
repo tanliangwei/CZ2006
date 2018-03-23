@@ -163,6 +163,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "onMapReady: Ready");
         getDeviceLocation();
         mMap = googleMap;
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this.getContext()));
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted

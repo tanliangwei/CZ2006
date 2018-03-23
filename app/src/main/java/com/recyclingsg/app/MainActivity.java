@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private String userSelectedTrashType;
 
     Button loginButton;
+    Button customInfoWindowButton;
 
     public MainActivity() throws Exception {
     }
@@ -90,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         });
 
     }
-
-
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
@@ -273,10 +272,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         return mSpinnerAdapter;
     }
 
-
-
-
-
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
@@ -298,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 case "Cash For Trash":
                     Log.d(TAG, "query: selected Cash for Trash");;
                     filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getOpenTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
 
                     Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
