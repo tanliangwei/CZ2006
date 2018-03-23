@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(FacebookLogin.getLoginStatus()==null){
-//                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-//                    startActivity(intent);
-//                }
-//                else {
+             if(FacebookLogin.getLoginStatus()==null){
+                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                    startActivity(intent);
+                }
+                else {
                     Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                     startActivity(intent);
-//                }
+                }
             }
         });
 
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
 
-                    Log.d(TAG, "query: Collection Points are" + filterManager.getClosedTrashCollectionPoints());
+                    Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
 
                 case "Second Hand":
