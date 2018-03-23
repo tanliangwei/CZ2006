@@ -29,15 +29,26 @@ public class DepositManager {
     //constructor for database manger
     public DepositManager(){}
 
+    //public DepositRecord(String userid, Date date, float units, TrashPrices trashPrices, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
     public static void createDepositRecord(TrashPrices trashPrices, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         UserManager.getInstance();
         String ID = UserManager.getUserId();
+        String Name = UserManager.getUserName();
 
+        //get score and revenue
         ScoreManager.getInstance();
-        ScoreManager.calculateScore(trashPrices, units);
+        float score = ScoreManager.calculateScore(trashPrices, units);
+        float revenue = calculateRevenue(trashPrices, units);
 
-        DepositRecord dr = new DepositRecord();
+
+        DepositRecord dr = new DepositRecord(ID, date,units, trashPrices,score,"id",revenue,Name);
 
 
     }
+
+    public static float calculateRevenue(TrashPrices trashPrices, float Units){
+        float price = trashPrices.getPrices();
+        return price*Units;
+    }
+
 }
