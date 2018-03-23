@@ -120,7 +120,7 @@ public abstract class TrashCollectionPoint{
     }
 
     //constructor
-    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName, ArrayList<Integer> trashCost, int[] daysOpen,String description ){
+    public TrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName, ArrayList<Integer> trashCost, int[] daysOpen,String description){
         setCollectionPointName(name);
         LatLng coordinates = new LatLng(xCoordinate,yCoordinate);
         setCoordinate(coordinates);
