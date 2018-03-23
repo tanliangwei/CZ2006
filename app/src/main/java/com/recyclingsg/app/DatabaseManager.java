@@ -137,7 +137,7 @@ public class DatabaseManager {
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     //Collecting collectionPoint information
                     JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
-                    int id = ith_object.get("id").getAsInt();
+                    String id = ith_object.get("id").getAsString();
                     double latitude = ith_object.get("latitude").getAsDouble();
                     double longitude = ith_object.get("longitude").getAsDouble();
                     int openTime = 0; //Unspecified in database yet
@@ -152,10 +152,21 @@ public class DatabaseManager {
                             trash_type.add(jArray.get(j).getAsString());
                         }
                     }
+
+                    //TODO trash price unset
                     ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
+
+                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
+                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
+                    String addressStreetName = ith_object.get("address_building_name").getAsString();
 
                     //Push into Collectionpoint ArrayList
                     PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description);
+
+                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    temp.setAddress(address);
+                    temp.setTrashCollectionPointID(id);
+
                     if(type == "cash-for-trash"){
                         CashForTrashPublicTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
@@ -218,7 +229,7 @@ public class DatabaseManager {
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     //Collecting collectionPoint information
                     JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
-                    int id = ith_object.get("id").getAsInt();
+                    String id = ith_object.get("id").getAsString();
                     double latitude = ith_object.get("latitude").getAsDouble();
                     double longitude = ith_object.get("longitude").getAsDouble();
                     int openTime = 0; //Unspecified in database yet
@@ -239,6 +250,7 @@ public class DatabaseManager {
 
                     //Push into Collection point ArrayList
                     PrivateTrashCollectionPoint temp = new PrivateTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description,ownerName,ownerID);
+                    temp.setTrashCollectionPointID(id);
                     if(type == "cash-for-trash"){
                         CashForTrashPrivateTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
