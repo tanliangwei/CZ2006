@@ -7,14 +7,25 @@ import java.util.Date;
  */
 
 public class DepositRecord {
-    private String userId = UserManager.getUserId();
-    private Date date = new Date();
+    private String userId;
+    private Date date;
     private float units;
     private TrashPrices trashPrices;
     private float score;
     private String TrashCollectionPointID;
     private float Revenue;
     private String NameOfUser;
+
+    public DepositRecord(String userid, Date date, float units, TrashPrices trashPrices, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser) {
+        this.userId = userid;
+        this.date = date;
+        this.units = units;
+        this.trashPrices = trashPrices;
+        this.score = score;
+        this.TrashCollectionPointID = TrashCollectionPointID;
+        this.Revenue = Reveneue;
+        this.NameOfUser = nameOfUser;
+    }
 
     //getter and setter methods
     public float getUnits() {

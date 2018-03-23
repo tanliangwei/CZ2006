@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(FacebookLogin.getLoginStatus()==null){
-                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                    startActivity(intent);
-                }
-                else {
+//                if(FacebookLogin.getLoginStatus()==null){
+//                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//                    startActivity(intent);
+//                }
+//                else {
                     Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                     startActivity(intent);
-                }
+//                }
             }
         });
 
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
-        ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+        //ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
         //ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
 
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);

@@ -1,6 +1,8 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,8 +17,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 import static android.content.res.Configuration.KEYBOARD_12KEY;
 
@@ -32,6 +38,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     EditText closingTimeFillField;
     Button postPrivateCollectionPointButton;
     private String current = "";
+    GoogleMapFragment googleMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_private_collection_point);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final GoogleMapFragment mGoogleMapFragment = new GoogleMapFragment();
+        googleMapFragment = new GoogleMapFragment();
 
         addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
         zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
@@ -90,31 +97,32 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
     //this function is called when the submit button is pressed
     private void submitCollectionPointForm(){
-        if (addressFillField.getText()==((EditText) findViewById(R.id.address_fill_up_field)).getHint() ||
-                zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
-                contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
-                typeOfTrashFillField.getText()==null ||
-                pricesFillField.getText()==null ||
-                openingTimeFillField.getText()==null ||
-                closingTimeFillField.getText()==null ){
-            Log.d(TAG, "onClick: null fields present");
-            Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
-        }
-        else {
+//        if (addressFillField.getText()==(findViewById(R.id.address_fill_up_field)).getHint() ||
+//                zipFillField.getText()==(EditText) findViewById(R.id.zip_fill_up_field) ||
+//                contactDetailsFillField.getText()==(EditText) ((EditText) findViewById(R.id.zip_fill_up_field)).getHint() ||
+//                typeOfTrashFillField.getText()==null ||
+//                pricesFillField.getText()==null ||
+//                openingTimeFillField.getText()==null ||
+//                closingTimeFillField.getText()==null ){
+//            Log.d(TAG, "onClick: null fields present");
+//            Toast.makeText(getApplicationContext(), "Fill up all fields",Toast.LENGTH_SHORT).show();
+//        }
+//        else {
             Log.d(TAG, "onClick: submitted post");
 
-            Log.d(TAG, "onClick: address" + addressFillField.getText().toString());
+
             TrashCollectionPointManager.getInstance();
             //TrashPrices trashPrice = new TrashPrices(typeOfTrashFillField.getText(),pricesFillField.getText().)
 
 
                     //save texts
-
-
+            LatLng privateCollectionCoordinates = getLatLngFromAddress(addressFillField.getText().toString());
+            Log.d(TAG, "onClick: address" + addressFillField.getText().toString() + "LatLng = "
+                    + privateCollectionCoordinates);
 
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
             startActivity(intent);
-        }
+        
     }
 
 
@@ -148,5 +156,27 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    public LatLng getLatLngFromAddress(String strAddress){
+
+        Geocoder coder = new Geocoder(getBaseContext());
+        List<Address> address;
+        LatLng latLng = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+
+            latLng = new LatLng(location.getLatitude(),location.getLongitude());
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return latLng;
+    }
 
 }
