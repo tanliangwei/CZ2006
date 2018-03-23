@@ -36,4 +36,15 @@ public class DepositCategoryActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    public void onClick_secondHand(View v){
+        if(v.getId() == R.id.btn_secondHand){
+            Intent intent = new Intent(DepositCategoryActivity.this, DepositActivity.class);
+            Bundle b = new Bundle();
+            b.putString("trashCategory", "secondHand");
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

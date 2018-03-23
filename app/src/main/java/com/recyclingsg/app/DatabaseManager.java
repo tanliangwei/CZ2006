@@ -281,7 +281,7 @@ public class DatabaseManager {
 
     public static String to_trashType(TrashPrices trashQuery) throws Exception{
         if(trashQuery.getTrashName() == "Second Hand Goods"){
-            return "general_waste";
+            return "2nd-hand-goods-collection-points";
         }else if(trashQuery.getTrashName() == "eWaste"){
             return  "e-waste-recycling";
         }else if(trashQuery.getTrashName() == "Cash For Trash") {
