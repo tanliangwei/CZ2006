@@ -112,14 +112,18 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         depositBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-                startActivity(intent);
+                if(FacebookLogin.getLoginStatus()==null) {
+                    Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
     }
-
-
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
@@ -179,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);
+        ArrayAdapter<TrashCollectionPoint> adapter = new ArrayAdapter<TrashCollectionPoint>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+        //ArrayAdapter<Node> adapter = new ArrayAdapter<Node>(this, android.R.layout.select_dialog_item, mCollectionPointManager.getNodes());
+
         AutoCompleteTextView mAutoCompleteView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
 
         // Register a listener that receives callbacks when a suggestion has been selected
@@ -301,10 +308,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         return mSpinnerAdapter;
     }
 
-
-
-
-
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
@@ -326,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 case "Cash For Trash":
                     Log.d(TAG, "query: selected Cash for Trash");;
                     filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getOpenTrashCollectionPoints());
+                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
 
                     Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
