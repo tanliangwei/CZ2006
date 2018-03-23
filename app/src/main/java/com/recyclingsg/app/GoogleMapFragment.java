@@ -279,7 +279,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private LatLng getLatLngFromAddress(String strAddress){
+    public LatLng getLatLngFromAddress(String strAddress){
 
         Geocoder coder = new Geocoder(getContext());
         List<Address> address;

@@ -109,7 +109,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
                     //save texts
-//                    mGoogleMapFragment.
+
 
 
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
