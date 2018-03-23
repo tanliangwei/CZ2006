@@ -23,9 +23,26 @@ public class DatabaseManager {
     private static final String TAG = "DatabaseManager";
 
     //The attributes
+    // public trash collection points
     private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
     private static ArrayList<PublicTrashCollectionPoint> RecyclablesPublicTrashCollectionPoints = new ArrayList<>();
     private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
+
+    //private trash collection points
+    private static ArrayList<PrivateTrashCollectionPoint> EWastePrivateTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PrivateTrashCollectionPoint> RecyclablesPrivateTrashCollectionPoints = new ArrayList<>();
+    private static ArrayList<PrivateTrashCollectionPoint> CashForTrashPrivateTrashCollectionPoints = new ArrayList<>();
+
+    //getter methods
+    public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
+        return EWastePrivateTrashCollectionPoints;
+    }
+    public static ArrayList<PrivateTrashCollectionPoint> getRecyclablesPrivateTrashCollectionPoints() {
+        return RecyclablesPrivateTrashCollectionPoints;
+    }
+    public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
+        return CashForTrashPrivateTrashCollectionPoints;
+    }
 
     public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getRecyclablesPublicTrashCollectionPoints(){return RecyclablesPublicTrashCollectionPoints;}
@@ -66,11 +83,10 @@ public class DatabaseManager {
     public static void pullPublicCashForTrash(){
         pullPublicData("cash-for-trash");
     }
-
     // unsupported
-//    public static void pullPublicRecyclablesFromDatabase(){
-//        pullPublicData("public-recyclable");
-//    }
+    public static void pullPublicRecyclablesFromDatabase(){
+        pullPublicData("public-recyclable");
+    }
 
     private static void pullPublicData(final String type){
         // Connect to the URL using java's native library
@@ -136,9 +152,10 @@ public class DatabaseManager {
                             trash_type.add(jArray.get(j).getAsString());
                         }
                     }
+                    ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
 
                     //Push into Collectionpoint ArrayList
-                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, daysOpen);
+                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description);
                     if(type == "cash-for-trash"){
                         CashForTrashPublicTrashCollectionPoints.add(temp);
                     }else if(type == "e-waste-recycling"){
@@ -152,10 +169,89 @@ public class DatabaseManager {
         thread.start();
     }
 
-    private static void pullPrivateData(){
-        //TODO database hasn't provided private collection point data yet
-    }
+    private static void pullPrivateData(final String type){
+        // Connect to the URL using java's native library
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run(){
+                String sURL = "http://www.sjtume.cn/cz2006/api/get-private-points?token=9ca2218ae5c6f5166850cc749085fa6d&point_type="; //Url to server
+                sURL = sURL + type;
 
+                URL url = null;
+                try {
+                    url = new URL(sURL);
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, "invalid url for pulling data");
+                    e.printStackTrace();
+                }
+
+                HttpURLConnection request = null;
+                try {
+                    request = (HttpURLConnection)url.openConnection();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to open url connection");
+                    e.printStackTrace();
+                }
+                try {
+                    request.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to connect to url");
+                    e.printStackTrace();
+                }
+
+                JsonParser jp = new JsonParser();
+                JsonElement root = null;
+                try {
+                    root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to get reply content");
+                    e.printStackTrace();
+                }
+
+                JsonObject rootobj = null;
+                if(root != null){
+                    rootobj = root.getAsJsonObject();
+                }
+                int count = rootobj.get("count").getAsInt();
+                Log.e(TAG, "successfully pulled "+count+type+"points");
+                JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
+                for (int i = 0; i < collectionPointArray.size(); i++) {
+                    //Collecting collectionPoint information
+                    JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
+                    int id = ith_object.get("id").getAsInt();
+                    double latitude = ith_object.get("latitude").getAsDouble();
+                    double longitude = ith_object.get("longitude").getAsDouble();
+                    int openTime = 0; //Unspecified in database yet
+                    int closeTime = 2359; //Unspecified in database yet
+                    int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
+                    String ownerName = ith_object.get("owner_name").getAsString();
+                    String ownerID = ith_object.get("owner_id").getAsString();
+                    String name = ith_object.get("name").getAsString();
+                    String description = ith_object.get("description").getAsString();
+                    ArrayList<String> trash_type = new ArrayList<String>();
+                    JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
+                    if (jArray != null) {
+                        for (int j = 0; j < jArray.size(); j++) {
+                            trash_type.add(jArray.get(j).getAsString());
+                        }
+                    }
+                    ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
+
+                    //Push into Collection point ArrayList
+                    PrivateTrashCollectionPoint temp = new PrivateTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description,ownerName,ownerID);
+                    if(type == "cash-for-trash"){
+                        CashForTrashPrivateTrashCollectionPoints.add(temp);
+                    }else if(type == "e-waste-recycling"){
+                        EWastePrivateTrashCollectionPoints.add(temp);
+                    }else{
+                        RecyclablesPrivateTrashCollectionPoints.add(temp);
+                    }
+                }
+            }
+        });
+        thread.start();
+
+    }
 
     //function for querying
     public static ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashPrices trashQuery){
@@ -194,7 +290,6 @@ public class DatabaseManager {
             return "Undefined";
         }
     }
-
 
     /**
      * add private trash collection point
@@ -281,7 +376,69 @@ public class DatabaseManager {
      */
     public static boolean addDepositRecord(final DepositRecord depositRecord){
         String dateStr = depositRecord.getDate().toString();
-        String userId = depositRecord.getUserId();
+
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+//                HttpURLConnection conn;
+//                try{
+//                    conn = (HttpURLConnection) new URL(url).openConnection();
+//                    conn.setConnectTimeout(15000);
+//                    conn.setReadTimeout(10000);
+//                    conn.setRequestMethod("POST");
+//                    conn.setDoInput(true);
+//                    conn.setDoOutput(true);
+//
+//                    StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
+//                    params.append("&userId=");
+//                    params.append(URLEncoder.encode(depositRecord.getUserId().toString(),"UTF-8"));
+//
+//
+//                    StringBuilder trashNamesBuilder = new StringBuilder();
+//                    for (TrashPrices t : collectionPoint.getTrash()){
+//                        trashNamesBuilder.append(t.getTrashName());
+//                        trashNamesBuilder.append(" ");
+//                    }
+//                    String trashNames = trashNamesBuilder.toString();
+//                    params.append("&trash_type=");
+//                    params.append(URLEncoder.encode(trashNames,"UTF-8"));
+//
+//                    String description = collectionPoint.getDescription();
+//                    if(description != null) {
+//                        params.append("&description=");
+//                        params.append(URLEncoder.encode(description,"UTF-8"));
+//                    }
+//
+//                    String pointName = collectionPoint.getCollectionPointName();
+//                    if(pointName != null){
+//                        params.append("&pointName=");
+//                        params.append(URLEncoder.encode(pointName,"UTF-8"));
+//                    }
+//
+//                    String address = collectionPoint.getAddress();
+//                    if(address != null) {
+//                        params.append("&address=");
+//                        params.append(URLEncoder.encode(address, "UTF-8"));
+//                    }
+//
+//                    OutputStream os = conn.getOutputStream();
+//                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+//
+//                    writer.write(params.toString());
+//                    writer.flush();
+//                    writer.close();
+//                    os.close();
+//
+//                    conn.connect();
+//                }
+//                catch (IOException e){
+//                    Log.e(TAG,e.getMessage());
+//                }
+//            }
+//        });
+//        thread.start();
+//        return true;
         return true;
     }
 }

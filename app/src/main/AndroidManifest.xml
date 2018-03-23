@@ -58,6 +58,11 @@
             android:name=".PostPrivateCollectionPointActivity"
             android:label="@string/title_activity_post_private_collection_point"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".DepositCategoryActivity"
+            android:label="Deposit Category"></activity>
+        <activity android:name=".DepositActivity"
+            android:label="Deposit Activity"></activity>
     </application>
 
 </manifest>
