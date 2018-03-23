@@ -174,9 +174,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "onMapReady: Google Map" + mMap);
 
 
-
-        //show marker on map
-//        displayCollectionPoints(new CollectionPointManager().getNodes());
     }
 
 
@@ -209,6 +206,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
+        mMap.clear();
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
@@ -281,7 +279,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private LatLng getLatLngFromAddress(String strAddress){
+    public LatLng getLatLngFromAddress(String strAddress){
 
         Geocoder coder = new Geocoder(getContext());
         List<Address> address;
