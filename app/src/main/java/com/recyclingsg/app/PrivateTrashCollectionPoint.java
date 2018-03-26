@@ -32,6 +32,8 @@ public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
         setOwnerId(ownerID);
     }
 
+    public PrivateTrashCollectionPoint(){};
+
     public String getOwnerId() {
         return ownerId;
     }

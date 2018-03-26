@@ -7,7 +7,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,9 +50,9 @@ public class DatabaseManager {
         return CashForTrashPrivateTrashCollectionPoints;
     }
 
-    public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
-    public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
-    public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
+    public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
     //the constructor and instance management code
     private static DatabaseManager instance;
@@ -63,7 +69,7 @@ public class DatabaseManager {
         return instance;
     }
     //constructor for database manger
-    public DatabaseManager(){}
+    private DatabaseManager(){}
 
     //loads all data. This is called in the startup class
     public static void loadData(){
@@ -83,10 +89,11 @@ public class DatabaseManager {
     public static void pullPublicCashForTrash(){
         pullPublicData("cash-for-trash");
     }
-    // unsupported
+
     public static void pullPublicSecondHandFromDatabase(){
         pullPublicData("2nd-hand-goods-collection-points");
     }
+
 
     private static void pullPublicData(final String type){
         // Connect to the URL using java's native library
@@ -132,47 +139,79 @@ public class DatabaseManager {
                     rootobj = root.getAsJsonObject();
                 }
                 int count = rootobj.get("count").getAsInt();
-                Log.e(TAG, "successfully pulled "+count+type+"points");
+                Log.d(TAG, "successfully pulled "+count+type+"points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
+                    PublicTrashCollectionPoint newPoint = new PublicTrashCollectionPoint();
+
                     //Collecting collectionPoint information
                     JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
+
+                    // get id
                     String id = ith_object.get("id").getAsString();
+                    newPoint.setTrashCollectionPointID(id);
+
+                    // get coordinates
                     double latitude = ith_object.get("latitude").getAsDouble();
                     double longitude = ith_object.get("longitude").getAsDouble();
-                    int openTime = 0; //Unspecified in database yet
-                    int closeTime = 2359; //Unspecified in database yet
-                    int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
-                    String name = ith_object.get("name").getAsString();
-                    String description = ith_object.get("description").getAsString();
-                    ArrayList<String> trash_type = new ArrayList<String>();
-                    JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
-                    if (jArray != null) {
-                        for (int j = 0; j < jArray.size(); j++) {
-                            trash_type.add(jArray.get(j).getAsString());
-                        }
-                    }
+                    newPoint.setCoordinate(new LatLng(latitude, longitude));
 
-                    //TODO trash price unset
-                    ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
-
+                    // get address
                     String addressBlockNumber = ith_object.get("address_block_number").getAsString();
                     String addressBuildingName = ith_object.get("address_building_name").getAsString();
                     String addressStreetName = ith_object.get("address_building_name").getAsString();
-
-                    //Push into Collectionpoint ArrayList
-                    PublicTrashCollectionPoint temp = new PublicTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description);
-
                     String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
-                    temp.setAddress(address);
-                    temp.setTrashCollectionPointID(id);
+                    newPoint.setAddress(address);
+
+                    // set opening hours
+                    int openTime = 0; //Unspecified in database yet
+                    int closeTime = 2359; //Unspecified in database yet
+                    int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
+                    newPoint.setOpenTime(openTime);
+                    newPoint.setCloseTime(closeTime);
+                    newPoint.setDayOpen(daysOpen);
+
+                    // get collection point name
+                    String name = ith_object.get("name").getAsString();
+                    newPoint.setCollectionPointName(name);
+
+                    // get description
+                    String description = ith_object.get("description").getAsString();
+                    newPoint.setDescription(description);
+
+                    // get zip code
+                    String zipCode = "unknown";
+                    if(ith_object.get("postal_code") != null){
+                        zipCode = ith_object.get("postal_code").getAsString();
+                    }
+                    newPoint.setZipCode(zipCode);
+
+                    ArrayList<TrashInfo> trashInfos = new ArrayList<>();
+                    JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
+                    if (jArray != null) {
+                        for (int j = 0; j < jArray.size(); j++) {
+                            TrashInfo newTrashType = new TrashInfo(jArray.get(j).getAsString());
+                            if(newTrashType.getTrashType() == "cash-for-trash"){
+                                JsonArray trashPrices = ith_object.get("trash_prices").getAsJsonArray();
+                                for(int t=0; t<trashPrices.size(); t++){
+                                    JsonObject priceInfo = trashPrices.get(t).getAsJsonObject();
+                                    String trashName = priceInfo.get("trash_name").getAsString();
+                                    String unit = priceInfo.get("unit").getAsString();
+                                    Double  price = priceInfo.get("price_per_unit").getAsDouble();
+                                    newTrashType.addTrashPrice(trashName, unit, price);
+                                }
+                            }
+                            trashInfos.add(newTrashType);
+                        }
+                    }
+                    newPoint.setTrash(trashInfos);
 
                     if(type == "cash-for-trash"){
-                        CashForTrashPublicTrashCollectionPoints.add(temp);
+                        CashForTrashPublicTrashCollectionPoints.add(newPoint);
                     }else if(type == "e-waste-recycling"){
-                        EWastePublicTrashCollectionPoints.add(temp);
-                    }else{
-                        SecondHandPublicTrashCollectionPoints.add(temp);
+                        EWastePublicTrashCollectionPoints.add(newPoint);
+                    }else if(type == "2nd-hand-goods-collection-points"){
+                        SecondHandPublicTrashCollectionPoints.add(newPoint);
                     }
                 }
             }
@@ -227,36 +266,82 @@ public class DatabaseManager {
                 Log.e(TAG, "successfully pulled "+count+type+"points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
+                    PrivateTrashCollectionPoint newPoint = new PrivateTrashCollectionPoint();
+
                     //Collecting collectionPoint information
                     JsonObject ith_object = collectionPointArray.get(i).getAsJsonObject();
+
+                    // get id
                     String id = ith_object.get("id").getAsString();
+                    newPoint.setTrashCollectionPointID(id);
+
+                    // get owner info
+                    String ownerName = ith_object.get("owner_name").getAsString();
+                    String ownerID = ith_object.get("owner_id").getAsString();
+                    newPoint.setOwnerId(ownerID);
+                    newPoint.setOwnerName(ownerName);
+
+                    // get coordinates
                     double latitude = ith_object.get("latitude").getAsDouble();
                     double longitude = ith_object.get("longitude").getAsDouble();
+                    newPoint.setCoordinate(new LatLng(latitude, longitude));
+
+                    // get address
+                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
+                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
+                    String addressStreetName = ith_object.get("address_building_name").getAsString();
+                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    newPoint.setAddress(address);
+
+                    // set opening hours
                     int openTime = 0; //Unspecified in database yet
                     int closeTime = 2359; //Unspecified in database yet
                     int[] daysOpen = {1, 1, 1, 1, 1, 0, 0}; //Hard coded, only open on weekend
-                    String ownerName = ith_object.get("owner_name").getAsString();
-                    String ownerID = ith_object.get("owner_id").getAsString();
+                    newPoint.setOpenTime(openTime);
+                    newPoint.setCloseTime(closeTime);
+                    newPoint.setDayOpen(daysOpen);
+
+                    // get collection point name
                     String name = ith_object.get("name").getAsString();
+                    newPoint.setCollectionPointName(name);
+
+                    // get description
                     String description = ith_object.get("description").getAsString();
-                    ArrayList<String> trash_type = new ArrayList<String>();
+                    newPoint.setDescription(description);
+
+                    // get zip code
+                    String zipCode = "unknown";
+                    if(ith_object.get("postal_code") != null){
+                        zipCode = ith_object.get("postal_code").getAsString();
+                    }
+                    newPoint.setZipCode(zipCode);
+
+                    ArrayList<TrashInfo> trashInfos = new ArrayList<>();
                     JsonArray jArray = ith_object.get("trash_type").getAsJsonArray();
                     if (jArray != null) {
                         for (int j = 0; j < jArray.size(); j++) {
-                            trash_type.add(jArray.get(j).getAsString());
+                            TrashInfo newTrashType = new TrashInfo(jArray.get(j).getAsString());
+                            if(newTrashType.getTrashType() == "cash-for-trash"){
+                                JsonArray trashPrices = ith_object.get("trash_prices").getAsJsonArray();
+                                for(int t=0; t<trashPrices.size(); t++){
+                                    JsonObject priceInfo = trashPrices.get(t).getAsJsonObject();
+                                    String trashName = priceInfo.get("trash_name").getAsString();
+                                    String unit = priceInfo.get("unit").getAsString();
+                                    Double  price = priceInfo.get("price_per_unit").getAsDouble();
+                                    newTrashType.addTrashPrice(trashName, unit, price);
+                                }
+                            }
+                            trashInfos.add(newTrashType);
                         }
                     }
-                    ArrayList<Integer> trashprice = new ArrayList<Integer>(); //to be populated once we include prices.
+                    newPoint.setTrash(trashInfos);
 
-                    //Push into Collection point ArrayList
-                    PrivateTrashCollectionPoint temp = new PrivateTrashCollectionPoint(name, latitude, longitude, openTime, closeTime, trash_type, trashprice, daysOpen,description,ownerName,ownerID);
-                    temp.setTrashCollectionPointID(id);
                     if(type == "cash-for-trash"){
-                        CashForTrashPrivateTrashCollectionPoints.add(temp);
+                        CashForTrashPrivateTrashCollectionPoints.add(newPoint);
                     }else if(type == "e-waste-recycling"){
-                        EWastePrivateTrashCollectionPoints.add(temp);
+                        EWastePrivateTrashCollectionPoints.add(newPoint);
                     }else{
-                        SecondHandPrivateTrashCollectionPoints.add(temp);
+                        SecondHandPrivateTrashCollectionPoints.add(newPoint);
                     }
                 }
             }
@@ -336,13 +421,26 @@ public class DatabaseManager {
 
 
                     StringBuilder trashNamesBuilder = new StringBuilder();
+                    StringBuilder trashPrices = new StringBuilder();
+                    String delimiter = "";
                     for (TrashInfo t : collectionPoint.getTrash()){
-                        trashNamesBuilder.append(t.getTrashName());
+                        trashNamesBuilder.append(t.getTrashType());
                         trashNamesBuilder.append(" ");
+                        for(PriceInfo pinfo : t.getPriceInfoList()){
+                            trashPrices.append(delimiter);
+                            delimiter = "&";
+                            trashPrices.append(pinfo.getTrashName());
+                            trashPrices.append("?");
+                            trashPrices.append(pinfo.getUnit());
+                            trashPrices.append("?");
+                            trashPrices.append(pinfo.getPricePerUnit());
+                        }
                     }
                     String trashNames = trashNamesBuilder.toString();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashNames,"UTF-8"));
+                    params.append("&trash_prices=");
+                    params.append(URLEncoder.encode(trashPrices.toString(),"UTF-8"));
 
                     String description = collectionPoint.getDescription();
                     if(description != null) {

@@ -42,6 +42,7 @@ public abstract class TrashCollectionPoint{
     public void setZipCode(int zipCode){
         this.zipCode = zipCode;
     }
+    public void setZipCode(String zipCode) {this.zipCode = Integer.parseInt(zipCode);}
     public int getZipCode(){
         return zipCode;
     }
@@ -127,7 +128,7 @@ public abstract class TrashCollectionPoint{
         setOpenTime(openTime);
         setCloseTime(closeTime);
         ArrayList<TrashInfo> trashPrices = new ArrayList<TrashInfo>();
-        for(int i=0;i<trashPrices.size();i++){
+        for(int i=0;i<trashName.size();i++){
             TrashInfo trash = new TrashInfo(trashName.get(i), trashCost.get(i));
             trashPrices.add(trash);
         }
@@ -146,4 +147,6 @@ public abstract class TrashCollectionPoint{
         setDayOpen(daysOpen);
         setDescription(description);
     }
+
+    public TrashCollectionPoint(){};
 }
