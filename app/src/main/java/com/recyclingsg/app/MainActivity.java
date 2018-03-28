@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
 
-                case "Second Hand":
+                case "Second Hand Goods":
                     filterManager.filterByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
