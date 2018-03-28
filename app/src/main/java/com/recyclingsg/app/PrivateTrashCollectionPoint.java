@@ -11,23 +11,23 @@ public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
     private String ownerId;
 
     //constructor
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName,ArrayList<Integer> trashPrice, int[] daysOpen,String description){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName,ArrayList<Integer> trashPrice, int[] daysOpen,String description, String address){
 
-        super(name,xCoordinate,yCoordinate,openTime,closeTime,trashName, trashPrice,daysOpen,description);
+        super(name,xCoordinate,yCoordinate,openTime,closeTime,trashName, trashPrice,daysOpen,description, address);
     }
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description, String address){
 
-        super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description);
+        super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description, address);
     }
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description, String ownerName, String ownerID){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashPrice, int[] daysOpen, String description, String address, String ownerName, String ownerID){
 
-        super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description);
+        super(name,xCoordinate,yCoordinate,openTime,closeTime, trashPrice,daysOpen,description, address);
         setOwnerName(ownerName);
         setOwnerId(ownerID);
     }
-    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName,ArrayList<Integer> trashPrice, int[] daysOpen,String description,String ownerName, String ownerID){
+    public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<String> trashName,ArrayList<Integer> trashPrice, int[] daysOpen,String description, String address, String ownerName, String ownerID){
 
-        super(name,xCoordinate,yCoordinate,openTime,closeTime,trashName, trashPrice,daysOpen,description);
+        super(name,xCoordinate,yCoordinate,openTime,closeTime,trashName, trashPrice,daysOpen,description,address);
         setOwnerName(ownerName);
         setOwnerId(ownerID);
     }
