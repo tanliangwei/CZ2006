@@ -324,9 +324,13 @@ public class DatabaseManager {
 
                     StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
                     params.append("&userId=");
-                    params.append(URLEncoder.encode(collectionPoint.getOwnerId().toString(),"UTF-8"));
-                    params.append("&userName=");
-                    params.append(URLEncoder.encode(collectionPoint.getOwnerName().toString(),"UTF-8"));
+                    if (collectionPoint.getOwnerId()==null)
+                        params.append(URLEncoder.encode("TEST_ID","UTF-8"));
+                        params.append("&userName=");
+                        params.append(URLEncoder.encode("TEST_NAME","UTF-8"));
+//                    params.append(URLEncoder.encode(collectionPoint.getOwnerId().toString(),"UTF-8"));
+//                    params.append("&userName=");
+//                    params.append(URLEncoder.encode(collectionPoint.getOwnerName().toString(),"UTF-8"));
                     params.append("&longitude=");
                     params.append(URLEncoder.encode(String.valueOf(collectionPoint.getCoordinate().longitude),"UTF-8"));
                     params.append("&latitude=");
