@@ -37,17 +37,7 @@ public class TrashCollectionPointManager {
         return instance;
     }
 
-    public TrashCollectionPointManager(){
-//        nodes = new ArrayList<Node>(){{
-//            add (new Node("Jurong Recycling Station", "a1234", new LatLng(1.3343,(103.742))));
-//            add (new Node("Pasir Ris Recyling Station", "b4321", new LatLng(1.3721, 103.9474)));
-//            add (new Node("SouthWest Bound", "swb", new LatLng(1.22, 103.585)));
-//            add (new Node("NorthEast Bound", "neb", new LatLng(1.472823, 104.087221)));
-//
-//
-//        }};
-
-    }
+    public TrashCollectionPointManager(){}
 
     public String getUserSelectedTrashPointID(){
         return userSelectedTrashPointID;
@@ -57,11 +47,7 @@ public class TrashCollectionPointManager {
         userSelectedTrashPointID = id;
     }
 
-
-    //name, privateCollectionCoordinates.latitude, privateCollectionCoordinates.longitude,
-    //openingTime, closingTime, trashInfoList, daysOpen, description,address
-
-    public static void createPrivateTrashCollectionPoint(String name, String address, String zip, String contactDetail, ArrayList<String> trashNames, ArrayList<Double> trashPrices, String openTime, String closeTime, String description, int[] days,Context context) {
+    public static void createPrivateTrashCollectionPoint(String name, String address, String zip, String contactDetail, ArrayList<String> trashTypes,ArrayList<String> units, ArrayList<String> trashNames, ArrayList<Double> trashPrices, String openTime, String closeTime, String description, int[] days,Context context) {
 
         Log.d(TAG, "createPrivateTrashCollectionPoint: creating..");
 
@@ -80,18 +66,4 @@ public class TrashCollectionPointManager {
         addPrivateTrashCollectionPointToUser(ptcp);
 
     }
-    //String name, double xCoordinate, double yCoordinate, int openTime,
-    // int closeTime, ArrayList<String> trashName,ArrayList<Integer> trashPrice,
-    // int[] daysOpen,String description, String address, String ownerName, String ownerID
-
-
-//    public PrivateTrashCollectionPoint createCollectionPoint(String name, int zipCode, int openTime, int closeTime, TrashInfo[] trash, LatLng coordinates, int[]dayOpen, User owner, Date expiryDate, Date startDate)
-//    {
-//        PrivateTrashCollectionPoint newPrivateTrashCollectionPoint = new PrivateTrashCollectionPoint(name,zipCode,openTime,closeTime,trash,coordinates,dayOpen,owner,expiryDate,startDate);
-//        return newPrivateTrashCollectionPoint;
-//    }
-
-
-
-
 }
