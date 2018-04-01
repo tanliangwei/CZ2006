@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.Date;
 
 /**
  * Created by tanliangwei on 16/3/18.
@@ -555,5 +556,13 @@ public class DatabaseManager {
         });
         thread.start();
         return true;
+    }
+
+    public static void pullDepositStat(){
+        //todo
+    }
+
+    public static void pullDepositStat(Date begDate, Date endDate, int n_top){
+        //todo
     }
 }
