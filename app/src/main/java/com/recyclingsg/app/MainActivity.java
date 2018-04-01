@@ -32,7 +32,7 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView displayMessage=findViewById(R.id.displayMessage);
-                displayMessage.setText("Welcome to Facebook Login Page!");
-                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+                String message = "Welcome to Facebook login page!";
+                intent.putExtra("message", message);
                 startActivity(intent);
             }
         });
@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             @Override
             public void onClick(View v) {
              if(FacebookLogin.getLoginStatus()==null){
-                 TextView displayMessage=findViewById(R.id.displayMessage);
-                 displayMessage.setText("Please login first before adding post.");
                  Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                 String message = "Please login in to Facebook first.";
+                 intent.putExtra("message", message);
                  startActivity(intent);
              }
                 else {
@@ -116,14 +116,16 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         depositBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//              if(FacebookLogin.getLoginStatus()==null) {
- //                   Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-//                    startActivity(intent);
-//               }
-//                else {
+             if(FacebookLogin.getLoginStatus()==null) {
+                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                 String message = "Please login in to Facebook first.";
+                 intent.putExtra("message", message);
+                 startActivity(intent);
+               }
+                else {
                     Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
                     startActivity(intent);
-//                }
+                }
             }
         });
 
