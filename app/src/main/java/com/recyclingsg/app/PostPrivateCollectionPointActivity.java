@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -129,39 +130,26 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Submitting Form..",Toast.LENGTH_SHORT).show();
 
+            int[] daysOpen = new int[7];
+
+            // TODO: 28/3/18 Howard please create some basic controls to fill in the 2 arrays below
+            //Howard, the TRASHTYPE consist of 3 types, so Cash for Trash, E-waste, SecondHand.
+            //The units will only come when there are prices, so it is for cash for trash, if there are cash for trash,
+            // the TRASHTYPE will contain a cash for trash
+            //TRASHNAME and TRASHPRICES will be the names and prices arranged in order. so like aluminium, $2, units will be '$/kg' in string
+
+            ArrayList<String> trashTypes = new ArrayList<String>();
+            ArrayList<String> units = new ArrayList<String>();
+            ArrayList<String> trashNames = new ArrayList<String>();
+            ArrayList<Double> trashPrices = new ArrayList<Double>();
+            //calling trash collection point manager.
             TrashCollectionPointManager.getInstance();
-            //TrashInfo trashPrice = new TrashInfo(typeOfTrashFillField.getText(),pricesFillField.getText().)
-
-            PrivateTrashCollectionPoint createdPrivateTrashCollectionPoint=
-                    createPrivateTrashCollectionPoint(name, address, zipcode, contact,typeOfTrash,prices,openingTime,closingTime,description);
-
-            UserManager userManger = UserManager.getInstance();
-            userManger.addPrivateTrashCollectionPointToUser(createdPrivateTrashCollectionPoint);
+            TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, zipcode, openingTime, closingTime, trashTypes,units,trashNames, trashPrices, openingTime, description,address, daysOpen, this);
 
             Toast.makeText(this, "Private Collection Point added!",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
             startActivity(intent);
         }
-    }
-
-    public PrivateTrashCollectionPoint createPrivateTrashCollectionPoint(String name, String address, String zipcode,
-                                                                         String contactString, String typeOfTrash,
-                                                                         String prices, String openingTimeString,
-                                                                         String closingTimeString, String description){
-        Log.d(TAG, "createPrivateTrashCollectionPoint: creating..");
-        
-        TrashInfo userTrashInfo = new TrashInfo(typeOfTrash, Float.parseFloat(prices));
-        ArrayList<TrashInfo> trashInfoList = new ArrayList<>(Arrays.asList(userTrashInfo));
-        int contact = Integer.parseInt(contactString);
-        int openingTime = Integer.parseInt(openingTimeString);
-        int closingTime = Integer.parseInt(closingTimeString);
-
-        //need to add days open in UX
-        int[] daysOpen = new int[7];
-
-        LatLng privateCollectionCoordinates = googleGeocoder.getLatLngFromAddress(zipcode,this);
-        return new PrivateTrashCollectionPoint(name, privateCollectionCoordinates.latitude, privateCollectionCoordinates.longitude,
-                openingTime, closingTime, trashInfoList, daysOpen, description);
     }
 
 //    mEditPrice.setRawInputType(Configuration.KEYBOARD_12KEY);

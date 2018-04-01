@@ -88,10 +88,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
                 String message = "Welcome to Facebook login page!";
                 intent.putExtra("message", message);
                 startActivity(intent);
+
+                loadFacebookLogin();
+
             }
         });
 
@@ -99,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
              if(FacebookLogin.getLoginStatus()==null){
                  Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                  String message = "Please login in to Facebook first.";
@@ -109,11 +114,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                     startActivity(intent);
               }
+
+             loadPostPrivateCollectionPointActivity();
+
             }
         });
 
-        Button depositBtn = findViewById(R.id.depositTrash);
-        depositBtn.setOnClickListener(new OnClickListener() {
+        Button depositButton = findViewById(R.id.depositTrash);
+        depositButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
              if(FacebookLogin.getLoginStatus()==null) {
@@ -127,9 +135,63 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     startActivity(intent);
                 }
             }
+            //loadDepositCategoryActivity();
         });
 
+
+
+
+        Button checkStatisticsButton = findViewById(R.id.statisticActivityButton);
+        checkStatisticsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadStatisticsActivity();
+            }
+        });
     }
+
+    // The function for Facebook Login to start running
+    private void loadFacebookLogin(){
+        TextView displayMessage=findViewById(R.id.textView);
+        displayMessage.setText("Welcome to Facebook Login Page!");
+        Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+        startActivity(intent);
+    }
+
+    //The function for deposit category activity to start running
+    private  void loadDepositCategoryActivity(){
+        //              if(FacebookLogin.getLoginStatus()==null) {
+        //                   Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//                    startActivity(intent);
+//               }
+//                else {
+        Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+        startActivity(intent);
+//                }
+    }
+
+    // The function for the statistic activity to start running.
+    private void loadStatisticsActivity(){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
+
+    // The function for private collection point activity to start running
+    private void loadPostPrivateCollectionPointActivity(){
+        if(FacebookLogin.getLoginStatus()==null){
+            TextView displayMessage=findViewById(R.id.textView);
+            displayMessage.setText("Please login first before adding post.");
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
@@ -340,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                     break;
 
-                case "Second Hand":
+                case "Second Hand Goods":
                     filterManager.filterByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
