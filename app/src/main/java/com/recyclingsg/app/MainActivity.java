@@ -115,10 +115,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 loadStatisticsActivity();
             }
         });
-
-
-
-
     }
 
     // The function for Facebook Login to start running
