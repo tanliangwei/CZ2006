@@ -88,10 +88,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView displayMessage=findViewById(R.id.displayMessage);
-                displayMessage.setText("Welcome to Facebook Login Page!");
-                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                startActivity(intent);
+                loadFacebookLogin();
             }
         });
 
@@ -99,16 +96,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-             if(FacebookLogin.getLoginStatus()==null){
-                 TextView displayMessage=findViewById(R.id.displayMessage);
-                 displayMessage.setText("Please login first before adding post.");
-                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                 startActivity(intent);
-             }
-                else {
-                    Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
-                    startActivity(intent);
-              }
+             loadPostPrivateCollectionPointActivity();
             }
         });
 
@@ -116,18 +104,54 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         depositBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//              if(FacebookLogin.getLoginStatus()==null) {
- //                   Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-//                    startActivity(intent);
-//               }
-//                else {
-                    Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-                    startActivity(intent);
-//                }
+                loadDepositCategoryActivity();
             }
         });
 
+
     }
+
+    // The function for Facebook Login to start running
+    private void loadFacebookLogin(){
+        TextView displayMessage=findViewById(R.id.displayMessage);
+        displayMessage.setText("Welcome to Facebook Login Page!");
+        Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+        startActivity(intent);
+    }
+
+    //The function for deposit category activity to start running
+    private  void loadDepositCategoryActivity(){
+        //              if(FacebookLogin.getLoginStatus()==null) {
+        //                   Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//                    startActivity(intent);
+//               }
+//                else {
+        Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+        startActivity(intent);
+//                }
+    }
+
+    // The function for the statistic activity to start running.
+    private void loadStatisticsActivity(){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
+    // The function for private collection point activity to start running
+    private void loadPostPrivateCollectionPointActivity(){
+        if(FacebookLogin.getLoginStatus()==null){
+            TextView displayMessage=findViewById(R.id.displayMessage);
+            displayMessage.setText("Please login first before adding post.");
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
