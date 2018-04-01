@@ -1,5 +1,7 @@
 package com.recyclingsg.app;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +25,22 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 
@@ -39,6 +55,12 @@ public class StatisticsActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     The BarChart is defined here
+     */
+    private static BarChart barChart;
+    private static PieChart pieChart;
 
     /**
      * caching all the data here
@@ -123,11 +145,6 @@ public class StatisticsActivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         /**
-         The BarChart is defined here
-         */
-        private BarChart barChart;
-
-        /**
          * The fragment argument representing the section number for this
          * fragment.
          */
@@ -145,31 +162,41 @@ public class StatisticsActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
-
             return fragment;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView;
+            TextView textView;
             int viewNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (viewNumber){
                 case 1:
-                    break;
+                    rootView = inflater.inflate(R.layout.fragment_statistics1, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    pieChart = (PieChart) rootView.findViewById(R.id.PieChart);
+                    loadNationalView();
+                    return rootView;
                 case 2:
+                    rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     barChart = (BarChart) rootView.findViewById(R.id.BarChart);
                     loadTopUserView();
-                    break;
+                    return rootView;
                 case 3:
-
-                    break;
+                    rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    barChart = (BarChart) rootView.findViewById(R.id.BarChart);
+                    loadTopUserView();
+                    return rootView;
                 default:
                     break;
             }
-            return rootView;
+            return null;
         }
         /**
          * function for second view
@@ -181,6 +208,16 @@ public class StatisticsActivity extends AppCompatActivity {
             barChart.setDrawBarShadow(false);
             barChart.setDrawGridBackground(false);
             barChart.animateY(2500);
+
+            XAxis xAxis = barChart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            YAxis leftAxis = barChart.getAxisLeft();
+            YAxis rightAxis = barChart.getAxisRight();
+            rightAxis.setEnabled(false);
+
+
+            barChart.getAxisLeft().setDrawGridLines(false);
 
             barChart.getLegend().setEnabled(false);
             ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
@@ -211,6 +248,111 @@ public class StatisticsActivity extends AppCompatActivity {
                 barChart.setData(data);
                 barChart.setFitBars(true);
             }
+        }
+
+        /**
+         * function for first view
+         */
+        private void loadNationalView(){
+
+            pieChart.setUsePercentValues(true);
+            pieChart.getDescription().setEnabled(false);
+            pieChart.setExtraOffsets(5, 10, 5, 5);
+
+            pieChart.setDragDecelerationFrictionCoef(0.95f);
+
+            pieChart.setCenterText(generateCenterSpannableText());
+
+            pieChart.setDrawHoleEnabled(true);
+            pieChart.setHoleColor(Color.WHITE);
+
+            pieChart.setTransparentCircleColor(Color.WHITE);
+            pieChart.setTransparentCircleAlpha(110);
+
+            pieChart.setHoleRadius(58f);
+            pieChart.setTransparentCircleRadius(61f);
+
+            pieChart.setDrawCenterText(true);
+
+            pieChart.setRotationAngle(0);
+            // enable rotation of the chart by touch
+            pieChart.setRotationEnabled(true);
+            pieChart.setHighlightPerTapEnabled(true);
+
+            // pieChart.setUnit(" €");
+            // pieChart.setDrawUnitsInChart(true);
+
+            // add a selection listener
+            //pieChart.setOnChartValueSelectedListener(this);
+
+            setData(3, 100);
+
+            pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        }
+
+        private void setData(int count, float range) {
+
+            float mult = range;
+
+            ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+            // NOTE: The order of the entries when being added to the entries array determines their position around the center of
+            // the chart.
+            for (int i = 0; i < count ; i++) {
+                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
+                        TrashInfo.typeOfTrash[i]));
+            }
+
+            PieDataSet dataSet = new PieDataSet(entries, "Trash BreakDown");
+
+            dataSet.setDrawIcons(false);
+
+            dataSet.setSliceSpace(3f);
+            dataSet.setIconsOffset(new MPPointF(0, 40));
+            dataSet.setSelectionShift(5f);
+
+            // add a lot of colors
+
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.JOYFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.COLORFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.LIBERTY_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.PASTEL_COLORS)
+                colors.add(c);
+
+            colors.add(ColorTemplate.getHoloBlue());
+
+            dataSet.setColors(colors);
+            //dataSet.setSelectionShift(0f);
+
+            PieData data = new PieData(dataSet);
+            data.setValueFormatter(new PercentFormatter());
+            data.setValueTextSize(11f);
+            data.setValueTextColor(Color.WHITE);
+            pieChart.setData(data);
+
+            // undo all highlights
+            pieChart.highlightValues(null);
+
+            pieChart.invalidate();
+        }
+
+        private SpannableString generateCenterSpannableText() {
+
+            SpannableString s = new SpannableString("PieChart on Trash");
+            s.setSpan(new RelativeSizeSpan(1.7f), 0, s.length(), 0);
+            s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length(), 0);
+            return s;
         }
     }
 
