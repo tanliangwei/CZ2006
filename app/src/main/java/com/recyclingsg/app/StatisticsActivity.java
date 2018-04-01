@@ -40,6 +40,7 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        loadAllStatistics();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -89,6 +90,15 @@ public class StatisticsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * The function below loads all the statistics
+     */
+    public void loadAllStatistics(){
+
+    }
+
+
 
     /**
      * A placeholder fragment containing a simple view.
