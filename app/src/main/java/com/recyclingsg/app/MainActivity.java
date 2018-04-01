@@ -100,13 +100,23 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             }
         });
 
-        Button depositBtn = findViewById(R.id.depositTrash);
-        depositBtn.setOnClickListener(new OnClickListener() {
+        Button depositButton = findViewById(R.id.depositTrash);
+        depositButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadDepositCategoryActivity();
             }
         });
+
+        Button checkStatisticsButton = findViewById(R.id.statisticActivityButton);
+        checkStatisticsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadStatisticsActivity();
+            }
+        });
+
+
 
 
     }

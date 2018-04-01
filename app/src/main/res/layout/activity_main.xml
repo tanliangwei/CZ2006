@@ -161,17 +161,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Navigation" />
 
-    android:id="@+id/depositTrash"
+    <Button
+        android:id="@+id/statisticActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="20dp"
-        android:onClick="onClickDepositTrash"
-        android:text="DEPOSIT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        android:text="Check My Statistics"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPost" />
+        app:layout_constraintTop_toBottomOf="@+id/depositTrash" />
+
+        <!--android:id="@+id/depositTrash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="32dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:onClick="onClickDepositTrash"-->
+        <!--android:text="DEPOSIT"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/addPost" />-->
 
 
 
