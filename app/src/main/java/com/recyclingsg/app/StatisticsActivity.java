@@ -20,6 +20,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -34,11 +39,6 @@ public class StatisticsActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The BarChart is defined here
-     */
-    BarChart barChart;
 
     /**
      * caching all the data here
@@ -56,7 +56,6 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-        barChart = (BarChart) findViewById(R.id.BarChart);
         loadAllStatistics();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -119,13 +118,15 @@ public class StatisticsActivity extends AppCompatActivity {
 
     }
 
-
-
-
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        /**
+         The BarChart is defined here
+         */
+        private BarChart barChart;
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -144,6 +145,7 @@ public class StatisticsActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+
             return fragment;
         }
 
@@ -153,7 +155,62 @@ public class StatisticsActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            int viewNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (viewNumber){
+                case 1:
+                    break;
+                case 2:
+                    barChart = (BarChart) rootView.findViewById(R.id.BarChart);
+                    loadTopUserView();
+                    break;
+                case 3:
+
+                    break;
+                default:
+                    break;
+            }
             return rootView;
+        }
+        /**
+         * function for second view
+         */
+        private void loadTopUserView(){
+            barChart.getDescription().setEnabled(false);
+            barChart.setPinchZoom(false);
+
+            barChart.setDrawBarShadow(false);
+            barChart.setDrawGridBackground(false);
+            barChart.animateY(2500);
+
+            barChart.getLegend().setEnabled(false);
+            ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+
+            for(int i=0;i<5;i++){
+                //TopUser t = topUsers.get(i);
+                //barEntries.add(new BarEntry(i, (float) t.getScore()));
+                barEntries.add(new BarEntry(i, i*10));
+            }
+
+            BarDataSet set1;
+
+            if (barChart.getData() != null &&
+                    barChart.getData().getDataSetCount() > 0) {
+                set1 = (BarDataSet)barChart.getData().getDataSetByIndex(0);
+                set1.setValues(barEntries);
+                barChart.getData().notifyDataChanged();
+                barChart.notifyDataSetChanged();
+            }else {
+                set1 = new BarDataSet(barEntries, "Scores");
+                set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                set1.setDrawValues(false);
+
+                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+                dataSets.add(set1);
+
+                BarData data = new BarData(dataSets);
+                barChart.setData(data);
+                barChart.setFitBars(true);
+            }
         }
     }
 
