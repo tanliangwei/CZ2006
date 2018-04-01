@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     /**
@@ -32,6 +34,11 @@ public class StatisticsActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
+     * The BarChart is defined here
+     */
+    BarChart barChart;
+
+    /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
@@ -40,6 +47,7 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        barChart = (BarChart) findViewById(R.id.BarChart);
         loadAllStatistics();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,6 +105,7 @@ public class StatisticsActivity extends AppCompatActivity {
     public void loadAllStatistics(){
 
     }
+
 
 
 

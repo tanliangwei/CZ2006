@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -24,6 +25,26 @@ public class StatisticsManager {
      * @param endDate the ending time of the time window to query
      * @param n_top the number of top users to query
      */
+
+    private static final String TAG = "Statistics Manager";
+
+    //the constructor and instance management code
+    private static StatisticsManager instance;
+    //this ensures that there is only one instance of  DepositManager in the whole story
+    public static StatisticsManager getInstance(){
+        if (instance == null) {
+            try {
+                instance = new StatisticsManager();
+            } catch (Exception e) {
+                Log.e(TAG, "failed to construct StatisticsManager instance");
+                e.printStackTrace();
+            }
+        }
+        return instance;
+    }
+    //constructor for database manger
+    public StatisticsManager(){}
+
     public static void refreshData(Date begDate, Date endDate, int n_top){
         DatabaseManager.pullDepositStat(begDate, endDate, n_top);
     }
