@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 
+import java.util.ArrayList;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     /**
@@ -37,6 +39,13 @@ public class StatisticsActivity extends AppCompatActivity {
      * The BarChart is defined here
      */
     BarChart barChart;
+
+    /**
+     * caching all the data here
+     */
+    private static ArrayList<TopUser> topUsers = null;
+    private static NationalStat nationalStat = null;
+    private static double userScore = -1;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -103,6 +112,10 @@ public class StatisticsActivity extends AppCompatActivity {
      * The function below loads all the statistics
      */
     public void loadAllStatistics(){
+        StatisticsManager.getInstance();
+        topUsers = StatisticsManager.getTopUsers();
+        nationalStat = StatisticsManager.getNationalStat();
+        userScore = StatisticsManager.getUserScore();
 
     }
 
