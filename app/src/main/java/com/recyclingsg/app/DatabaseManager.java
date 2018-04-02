@@ -2,6 +2,7 @@ package com.recyclingsg.app;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -473,8 +474,13 @@ public class DatabaseManager {
                     writer.close();
                     os.close();
 
-                    InputStream is = conn.getInputStream();
                     Log.d(TAG, "adding private point to the server");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Log.d(TAG,line);
+                    }
+                    reader.close();
                 }
                 catch (IOException e){
                     Log.e(TAG,e.getMessage());
