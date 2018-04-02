@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-
+//Test comment
         navigate=findViewById(R.id.Navigation);
         navigate.setOnClickListener(new OnClickListener() {
             @Override
