@@ -396,6 +396,15 @@ public class DatabaseManager {
      * @return true if success
      */
     public static boolean savePrivateTrashCollectionPoint(final PrivateTrashCollectionPoint collectionPoint){
+        Log.d(TAG, "savePrivateTrashCollectionPoint: ");
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerId());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerName());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getTrash());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getCoordinate().latitude);
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getCoordinate().longitude);
+
+
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -431,6 +440,7 @@ public class DatabaseManager {
                     String delimiter = "";
                     for (TrashInfo t : collectionPoint.getTrash()){
                         trashNamesBuilder.append(t.getTrashType());
+                        Log.d(TAG, "run: " + t.getTrashType());
                         trashNamesBuilder.append(" ");
                         for(PriceInfo pinfo : t.getPriceInfoList()){
                             trashPrices.append(delimiter);

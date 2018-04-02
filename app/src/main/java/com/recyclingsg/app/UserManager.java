@@ -55,6 +55,7 @@ public class UserManager {
         ptcp.setOwnerName(userName);
         DatabaseManager.getInstance();
         DatabaseManager.savePrivateTrashCollectionPoint(ptcp);
+        Log.d(TAG, "addPrivateTrashCollectionPointToUser: ");
     }
 }
 
