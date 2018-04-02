@@ -57,6 +57,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String TAG = "GoogleMapFragment";
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
             new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
@@ -310,7 +311,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this.getContext(), "Info Window Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(), "Info Window Clicked" + trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onInfoWindowClick: Clicked Info Window");
     }
 
