@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -26,15 +27,25 @@ public class FacebookLogin extends AppCompatActivity {
     LoginButton loginButton;
     private static AccessToken token = null;
     CallbackManager callbackManager;
+
     public static AccessToken getLoginStatus(){
         return token;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String message=" ";
+        message = (String)intent.getStringExtra("message");
+
+        // Capture the layout's TextView and set the string as its text
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(message);
+
+
         loginButton=(LoginButton)findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList(
