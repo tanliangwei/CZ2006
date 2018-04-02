@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-<<<<<<< HEAD
+
         navigate=findViewById(R.id.Navigation);
         navigate.setOnClickListener(new OnClickListener() {
             @Override
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 startActivity(intent);
             }
         });
-||||||| merged common ancestors
+
         navigate=findViewById(R.id.Navigation);
         navigate.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,9 +114,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                 startActivity(intent);
             }
         });
-=======
     }
->>>>>>> ac3095a4d21c2ab75f5b4fd2c2fdb76e531030e3
+
 
 
     public void navigate(View view) {
