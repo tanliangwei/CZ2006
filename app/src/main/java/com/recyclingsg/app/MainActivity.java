@@ -27,6 +27,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
@@ -370,13 +371,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         // display relevant collection points
             switch (userSelectedTrashType) {
                 case "eWaste":
-                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
+                    filterManager.filterPublicByCurrentDate((databaseManager.getEWastePublicTrashCollectionPoints()));
+                    filterManager.filterPrivateByCurrentDate(databaseManager.getEWastePrivateTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
                     break;
                 case "Cash For Trash":
                     Log.d(TAG, "query: selected Cash for Trash");;
-                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+                    filterManager.filterPublicByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+                    filterManager.filterPrivateByCurrentDate(databaseManager.getCashForTrashPrivateTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
 
@@ -384,7 +387,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
                     break;
 
                 case "Second Hand Goods":
-                    filterManager.filterByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
+                    filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
+                    filterManager.filterPrivateByCurrentDate(databaseManager.getSecondHandPrivateTrashCollectionPoints());
                     mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                     filterManager.getClosedTrashCollectionPoints().clear();
                     break;
