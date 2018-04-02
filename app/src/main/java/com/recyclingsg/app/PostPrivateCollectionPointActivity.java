@@ -178,7 +178,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         String address = addressFillField.getText().toString();
         String zipcode = zipFillField.getText().toString();
         String contact = contactDetailsFillField.getText().toString();
-        String typeOfTrash = typeOfTrashFillField.getText().toString();
         String prices = pricesFillField.getText().toString().substring(1);
         Log.d(TAG, "submitCollectionPointForm: " + prices);
         String openingTime = openingTimeFillField.getText().toString();
@@ -189,7 +188,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 address.equals("Address") ||
                 zipcode.equals("Zip Code") ||
                 contact.equals("Contact Number") ||
-                typeOfTrash.equals("Type Of Trash") ||
                 prices.equals("Prices") ||
                 openingTime.equals("Opening Time") ||
                 closingTime.equals("Closing Time")) {
