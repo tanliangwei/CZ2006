@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +31,7 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
@@ -45,14 +44,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
 
-    Button loginButton;
-    Button addPostButton;
-    Button navigate;
-
     public MainActivity() throws Exception {
     }
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // to call startup functions.
         Configuration.getInstance();
@@ -65,90 +60,54 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         mGoogleMapManager = new GoogleMapFragment();
-        fragmentTransaction.add(R.id.mapfragment,mGoogleMapManager);
+        fragmentTransaction.add(R.id.mapfragment, mGoogleMapManager);
         fragmentTransaction.commit();
 
 
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-        navigate=findViewById(R.id.Navigation);
-        navigate.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if(mapIntent.resolveActivity(getPackageManager())!=null){
-                    startActivity(mapIntent);
-                }
-            }
-        });
-        loginButton=(Button) findViewById(R.id.Login);
-        loginButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFacebookLogin();
-            }
-        });
-
-        addPostButton=(Button) findViewById(R.id.addPost);
-        addPostButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             loadPostPrivateCollectionPointActivity();
-            }
-        });
-
-        Button depositButton = findViewById(R.id.depositTrash);
-        depositButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadDepositCategoryActivity();
-            }
-        });
-
-        Button checkStatisticsButton = findViewById(R.id.statisticActivityButton);
-        checkStatisticsButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadStatisticsActivity();
-            }
-        });
     }
 
+
+    public void navigate(View view) {
+        //format: "geo: latitude,longitude? q="" "
+        Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+    }
     // The function for Facebook Login to start running
-    private void loadFacebookLogin(){
-        TextView displayMessage=findViewById(R.id.displayMessage);
-        displayMessage.setText("Welcome to Facebook Login Page!");
-        Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+    public void loadFacebookLogin(View view){
+        Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+        String message = "Welcome to Facebook login page!";
+        intent.putExtra("message", message);
         startActivity(intent);
     }
 
     //The function for deposit category activity to start running
-    private  void loadDepositCategoryActivity(){
-        //              if(FacebookLogin.getLoginStatus()==null) {
-        //                   Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-//                    startActivity(intent);
-//               }
-//                else {
-        Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-        startActivity(intent);
-//                }
+    public  void loadDepositCategoryActivity(View view){
+        if(FacebookLogin.getLoginStatus()==null) {
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Please login in to Facebook first.";
+            intent.putExtra("message", message);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            startActivity(intent);
+        }
     }
 
-    // The function for the statistic activity to start running.
-    private void loadStatisticsActivity(){
-        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-        startActivity(intent);
-    }
 
     // The function for private collection point activity to start running
-    private void loadPostPrivateCollectionPointActivity(){
+    public void loadPostPrivateCollectionPointActivity(View view){
         if(FacebookLogin.getLoginStatus()==null){
-            TextView displayMessage=findViewById(R.id.displayMessage);
-            displayMessage.setText("Please login first before adding post.");
             Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Please login in to Facebook first.";
+            intent.putExtra("message", message);
             startActivity(intent);
         }
         else {
@@ -156,6 +115,14 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             startActivity(intent);
         }
     }
+
+    // The function for the statistic activity to start running.
+    public void loadStatisticsActivity(View view){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
+
 
 
 

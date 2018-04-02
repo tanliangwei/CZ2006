@@ -1,5 +1,7 @@
 package com.recyclingsg.app;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +24,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
+
+import java.util.ArrayList;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -30,6 +55,19 @@ public class StatisticsActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     The BarChart is defined here
+     */
+    private static BarChart barChart;
+    private static PieChart pieChart;
+
+    /**
+     * caching all the data here
+     */
+    private static ArrayList<TopUser> topUsers = null;
+    private static NationalStat nationalStat = null;
+    private static double userScore = -1;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -95,10 +133,12 @@ public class StatisticsActivity extends AppCompatActivity {
      * The function below loads all the statistics
      */
     public void loadAllStatistics(){
+        StatisticsManager.getInstance();
+        topUsers = StatisticsManager.getTopUsers();
+        nationalStat = StatisticsManager.getNationalStat();
+        userScore = StatisticsManager.getUserScore();
 
     }
-
-
 
     /**
      * A placeholder fragment containing a simple view.
@@ -128,10 +168,191 @@ public class StatisticsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            View rootView;
+            TextView textView;
+            int viewNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (viewNumber){
+                case 1:
+                    rootView = inflater.inflate(R.layout.fragment_statistics1, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    pieChart = (PieChart) rootView.findViewById(R.id.PieChart);
+                    loadNationalView();
+                    return rootView;
+                case 2:
+                    rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    barChart = (BarChart) rootView.findViewById(R.id.BarChart);
+                    loadTopUserView();
+                    return rootView;
+                case 3:
+                    rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
+                    textView = (TextView) rootView.findViewById(R.id.section_label);
+                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    barChart = (BarChart) rootView.findViewById(R.id.BarChart);
+                    loadTopUserView();
+                    return rootView;
+                default:
+                    break;
+            }
+            return null;
+        }
+        /**
+         * function for second view
+         */
+        private void loadTopUserView(){
+            barChart.getDescription().setEnabled(false);
+            barChart.setPinchZoom(false);
+
+            barChart.setDrawBarShadow(false);
+            barChart.setDrawGridBackground(false);
+            barChart.animateY(2500);
+
+            XAxis xAxis = barChart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            YAxis leftAxis = barChart.getAxisLeft();
+            YAxis rightAxis = barChart.getAxisRight();
+            rightAxis.setEnabled(false);
+
+
+            barChart.getAxisLeft().setDrawGridLines(false);
+
+            barChart.getLegend().setEnabled(false);
+            ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+
+            for(int i=0;i<5;i++){
+                //TopUser t = topUsers.get(i);
+                //barEntries.add(new BarEntry(i, (float) t.getScore()));
+                barEntries.add(new BarEntry(i, i*10));
+            }
+
+            BarDataSet set1;
+
+            if (barChart.getData() != null &&
+                    barChart.getData().getDataSetCount() > 0) {
+                set1 = (BarDataSet)barChart.getData().getDataSetByIndex(0);
+                set1.setValues(barEntries);
+                barChart.getData().notifyDataChanged();
+                barChart.notifyDataSetChanged();
+            }else {
+                set1 = new BarDataSet(barEntries, "Scores");
+                set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                set1.setDrawValues(false);
+
+                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+                dataSets.add(set1);
+
+                BarData data = new BarData(dataSets);
+                barChart.setData(data);
+                barChart.setFitBars(true);
+            }
+        }
+
+        /**
+         * function for first view
+         */
+        private void loadNationalView(){
+
+            pieChart.setUsePercentValues(true);
+            pieChart.getDescription().setEnabled(false);
+            pieChart.setExtraOffsets(5, 10, 5, 5);
+
+            pieChart.setDragDecelerationFrictionCoef(0.95f);
+
+            pieChart.setCenterText(generateCenterSpannableText());
+
+            pieChart.setDrawHoleEnabled(true);
+            pieChart.setHoleColor(Color.WHITE);
+
+            pieChart.setTransparentCircleColor(Color.WHITE);
+            pieChart.setTransparentCircleAlpha(110);
+
+            pieChart.setHoleRadius(58f);
+            pieChart.setTransparentCircleRadius(61f);
+
+            pieChart.setDrawCenterText(true);
+
+            pieChart.setRotationAngle(0);
+            // enable rotation of the chart by touch
+            pieChart.setRotationEnabled(true);
+            pieChart.setHighlightPerTapEnabled(true);
+
+            // pieChart.setUnit(" €");
+            // pieChart.setDrawUnitsInChart(true);
+
+            // add a selection listener
+            //pieChart.setOnChartValueSelectedListener(this);
+
+            setData(3, 100);
+
+            pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        }
+
+        private void setData(int count, float range) {
+
+            float mult = range;
+
+            ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+            // NOTE: The order of the entries when being added to the entries array determines their position around the center of
+            // the chart.
+            for (int i = 0; i < count ; i++) {
+                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
+                        TrashInfo.typeOfTrash[i]));
+            }
+
+            PieDataSet dataSet = new PieDataSet(entries, "Trash BreakDown");
+
+            dataSet.setDrawIcons(false);
+
+            dataSet.setSliceSpace(3f);
+            dataSet.setIconsOffset(new MPPointF(0, 40));
+            dataSet.setSelectionShift(5f);
+
+            // add a lot of colors
+
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.JOYFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.COLORFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.LIBERTY_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.PASTEL_COLORS)
+                colors.add(c);
+
+            colors.add(ColorTemplate.getHoloBlue());
+
+            dataSet.setColors(colors);
+            //dataSet.setSelectionShift(0f);
+
+            PieData data = new PieData(dataSet);
+            data.setValueFormatter(new PercentFormatter());
+            data.setValueTextSize(11f);
+            data.setValueTextColor(Color.WHITE);
+            pieChart.setData(data);
+
+            // undo all highlights
+            pieChart.highlightValues(null);
+
+            pieChart.invalidate();
+        }
+
+        private SpannableString generateCenterSpannableText() {
+
+            SpannableString s = new SpannableString("PieChart on Trash");
+            s.setSpan(new RelativeSizeSpan(1.7f), 0, s.length(), 0);
+            s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length(), 0);
+            return s;
         }
     }
 
