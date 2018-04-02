@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.Date;
 
 /**
  * Created by tanliangwei on 16/3/18.
@@ -139,7 +140,7 @@ public class DatabaseManager {
                     rootobj = root.getAsJsonObject();
                 }
                 int count = rootobj.get("count").getAsInt();
-                Log.d(TAG, "successfully pulled "+count+type+"points");
+                Log.d(TAG, "successfully pulled "+count+" "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     PublicTrashCollectionPoint newPoint = new PublicTrashCollectionPoint();
@@ -263,7 +264,7 @@ public class DatabaseManager {
                     rootobj = root.getAsJsonObject();
                 }
                 int count = rootobj.get("count").getAsInt();
-                Log.e(TAG, "successfully pulled "+count+type+"points");
+                Log.e(TAG, "successfully pulled "+count+" "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     PrivateTrashCollectionPoint newPoint = new PrivateTrashCollectionPoint();
@@ -549,11 +550,108 @@ public class DatabaseManager {
                     conn.connect();
                 }
                 catch (IOException e){
-                    Log.e(TAG,e.getMessage());
+                    Log.d(TAG,e.getMessage());
                 }
             }
         });
         thread.start();
         return true;
+    }
+
+    public static void pullDepositStat(){
+        pullDepositStat(null, null, -1);
+    }
+
+    public static void pullDepositStat(final Date begDate, final Date endDate, final int n_top){
+        // Connect to the URL using java's native library
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run(){
+                String sURL = "http://www.sjtume.cn/cz2006/api/get-deposit-stat?token=9ca2218ae5c6f5166850cc749085fa6d"; //Url to server
+                // set optional parameters
+                if (UserManager.getUserId()!=null){
+                    sURL += ("&user_id="+UserManager.getUserId());
+                }
+
+                if(begDate != null){
+                    sURL += ("&beg_date"+begDate.getTime()/1000);
+                }
+
+                if(endDate != null){
+                    sURL += ("&end_date"+endDate.getTime()/1000);
+                }
+
+                if(n_top != -1){
+                    sURL += ("&n_top"+n_top);
+                }
+
+                URL url = null;
+                try {
+                    url = new URL(sURL);
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, "invalid url for statistics query");
+                    e.printStackTrace();
+                }
+
+                HttpURLConnection request = null;
+                try {
+                    request = (HttpURLConnection)url.openConnection();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to open url connection");
+                    e.printStackTrace();
+                }
+                try {
+                    request.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to connect to url");
+                    e.printStackTrace();
+                }
+
+                JsonParser jp = new JsonParser();
+                JsonElement root = null;
+                try {
+                    root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to get reply content");
+                    e.printStackTrace();
+                }
+
+                JsonObject rootobj = null;
+                if(root != null){
+                    rootobj = root.getAsJsonObject();
+                }
+
+                // parse and set the national statistics
+                int userCount = rootobj.get("national_user_count").getAsInt();
+                double avgScore = rootobj.get("national_user_avgscore").getAsDouble();
+                StatisticsManager.setNationalStat(new NationalStat(avgScore, userCount));
+                Log.d(TAG, "successfully pulled national statistics");
+
+                // set user score
+                if(!rootobj.get("user_score").isJsonNull()){
+                    double score = rootobj.get("user_score").getAsDouble();
+                    StatisticsManager.setUserScore(score);
+                    Log.d(TAG, "successfully pulled user score");
+                }
+                else{
+                    Log.d(TAG, "no user score");
+                }
+
+                // parse and set top users
+                JsonArray topN = rootobj.get("top_n info").getAsJsonArray();
+                ArrayList<TopUser> topUserArrayList = new ArrayList<>();
+                for (int i = 0; i < topN.size(); i++) {
+                    JsonObject ithArrObj = topN.get(i).getAsJsonObject();
+                    String userName = ithArrObj.get("user_name").getAsString();
+                    double score = ithArrObj.get("user_score").getAsDouble();
+
+                    TopUser topUser = new TopUser(userName, score);
+                    topUserArrayList.add(topUser);
+                }
+                StatisticsManager.setTopUsers(topUserArrayList);
+                Log.d(TAG, "successfully pulled top users");
+            }
+        });
+        thread.start();
     }
 }
