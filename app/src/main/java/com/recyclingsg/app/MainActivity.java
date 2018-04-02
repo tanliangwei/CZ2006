@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView displayMessage=findViewById(R.id.displayMessage);
-                displayMessage.setText("Welcome to Facebook Login Page!");
+//                TextView displayMessage=findViewById(R.id.displayMessage);
+//                displayMessage.setText("Welcome to Facebook Login Page!");
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 startActivity(intent);
             }
@@ -99,16 +99,16 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         addPostButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-             if(FacebookLogin.getLoginStatus()==null){
-                 TextView displayMessage=findViewById(R.id.displayMessage);
-                 displayMessage.setText("Please login first before adding post.");
-                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                 startActivity(intent);
-             }
-                else {
+//             if(FacebookLogin.getLoginStatus()==null){
+////                 TextView displayMessage=findViewById(R.id.displayMessage);
+////                 displayMessage.setText("Please login first before adding post.");
+//                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//                 startActivity(intent);
+//             }
+//                else {
                     Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                     startActivity(intent);
-              }
+//              }
             }
         });
 
