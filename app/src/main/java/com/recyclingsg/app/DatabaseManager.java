@@ -434,7 +434,7 @@ public class DatabaseManager {
                         trashNamesBuilder.append(" ");
                         for(PriceInfo pinfo : t.getPriceInfoList()){
                             trashPrices.append(delimiter);
-                            delimiter = "&";
+                            delimiter = "#";
                             trashPrices.append(pinfo.getTrashName());
                             trashPrices.append("?");
                             trashPrices.append(pinfo.getUnit());
@@ -553,8 +553,15 @@ public class DatabaseManager {
                     writer.flush();
                     writer.close();
                     os.close();
+
                     // get response
-                    InputStream is = conn.getInputStream();
+                    Log.d(TAG, "adding deposit record to server");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Log.d(TAG,line);
+                    }
+                    reader.close();
                 }
                 catch (IOException e){
                     Log.d(TAG,e.getMessage());
