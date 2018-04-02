@@ -71,7 +71,8 @@ public class TrashCollectionPointManager {
         LatLng privateCollectionCoordinates = googleGeocoder.getLatLngFromAddress(zip, context);
         PrivateTrashCollectionPoint ptcp = new PrivateTrashCollectionPoint(name,privateCollectionCoordinates.latitude,privateCollectionCoordinates.longitude, openingTime,closingTime,trashInfoList,days,description,address);
         UserManager.getInstance();
-        addPrivateTrashCollectionPointToUser(ptcp);
+        UserManager.addPrivateTrashCollectionPointToUser(ptcp);
+        Log.d(TAG, "createPrivateTrashCollectionPoint: adding private trach collection point to user");
 
     }
 
