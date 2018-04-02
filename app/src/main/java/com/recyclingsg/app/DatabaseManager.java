@@ -473,7 +473,8 @@ public class DatabaseManager {
                     writer.close();
                     os.close();
 
-                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    Log.d(TAG, "adding private point to the server");
                 }
                 catch (IOException e){
                     Log.e(TAG,e.getMessage());
@@ -547,7 +548,7 @@ public class DatabaseManager {
                     writer.close();
                     os.close();
 
-                    conn.connect();
+                    InputStream is = conn.getInputStream();
                 }
                 catch (IOException e){
                     Log.d(TAG,e.getMessage());
