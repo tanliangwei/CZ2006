@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +46,7 @@ import java.util.List;
  * Use the {@link GoogleMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
+public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,6 +57,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String TAG = "GoogleMapFragment";
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
             new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
@@ -164,6 +166,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         getDeviceLocation();
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this.getContext()));
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowLongClickListener(this);
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
@@ -303,6 +307,19 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this.getContext(), "Info Window Clicked" + trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onInfoWindowClick: Clicked Info Window");
+    }
+
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onInfoWindowLongClick: Long Clicked Info Window");
     }
 
 

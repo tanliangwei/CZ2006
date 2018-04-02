@@ -20,6 +20,7 @@ import android.location.Geocoder;
 
 public class TrashCollectionPointManager {
     private String userSelectedTrashPointID;
+    private LatLng userSelectedTrashPointCoordinates;
 
     //to be removed
 
@@ -72,5 +73,13 @@ public class TrashCollectionPointManager {
         UserManager.getInstance();
         addPrivateTrashCollectionPointToUser(ptcp);
 
+    }
+
+    public LatLng getUserSelectedTrashPointCoordinates() {
+        return userSelectedTrashPointCoordinates;
+    }
+
+    public void setUserSelectedTrashPointCoordinates(LatLng userSelectedTrashPointCoordinates) {
+        this.userSelectedTrashPointCoordinates = userSelectedTrashPointCoordinates;
     }
 }

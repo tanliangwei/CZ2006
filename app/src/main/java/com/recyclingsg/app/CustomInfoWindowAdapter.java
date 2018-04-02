@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.Marker;
  * Created by Howard on 16/3/2018.
  */
 
-public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
     private Marker markerShowingInfoWindow;
     private Context mContext;
@@ -25,18 +25,18 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     private Button testButton;
 
 
-    private View.OnTouchListener customWindowOnTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent m){
-            Log.d("TAG", "onClick: customInfoWindowButton Clicked!!!!!!!!!!! ");
-            CharSequence text2 = "Hello toast!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(popUP.getContext(), text2, duration);
-            toast.show();
-            return true;
-        }
-    };
+//    private View.OnTouchListener customWindowOnTouchListener = new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View v, MotionEvent m){
+//            Log.d("TAG", "onClick: customInfoWindowButton Clicked!!!!!!!!!!! ");
+//            CharSequence text2 = "Hello toast!";
+//            int duration = Toast.LENGTH_SHORT;
+//
+//            Toast toast = Toast.makeText(popUP.getContext(), text2, duration);
+//            toast.show();
+//            return true;
+//        }
+//    };
 
 
     public CustomInfoWindowAdapter(Context context) {
@@ -55,29 +55,21 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         // Getting view from the layout file info_window_layout
         final View popUp = inflater.inflate(R.layout.layout_popup, null);
-        Log.d("TAG", "onClick: customInfoWindow Clicked!!!!!!!!!!! ");
+        Log.d("TAG", "onClick: customInfoWindow Created! ");
 
         TextView popUpTitle = (TextView) popUp.findViewById(R.id.popup_title);
         TextView popUpContent = (TextView) popUp.findViewById(R.id.popup_content);
         ImageView popUpImage = (ImageView) popUp.findViewById(R.id.popup_image);
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
-        
-        popUp.setOnTouchListener(customWindowOnTouchListener);
-        {
-//            public void onClick(View v){
-//                // Code here executes on main thread after user presses button
-//
-//            }
-//        });
 
             popUpTitle.setText(marker.getTitle());
             trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+            trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
             popUpContent.setText("Hello dudes");
-            customInfoWindowButton.setText("Hello Mello");
+            customInfoWindowButton.setText("Hold Down to Navigate");
             popUP = popUp;
             return popUp;
         }
 
 
     }
-}
