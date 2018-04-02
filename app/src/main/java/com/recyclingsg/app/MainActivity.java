@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     Button loginButton;
     Button addPostButton;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         navigate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+                Uri gmmIntentUri = Uri.parse("google.streetview:cbll="+trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if(mapIntent.resolveActivity(getPackageManager())!=null){
