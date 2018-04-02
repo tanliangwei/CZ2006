@@ -433,13 +433,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_login) {
-            //TODO
+            Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+            String message = "Welcome to Facebook login page!";
+            intent.putExtra("message", message);
+            startActivity(intent);
         } else if (id == R.id.nav_postPoint) {
-            //TODO
+            Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_deposit) {
-            //TODO
+            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_statistic) {
-            //TODO
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
