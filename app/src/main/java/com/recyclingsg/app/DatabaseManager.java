@@ -547,7 +547,7 @@ public class DatabaseManager {
                     writer.flush();
                     writer.close();
                     os.close();
-
+                    // get response
                     InputStream is = conn.getInputStream();
                 }
                 catch (IOException e){
