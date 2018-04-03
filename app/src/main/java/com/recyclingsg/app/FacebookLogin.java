@@ -13,6 +13,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -33,6 +34,7 @@ public class FacebookLogin extends AppCompatActivity {
     private AccessToken oldAccessToken = null;
     private AccessToken newAccessToken = null;
     private AccessToken currentAccessToken = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,9 @@ public class FacebookLogin extends AppCompatActivity {
         Intent intent = getIntent();
         String message=" ";
         message = (String)intent.getStringExtra("message");
-
+        if(getLoginStatus()){
+            LoginManager.getInstance().logOut();
+        }
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
