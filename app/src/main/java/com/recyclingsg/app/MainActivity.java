@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     //The function for deposit category activity to start running
     public  void loadDepositCategoryActivity(View view){
-        if(FacebookLogin.getLoginStatus()==null) {
+        if(FacebookLogin.getLoginStatus()) {
             Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
             String message = "Please login in to Facebook first.";
             intent.putExtra("message", message);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     // The function for private collection point activity to start running
     public void loadPostPrivateCollectionPointActivity(View view){
-        if(FacebookLogin.getLoginStatus()==null){
+        if(FacebookLogin.getLoginStatus()){
             Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
             String message = "Please login in to Facebook first.";
             intent.putExtra("message", message);

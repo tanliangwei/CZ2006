@@ -25,12 +25,14 @@ import java.util.Arrays;
 public class FacebookLogin extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
     LoginButton loginButton;
-    private static AccessToken token = null;
+    private static boolean loggedIn = true; // true means didn't login
     CallbackManager callbackManager;
-
-    public static AccessToken getLoginStatus(){
-        return token;
+    public static boolean getLoginStatus(){
+        return loggedIn;
     }
+    private AccessToken oldAccessToken = null;
+    private AccessToken newAccessToken = null;
+    private AccessToken currentAccessToken = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +56,12 @@ public class FacebookLogin extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                token = AccessToken.getCurrentAccessToken();
+                loggedIn = AccessToken.getCurrentAccessToken()==null;
+                currentAccessToken = oldAccessToken;
+                oldAccessToken = AccessToken.getCurrentAccessToken();
+                newAccessToken = AccessToken.getCurrentAccessToken();
                 final String userId = loginResult.getAccessToken().getUserId();
-
                 UserManager.setUserID(userId);
-                // App code
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -80,7 +83,10 @@ public class FacebookLogin extends AppCompatActivity {
                 parameters.putString("fields", "name");
                 request.setParameters(parameters);
                 request.executeAsync();
-
+                if(currentAccessToken!=newAccessToken){
+                    Intent backToMain=new Intent(FacebookLogin.this, MainActivity.class);
+                    startActivity(backToMain);
+                }
 
 
             }
@@ -93,13 +99,13 @@ public class FacebookLogin extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
                 Log.v("LoginActivity", exception.getCause().toString());
             }
+
+
         });
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
