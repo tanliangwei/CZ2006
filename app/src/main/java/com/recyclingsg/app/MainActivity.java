@@ -1,14 +1,25 @@
 package com.recyclingsg.app;
 
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,9 +38,12 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GoogleMapFragment.OnFragmentInteractionListener {
 
-public class MainActivity extends AppCompatActivity implements GoogleMapFragment.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -43,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     public MainActivity() throws Exception {
     }
@@ -67,8 +82,43 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         initAutoCompleteField();
         initWasteTypeSpinner();
         initSearchButton();
-    }
 
+        //Setting up side Navigation
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //TODO [need to figure out how to get username and user id]
+        UserManager mine = new UserManager();
+        UserManager.getInstance();
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+        navUsername.setText("UserName");
+        //navUsername.setText(UserManager.getUserName());
+
+        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+        //navUserId.setText(UserManager.getUserId());
+        navUserId.setText("User ID");
+    }
+//Test comment
 
     public void navigate(View view) {
         //format: "geo: latitude,longitude? q="" "
@@ -79,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
             startActivity(mapIntent);
         }
     }
+
     // The function for Facebook Login to start running
     public void loadFacebookLogin(View view){
         Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
@@ -274,10 +325,10 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
             }
         }
-            @Override
-            public void onNothingSelected (AdapterView < ? > adapterView){
+        @Override
+        public void onNothingSelected (AdapterView < ? > adapterView){
 
-            }
+        }
 
     };
 
@@ -320,28 +371,31 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
         Log.d(TAG, "onClick: taking user to query results");
 
         // display relevant collection points
-            switch (userSelectedTrashType) {
-                case "eWaste":
-                    filterManager.filterByCurrentDate(databaseManager.getEWastePublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                    filterManager.getClosedTrashCollectionPoints().clear();
-                    break;
-                case "Cash For Trash":
-                    Log.d(TAG, "query: selected Cash for Trash");;
-                    filterManager.filterByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                    filterManager.getClosedTrashCollectionPoints().clear();
+        switch (userSelectedTrashType) {
+            case "eWaste":
+                filterManager.filterPublicByCurrentDate((databaseManager.getEWastePublicTrashCollectionPoints()));
+                filterManager.filterPrivateByCurrentDate(databaseManager.getEWastePrivateTrashCollectionPoints());
+                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                filterManager.getClosedTrashCollectionPoints().clear();
+                break;
+            case "Cash For Trash":
+                Log.d(TAG, "query: selected Cash for Trash");;
+                filterManager.filterPublicByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
+                filterManager.filterPrivateByCurrentDate(databaseManager.getCashForTrashPrivateTrashCollectionPoints());
+                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                filterManager.getClosedTrashCollectionPoints().clear();
 
-                    Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
-                    break;
+                Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
+                break;
 
-                case "Second Hand Goods":
-                    filterManager.filterByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
-                    mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                    filterManager.getClosedTrashCollectionPoints().clear();
-                    break;
+            case "Second Hand Goods":
+                filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
+                filterManager.filterPrivateByCurrentDate(databaseManager.getSecondHandPrivateTrashCollectionPoints());
+                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+                filterManager.getClosedTrashCollectionPoints().clear();
+                break;
 
-            }
+        }
 
 
         //move camera
@@ -352,4 +406,64 @@ public class MainActivity extends AppCompatActivity implements GoogleMapFragment
 
     }
 
+    //Side navigation
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_login) {
+            Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+            String message = "Welcome to Facebook login page!";
+            intent.putExtra("message", message);
+            startActivity(intent);
+        } else if (id == R.id.nav_postPoint) {
+            Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_deposit) {
+            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_statistic) {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

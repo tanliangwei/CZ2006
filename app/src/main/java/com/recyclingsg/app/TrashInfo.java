@@ -45,8 +45,10 @@ public class TrashInfo {
     }
 
     public static final String[] typeOfTrash = {"Second Hand Goods", "eWaste", "Cash For Trash"};
+
     // the general category of the trash, should be one of cash-for-trash, e-waste, second-hand-goods
     private String trashType;
+
     // detailed price info, with key-value pair of trashName-PriceInfo(unit, pricePerUnit)
     private HashMap<String, PriceInfo> trashPrices = new HashMap<>();
 

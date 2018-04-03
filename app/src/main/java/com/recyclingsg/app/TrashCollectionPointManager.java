@@ -20,6 +20,7 @@ import android.location.Geocoder;
 
 public class TrashCollectionPointManager {
     private String userSelectedTrashPointID;
+    private LatLng userSelectedTrashPointCoordinates;
 
     //to be removed
 
@@ -70,7 +71,16 @@ public class TrashCollectionPointManager {
         LatLng privateCollectionCoordinates = googleGeocoder.getLatLngFromAddress(zip, context);
         PrivateTrashCollectionPoint ptcp = new PrivateTrashCollectionPoint(name,privateCollectionCoordinates.latitude,privateCollectionCoordinates.longitude, openingTime,closingTime,trashInfoList,days,description,address);
         UserManager.getInstance();
-        addPrivateTrashCollectionPointToUser(ptcp);
+        UserManager.addPrivateTrashCollectionPointToUser(ptcp);
+        Log.d(TAG, "createPrivateTrashCollectionPoint: adding private trach collection point to user");
 
+    }
+
+    public LatLng getUserSelectedTrashPointCoordinates() {
+        return userSelectedTrashPointCoordinates;
+    }
+
+    public void setUserSelectedTrashPointCoordinates(LatLng userSelectedTrashPointCoordinates) {
+        this.userSelectedTrashPointCoordinates = userSelectedTrashPointCoordinates;
     }
 }

@@ -2,6 +2,7 @@ package com.recyclingsg.app;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -395,6 +396,15 @@ public class DatabaseManager {
      * @return true if success
      */
     public static boolean savePrivateTrashCollectionPoint(final PrivateTrashCollectionPoint collectionPoint){
+        Log.d(TAG, "savePrivateTrashCollectionPoint: ");
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerId());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerName());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getTrash());
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getCoordinate().latitude);
+        Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getCoordinate().longitude);
+
+
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -410,13 +420,13 @@ public class DatabaseManager {
 
                     StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
                     params.append("&userId=");
-                    if (collectionPoint.getOwnerId()==null)
-                        params.append(URLEncoder.encode("TEST_ID","UTF-8"));
-                        params.append("&userName=");
-                        params.append(URLEncoder.encode("TEST_NAME","UTF-8"));
-//                    params.append(URLEncoder.encode(collectionPoint.getOwnerId().toString(),"UTF-8"));
-//                    params.append("&userName=");
-//                    params.append(URLEncoder.encode(collectionPoint.getOwnerName().toString(),"UTF-8"));
+//                    if (collectionPoint.getOwnerId()==null)
+//                        params.append(URLEncoder.encode("TEST_ID","UTF-8"));
+//                        params.append("&userName=");
+//                        params.append(URLEncoder.encode("TEST_NAME","UTF-8"));
+                    params.append(URLEncoder.encode(collectionPoint.getOwnerId().toString(),"UTF-8"));
+                    params.append("&userName=");
+                    params.append(URLEncoder.encode(collectionPoint.getOwnerName().toString(),"UTF-8"));
                     params.append("&longitude=");
                     params.append(URLEncoder.encode(String.valueOf(collectionPoint.getCoordinate().longitude),"UTF-8"));
                     params.append("&latitude=");
@@ -430,10 +440,11 @@ public class DatabaseManager {
                     String delimiter = "";
                     for (TrashInfo t : collectionPoint.getTrash()){
                         trashNamesBuilder.append(t.getTrashType());
+                        Log.d(TAG, "run: " + t.getTrashType());
                         trashNamesBuilder.append(" ");
                         for(PriceInfo pinfo : t.getPriceInfoList()){
                             trashPrices.append(delimiter);
-                            delimiter = "&";
+                            delimiter = "#";
                             trashPrices.append(pinfo.getTrashName());
                             trashPrices.append("?");
                             trashPrices.append(pinfo.getUnit());
@@ -473,7 +484,13 @@ public class DatabaseManager {
                     writer.close();
                     os.close();
 
-                    conn.connect();
+                    Log.d(TAG, "adding private point to the server");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Log.d(TAG,line);
+                    }
+                    reader.close();
                 }
                 catch (IOException e){
                     Log.e(TAG,e.getMessage());
@@ -547,7 +564,14 @@ public class DatabaseManager {
                     writer.close();
                     os.close();
 
-                    conn.connect();
+                    // get response
+                    Log.d(TAG, "adding deposit record to server");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Log.d(TAG,line);
+                    }
+                    reader.close();
                 }
                 catch (IOException e){
                     Log.d(TAG,e.getMessage());
