@@ -104,6 +104,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //TODO [need to figure out how to get username and user id]
+        UserManager mine = new UserManager();
+        UserManager.getInstance();
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+        navUsername.setText("UserName");
+        //navUsername.setText(UserManager.getUserName());
+
+        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+        //navUserId.setText(UserManager.getUserId());
+        navUserId.setText("User ID");
     }
 //Test comment
 
@@ -116,6 +129,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(mapIntent);
         }
     }
+
     // The function for Facebook Login to start running
     public void loadFacebookLogin(View view){
         Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
