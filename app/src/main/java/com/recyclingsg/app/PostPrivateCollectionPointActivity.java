@@ -193,7 +193,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
         if(trashTypeSelected != null){
-            if trashTypeSelected.equals("Cash for Trash"){
+            if( trashTypeSelected.equals("Cash for Trash")){
                 trashNames.add(trashNameFillField.getText().toString());
                 trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
                 trashUnits.add(trashUnitFillField.getText().toString());
