@@ -43,12 +43,18 @@ public class DatabaseManager {
 
     //getter methods
     public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
+        pullPrivateData("e-waste");
+        Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
+        pullPrivateData("second-hand-goods");
+        Log.d(TAG,"pull second-hand-goods private points: "+SecondHandPrivateTrashCollectionPoints.size());
         return SecondHandPrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
+        pullPrivateData("cash-for-trash");
+        Log.d(TAG,"pull cash-for-trash private points: "+CashForTrashPrivateTrashCollectionPoints.size());
         return CashForTrashPrivateTrashCollectionPoints;
     }
 
@@ -222,6 +228,13 @@ public class DatabaseManager {
     }
 
     private static void pullPrivateData(final String type){
+        if(type == "cash-for-trash"){
+            CashForTrashPrivateTrashCollectionPoints.clear();
+        }else if(type == "e-waste"){
+            EWastePrivateTrashCollectionPoints.clear();
+        }else{
+            SecondHandPrivateTrashCollectionPoints.clear();
+        }
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -340,7 +353,7 @@ public class DatabaseManager {
 
                     if(type == "cash-for-trash"){
                         CashForTrashPrivateTrashCollectionPoints.add(newPoint);
-                    }else if(type == "e-waste-recycling"){
+                    }else if(type == "e-waste"){
                         EWastePrivateTrashCollectionPoints.add(newPoint);
                     }else{
                         SecondHandPrivateTrashCollectionPoints.add(newPoint);
