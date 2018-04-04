@@ -253,8 +253,9 @@ public class DatabaseManager {
                 HttpURLConnection request = null;
                 try {
                     request = (HttpURLConnection)url.openConnection();
+                    Log.d(TAG, "opening url connection "+sURL);
                 } catch (IOException e) {
-                    Log.e(TAG, "Failed to open url connection");
+                    Log.e(TAG, "Failed to open url connection "+sURL);
                     e.printStackTrace();
                 }
                 try {
@@ -266,18 +267,17 @@ public class DatabaseManager {
 
                 JsonParser jp = new JsonParser();
                 JsonElement root = null;
+                JsonObject rootobj = null;
                 try {
                     root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                    rootobj = root.getAsJsonObject();
                 } catch (IOException e) {
                     Log.e(TAG, "Failed to get reply content");
                     e.printStackTrace();
                 }
 
-                JsonObject rootobj = null;
-                rootobj = root.getAsJsonObject();
-
                 int count = rootobj.get("count").getAsInt();
-                Log.e(TAG, "successfully pulled "+count+" "+type+" points");
+                Log.e(TAG, "successfully pulled "+count+" private "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     PrivateTrashCollectionPoint newPoint = new PrivateTrashCollectionPoint();
