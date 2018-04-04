@@ -455,8 +455,10 @@ public class DatabaseManager {
                     String trashNames = trashNamesBuilder.toString();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashNames,"UTF-8"));
-                    params.append("&trash_prices=");
-                    params.append(URLEncoder.encode(trashPrices.toString(),"UTF-8"));
+                    if (!trashPrices.toString().isEmpty()){
+                        params.append("&trash_prices=");
+                        params.append(URLEncoder.encode(trashPrices.toString(),"UTF-8"));
+                    }
 
                     String description = collectionPoint.getDescription();
                     if(description != null) {
@@ -478,6 +480,9 @@ public class DatabaseManager {
 
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+
+                    Log.d(TAG, "adding private point with parameters:");
+                    Log.d(TAG, params.toString());
 
                     writer.write(params.toString());
                     writer.flush();
