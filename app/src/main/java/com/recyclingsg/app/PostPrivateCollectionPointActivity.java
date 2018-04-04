@@ -124,6 +124,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 saveTtpToList(ttp);
 
                 typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
+                trashTypeSelected = null;
                 trashNameFillField.setText("");
                 trashPricesFillField.setText("");
                 trashUnitFillField.setText("");
@@ -183,6 +184,26 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         String openingTime = openingTimeFillField.getText().toString();
         String closingTime = closingTimeFillField.getText().toString();
         String description = descriptionFillField.getText().toString();
+        Log.d(TAG, "submitCollectionPointForm: " + name);
+        Log.d(TAG, "submitCollectionPointForm: " + address);
+        Log.d(TAG, "submitCollectionPointForm: " + zipcode);
+        Log.d(TAG, "submitCollectionPointForm: " + contact);
+        Log.d(TAG, "submitCollectionPointForm: " + openingTime);
+        Log.d(TAG, "submitCollectionPointForm: " + closingTime);
+        Log.d(TAG, "submitCollectionPointForm: " + description);
+
+
+        if(trashTypeSelected != null){
+            if (trashTypeSelected.equals("Cash for Trash")){
+                trashNames.add(trashNameFillField.getText().toString());
+                trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
+                trashUnits.add(trashUnitFillField.getText().toString());
+            }
+            typeOfTrashes.add(trashTypeSelected);
+
+        }
+
+
 
         if (name.equals("Name") ||
                 address.equals("Address") ||
@@ -207,6 +228,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
             //calling trash collection point manager.
             TrashCollectionPointManager.getInstance();
+
+            Log.d(TAG, "submitCollectionPointForm: trashes being posted" + typeOfTrashes);
+
             TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
                     (ArrayList<String>) typeOfTrashes, (ArrayList<String>) trashUnits, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices,
                     openingTime, closingTime, description,  daysOpen, this);
