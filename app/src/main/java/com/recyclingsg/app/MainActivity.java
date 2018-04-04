@@ -380,6 +380,7 @@ public class MainActivity extends AppCompatActivity
             case "eWaste":
                 filterManager.filterPublicByCurrentDate((databaseManager.getEWastePublicTrashCollectionPoints()));
                 filterManager.filterPrivateByCurrentDate(databaseManager.getEWastePrivateTrashCollectionPoints());
+                Log.d(TAG, "query: the number of private trash collection point is "+ databaseManager.getEWastePrivateTrashCollectionPoints().size());
                 mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                 filterManager.getClosedTrashCollectionPoints().clear();
                 break;
