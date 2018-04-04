@@ -124,6 +124,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 saveTtpToList(ttp);
 
                 typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
+                trashTypeSelected = null;
                 trashNameFillField.setText("");
                 trashPricesFillField.setText("");
                 trashUnitFillField.setText("");
@@ -193,7 +194,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
         if(trashTypeSelected != null){
-            if( trashTypeSelected.equals("Cash for Trash")){
+            if (trashTypeSelected.equals("Cash for Trash")){
                 trashNames.add(trashNameFillField.getText().toString());
                 trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
                 trashUnits.add(trashUnitFillField.getText().toString());
@@ -228,7 +229,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             //calling trash collection point manager.
             TrashCollectionPointManager.getInstance();
 
-
+            Log.d(TAG, "submitCollectionPointForm: trashes being posted" + typeOfTrashes);
 
             TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
                     (ArrayList<String>) typeOfTrashes, (ArrayList<String>) trashUnits, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices,
