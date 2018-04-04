@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -26,14 +27,14 @@ import java.util.Arrays;
 public class FacebookLogin extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
     LoginButton loginButton;
-    private static boolean loggedIn = true; // true means didn't login
+    private static boolean notLoggedIn = true; // true means didn't login
     CallbackManager callbackManager;
     public static boolean getLoginStatus(){
-        return loggedIn;
+        return notLoggedIn;
     }
-    private AccessToken oldAccessToken = null;
-    private AccessToken newAccessToken = null;
-    private AccessToken currentAccessToken = null;
+    private void updateLoginStatus(){
+        notLoggedIn=(AccessToken.getCurrentAccessToken()==null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,29 +42,37 @@ public class FacebookLogin extends AppCompatActivity {
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
         // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String message=" ";
         message = (String)intent.getStringExtra("message");
-        if(getLoginStatus()){
+        if(notLoggedIn){
             LoginManager.getInstance().logOut();
         }
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
 
-
         loginButton=(LoginButton)findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile"));
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if(currentAccessToken==null){
+                    Log.d(TAG,"onLogout Caught");
+                    updateLoginStatus();
+                    UserManager.setUserName(null);
+                    UserManager.setUserID(null);
 
+                }
+
+            }
+        };
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loggedIn = AccessToken.getCurrentAccessToken()==null;
-                currentAccessToken = oldAccessToken;
-                oldAccessToken = AccessToken.getCurrentAccessToken();
-                newAccessToken = AccessToken.getCurrentAccessToken();
+                updateLoginStatus();
                 final String userId = loginResult.getAccessToken().getUserId();
                 UserManager.setUserID(userId);
                 GraphRequest request = GraphRequest.newMeRequest(
@@ -77,6 +86,8 @@ public class FacebookLogin extends AppCompatActivity {
                                     String name = jsonObject.getString("name");
                                     UserManager.setUserName(name);
 
+                                    Log.d(TAG, "got user name "+name);
+
                                 }
                                 catch (JSONException e){
                                     Log.e(TAG, e.getMessage());
@@ -87,10 +98,10 @@ public class FacebookLogin extends AppCompatActivity {
                 parameters.putString("fields", "name");
                 request.setParameters(parameters);
                 request.executeAsync();
-                if(currentAccessToken!=newAccessToken){
+                //go back to main if successful logged in
                     Intent backToMain=new Intent(FacebookLogin.this, MainActivity.class);
                     startActivity(backToMain);
-                }
+
 
 
             }
@@ -108,7 +119,7 @@ public class FacebookLogin extends AppCompatActivity {
 
 
         });
-
+        accessTokenTracker.startTracking();
     }
 
     @Override
@@ -116,4 +127,6 @@ public class FacebookLogin extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

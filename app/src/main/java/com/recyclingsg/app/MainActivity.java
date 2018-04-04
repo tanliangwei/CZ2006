@@ -1,25 +1,23 @@
 package com.recyclingsg.app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,11 +36,8 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        GoogleMapFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleMapFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
@@ -61,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     public MainActivity() throws Exception {
     }
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,27 +94,36 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView){
+                Log.d(TAG, "drawer opened");
+                updateLoginView();
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //TODO [need to figure out how to get username and user id]
-        UserManager mine = new UserManager();
-        UserManager.getInstance();
-
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
-        navUsername.setText("UserName");
-        //navUsername.setText(UserManager.getUserName());
-
-        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
-        //navUserId.setText(UserManager.getUserId());
-        navUserId.setText("User ID");
     }
 //Test comment
+
+    public void updateLoginView(){
+        String userID = UserManager.getUserId();
+        String userName = UserManager.getUserName();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+        if(FacebookLogin.getLoginStatus()){
+            navUsername.setText("UserName");
+            navUserId.setText("User ID");
+        }
+        else{
+            navUsername.setText(userName);
+            navUserId.setText(userID);
+        }
+    }
 
     public void navigate(View view) {
         //format: "geo: latitude,longitude? q="" "
@@ -257,7 +262,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+//
 
     }
 
@@ -431,7 +436,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -452,11 +456,27 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("message", message);
             startActivity(intent);
         } else if (id == R.id.nav_postPoint) {
-            Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
-            startActivity(intent);
+            if(FacebookLogin.getLoginStatus()){
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                String message = "Please login in to Facebook first.";
+                intent.putExtra("message", message);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_deposit) {
-            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-            startActivity(intent);
+            if(FacebookLogin.getLoginStatus()) {
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                String message = "Please login in to Facebook first.";
+                intent.putExtra("message", message);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_statistic) {
             Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
             startActivity(intent);
