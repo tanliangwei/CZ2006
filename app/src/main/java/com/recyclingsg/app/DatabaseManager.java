@@ -274,9 +274,8 @@ public class DatabaseManager {
                 }
 
                 JsonObject rootobj = null;
-                if(root != null){
-                    rootobj = root.getAsJsonObject();
-                }
+                rootobj = root.getAsJsonObject();
+
                 int count = rootobj.get("count").getAsInt();
                 Log.e(TAG, "successfully pulled "+count+" "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
