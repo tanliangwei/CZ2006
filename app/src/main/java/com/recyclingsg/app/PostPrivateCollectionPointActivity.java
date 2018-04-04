@@ -42,7 +42,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     EditText addressFillField;
     EditText zipFillField;
     EditText contactDetailsFillField;
-    EditText typeOfTrashFillField;
     EditText openingTimeFillField;
     EditText closingTimeFillField;
     EditText descriptionFillField;
@@ -90,34 +89,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 submitCollectionPointForm();
             }
         });
-//
-//        pricesFillField.setRawInputType(KEYBOARD_12KEY);
-//        pricesFillField.addTextChangedListener(new TextWatcher() {
-//
-//            DecimalFormat dec = new DecimalFormat("0.00");
-//            @Override
-//            public void afterTextChanged(Editable arg0) {
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,
-//                                          int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,
-//                                      int before, int count) {
-//                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-//                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-//                    if (userInput.length() > 0) {
-//                        Float in = Float.parseFloat(userInput);
-//                        float percen = in / 100;
-//                        pricesFillField.setText("$" + dec.format(percen));
-//                        pricesFillField.setSelection(pricesFillField.getText().length());
-//                    }
-//                }
-////          }
-//        });
+
         ttpList = new ArrayList<>();
         typeOfTrashSpinner = initWasteTypeSpinner();
         addTypeOfTrash = (Button) findViewById(R.id.add_trash);
@@ -155,6 +127,38 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 trashNameFillField.setText("");
                 trashPricesFillField.setText("");
                 trashUnitFillField.setText("");
+
+
+
+        trashPricesFillField.setRawInputType(KEYBOARD_12KEY);
+        trashPricesFillField.addTextChangedListener(new TextWatcher() {
+
+            DecimalFormat dec = new DecimalFormat("0.00");
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
+                    if (userInput.length() > 0) {
+                        Float in = Float.parseFloat(userInput);
+                        float percen = in / 100;
+                        trashPricesFillField.setText("$" + dec.format(percen));
+                        trashPricesFillField.setSelection(trashPricesFillField.getText().length());
+                    }
+                }
+          }
+        });
+
+
             }
         });
     }
