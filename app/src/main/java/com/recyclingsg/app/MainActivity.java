@@ -114,14 +114,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
-        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+        TextView navPoints = (TextView) headerView.findViewById(R.id.nav_points);
         if(FacebookLogin.getLoginStatus()){
             navUsername.setText("UserName");
-            navUserId.setText("User ID");
+            navPoints.setText("Points: 0");
         }
         else{
             navUsername.setText(userName);
-            navUserId.setText(userID);
+            //TODO Plese make sure that statistic manager is constructed before calling the following function
+            //StatisticsManager.getInstance();
+            //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
     }
 
@@ -451,12 +453,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_login) {
-            Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+        if (id == R.id.nav_help) {
+            /*Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
             String message = "Welcome to Facebook login page!";
             intent.putExtra("message", message);
-            startActivity(intent);
-        } else if (id == R.id.nav_postPoint) {
+            startActivity(intent);*/
+        } else if (id == R.id.nav_trashPool) {
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
@@ -467,7 +469,12 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);
                 startActivity(intent);
             }
-        } else if (id == R.id.nav_deposit) {
+        }  else if (id == R.id.nav_standings) {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_settings) {
+            //TODO this will jump to settings activity
+        } /*else if (id == R.id.nav_deposit) {
             if(FacebookLogin.getLoginStatus()) {
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
@@ -478,10 +485,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
                 startActivity(intent);
             }
-        } else if (id == R.id.nav_statistic) {
-            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-            startActivity(intent);
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
