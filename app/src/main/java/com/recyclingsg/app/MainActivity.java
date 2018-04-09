@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
         else {
-            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
             startActivity(intent);
         }
     }
