@@ -160,32 +160,13 @@
             android:layout_below="@id/add_trash"></ListView>
 
     </RelativeLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingTop="20dp"
         android:paddingLeft="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/parent_type_of_trash_bar"
-        android:id="@+id/parent_price_fill_field">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="             Prices">
-        </TextView>
-        <EditText
-            android:id="@+id/prices_fill_up_field"
-            android:hint="Prices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/parent_price_fill_field"
         android:id="@+id/parent_open_time_field">
         <TextView
             android:layout_height="wrap_content"

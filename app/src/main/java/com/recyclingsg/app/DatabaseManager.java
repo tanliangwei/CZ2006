@@ -43,12 +43,18 @@ public class DatabaseManager {
 
     //getter methods
     public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
+        pullPrivateData("e-waste");
+        Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
+        pullPrivateData("second-hand-goods");
+        Log.d(TAG,"pull second-hand-goods private points: "+SecondHandPrivateTrashCollectionPoints.size());
         return SecondHandPrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
+        pullPrivateData("cash-for-trash");
+        Log.d(TAG,"pull cash-for-trash private points: "+CashForTrashPrivateTrashCollectionPoints.size());
         return CashForTrashPrivateTrashCollectionPoints;
     }
 
@@ -222,6 +228,13 @@ public class DatabaseManager {
     }
 
     private static void pullPrivateData(final String type){
+        if(type == "cash-for-trash"){
+            CashForTrashPrivateTrashCollectionPoints.clear();
+        }else if(type == "e-waste"){
+            EWastePrivateTrashCollectionPoints.clear();
+        }else{
+            SecondHandPrivateTrashCollectionPoints.clear();
+        }
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -240,8 +253,9 @@ public class DatabaseManager {
                 HttpURLConnection request = null;
                 try {
                     request = (HttpURLConnection)url.openConnection();
+                    Log.d(TAG, "opening url connection "+sURL);
                 } catch (IOException e) {
-                    Log.e(TAG, "Failed to open url connection");
+                    Log.e(TAG, "Failed to open url connection "+sURL);
                     e.printStackTrace();
                 }
                 try {
@@ -253,19 +267,17 @@ public class DatabaseManager {
 
                 JsonParser jp = new JsonParser();
                 JsonElement root = null;
+                JsonObject rootobj = null;
                 try {
                     root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                    rootobj = root.getAsJsonObject();
                 } catch (IOException e) {
                     Log.e(TAG, "Failed to get reply content");
                     e.printStackTrace();
                 }
 
-                JsonObject rootobj = null;
-                if(root != null){
-                    rootobj = root.getAsJsonObject();
-                }
                 int count = rootobj.get("count").getAsInt();
-                Log.e(TAG, "successfully pulled "+count+" "+type+" points");
+                Log.e(TAG, "successfully pulled "+count+" private "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     PrivateTrashCollectionPoint newPoint = new PrivateTrashCollectionPoint();
@@ -289,10 +301,7 @@ public class DatabaseManager {
                     newPoint.setCoordinate(new LatLng(latitude, longitude));
 
                     // get address
-                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
-                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
-                    String addressStreetName = ith_object.get("address_building_name").getAsString();
-                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    String address = ith_object.get("address").getAsString();
                     newPoint.setAddress(address);
 
                     // set opening hours
@@ -340,7 +349,7 @@ public class DatabaseManager {
 
                     if(type == "cash-for-trash"){
                         CashForTrashPrivateTrashCollectionPoints.add(newPoint);
-                    }else if(type == "e-waste-recycling"){
+                    }else if(type == "e-waste"){
                         EWastePrivateTrashCollectionPoints.add(newPoint);
                     }else{
                         SecondHandPrivateTrashCollectionPoints.add(newPoint);
@@ -455,8 +464,10 @@ public class DatabaseManager {
                     String trashNames = trashNamesBuilder.toString();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashNames,"UTF-8"));
-                    params.append("&trash_prices=");
-                    params.append(URLEncoder.encode(trashPrices.toString(),"UTF-8"));
+                    if (!trashPrices.toString().isEmpty()){
+                        params.append("&trash_prices=");
+                        params.append(URLEncoder.encode(trashPrices.toString(),"UTF-8"));
+                    }
 
                     String description = collectionPoint.getDescription();
                     if(description != null) {
@@ -478,6 +489,9 @@ public class DatabaseManager {
 
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+
+                    Log.d(TAG, "adding private point with parameters:");
+                    Log.d(TAG, params.toString());
 
                     writer.write(params.toString());
                     writer.flush();

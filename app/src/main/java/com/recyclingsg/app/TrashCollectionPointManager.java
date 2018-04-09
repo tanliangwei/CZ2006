@@ -53,12 +53,20 @@ public class TrashCollectionPointManager {
         Log.d(TAG, "createPrivateTrashCollectionPoint: creating..");
 
         ArrayList<TrashInfo> trashInfoList = new ArrayList<TrashInfo>();
+        Log.d(TAG, "createPrivateTrashCollectionPoint: length of trashtypes " + trashTypes.size());
         for(int i=0;i<trashTypes.size();i++){
             if(!trashTypes.get(i).equalsIgnoreCase("Cash For Trash")) {
-                TrashInfo trashinfo = new TrashInfo(trashTypes.get(i));
-                trashInfoList.add(trashinfo);
+                if(trashTypes.get(i).equalsIgnoreCase("ewaste")){
+                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
+                    TrashInfo trashinfo = new TrashInfo("e-waste");
+                    trashInfoList.add(trashinfo);
+                }else if(trashTypes.get(i).equalsIgnoreCase("Second Hand Goods")){
+                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
+                    TrashInfo trashinfo = new TrashInfo("second-hand-goods");
+                    trashInfoList.add(trashinfo);
+                }
             }else if(trashTypes.get(i).equalsIgnoreCase("Cash For Trash")){
-                TrashInfo trashInfo = new TrashInfo(trashTypes.get(i),trashNames,units,trashPrices);
+                TrashInfo trashInfo = new TrashInfo("cash-for-trash",trashNames,units,trashPrices);
                 trashInfoList.add(trashInfo);
             }
         }
@@ -70,6 +78,7 @@ public class TrashCollectionPointManager {
         googleGeocoder = GoogleGeocoder.getInstance();
         LatLng privateCollectionCoordinates = googleGeocoder.getLatLngFromAddress(zip, context);
         PrivateTrashCollectionPoint ptcp = new PrivateTrashCollectionPoint(name,privateCollectionCoordinates.latitude,privateCollectionCoordinates.longitude, openingTime,closingTime,trashInfoList,days,description,address);
+        //Log.d(TAG, "createPrivateTrashCollectionPoint: "+ptcp.getTrash().get(0).getTrashType());
         UserManager.getInstance();
         UserManager.addPrivateTrashCollectionPointToUser(ptcp);
         Log.d(TAG, "createPrivateTrashCollectionPoint: adding private trach collection point to user");

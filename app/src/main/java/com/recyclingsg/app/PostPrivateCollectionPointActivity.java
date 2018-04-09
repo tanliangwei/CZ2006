@@ -42,8 +42,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     EditText addressFillField;
     EditText zipFillField;
     EditText contactDetailsFillField;
-    EditText typeOfTrashFillField;
-    EditText pricesFillField ;
     EditText openingTimeFillField;
     EditText closingTimeFillField;
     EditText descriptionFillField;
@@ -81,7 +79,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
         zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
         contactDetailsFillField = (EditText) findViewById(R.id.contact_details_fill_up_field);
-        pricesFillField = (EditText) findViewById(R.id.prices_fill_up_field);
         openingTimeFillField = (EditText) findViewById(R.id.opening_time_fill_up_field);
         closingTimeFillField = (EditText) findViewById(R.id.closing_time_fill_up_field);
         descriptionFillField = (EditText) findViewById(R.id.description_fill_up_field);
@@ -93,33 +90,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             }
         });
 
-        pricesFillField.setRawInputType(KEYBOARD_12KEY);
-        pricesFillField.addTextChangedListener(new TextWatcher() {
-
-            DecimalFormat dec = new DecimalFormat("0.00");
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-                    if (userInput.length() > 0) {
-                        Float in = Float.parseFloat(userInput);
-                        float percen = in / 100;
-                        pricesFillField.setText("$" + dec.format(percen));
-                        pricesFillField.setSelection(pricesFillField.getText().length());
-                    }
-                }
-            }
-        });
         ttpList = new ArrayList<>();
         typeOfTrashSpinner = initWasteTypeSpinner();
         addTypeOfTrash = (Button) findViewById(R.id.add_trash);
@@ -154,9 +124,42 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 saveTtpToList(ttp);
 
                 typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
+                trashTypeSelected = null;
                 trashNameFillField.setText("");
                 trashPricesFillField.setText("");
                 trashUnitFillField.setText("");
+
+
+
+        trashPricesFillField.setRawInputType(KEYBOARD_12KEY);
+        trashPricesFillField.addTextChangedListener(new TextWatcher() {
+
+            DecimalFormat dec = new DecimalFormat("0.00");
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
+                    if (userInput.length() > 0) {
+                        Float in = Float.parseFloat(userInput);
+                        float percen = in / 100;
+                        trashPricesFillField.setText("$" + dec.format(percen));
+                        trashPricesFillField.setSelection(trashPricesFillField.getText().length());
+                    }
+                }
+          }
+        });
+
+
             }
         });
     }
@@ -178,17 +181,34 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         String address = addressFillField.getText().toString();
         String zipcode = zipFillField.getText().toString();
         String contact = contactDetailsFillField.getText().toString();
-        String prices = pricesFillField.getText().toString().substring(1);
-        Log.d(TAG, "submitCollectionPointForm: " + prices);
         String openingTime = openingTimeFillField.getText().toString();
         String closingTime = closingTimeFillField.getText().toString();
         String description = descriptionFillField.getText().toString();
+        Log.d(TAG, "submitCollectionPointForm: " + name);
+        Log.d(TAG, "submitCollectionPointForm: " + address);
+        Log.d(TAG, "submitCollectionPointForm: " + zipcode);
+        Log.d(TAG, "submitCollectionPointForm: " + contact);
+        Log.d(TAG, "submitCollectionPointForm: " + openingTime);
+        Log.d(TAG, "submitCollectionPointForm: " + closingTime);
+        Log.d(TAG, "submitCollectionPointForm: " + description);
+
+
+        if(trashTypeSelected != null){
+            if (trashTypeSelected.equals("Cash for Trash")){
+                trashNames.add(trashNameFillField.getText().toString());
+                trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
+                trashUnits.add(trashUnitFillField.getText().toString());
+            }
+            typeOfTrashes.add(trashTypeSelected);
+
+        }
+
+
 
         if (name.equals("Name") ||
                 address.equals("Address") ||
                 zipcode.equals("Zip Code") ||
                 contact.equals("Contact Number") ||
-                prices.equals("Prices") ||
                 openingTime.equals("Opening Time") ||
                 closingTime.equals("Closing Time")) {
             Log.d(TAG, "onClick: null fields present");
@@ -208,6 +228,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
             //calling trash collection point manager.
             TrashCollectionPointManager.getInstance();
+
+            Log.d(TAG, "submitCollectionPointForm: trashes being posted" + typeOfTrashes);
+
             TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
                     (ArrayList<String>) typeOfTrashes, (ArrayList<String>) trashUnits, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices,
                     openingTime, closingTime, description,  daysOpen, this);
@@ -261,6 +284,8 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                     trashNameFillField.setVisibility(View.VISIBLE);
                     trashPricesFillField.setVisibility(View.VISIBLE);
                     trashUnitFillField.setVisibility(View.VISIBLE);
+
+
                 }
 
             }
