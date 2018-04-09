@@ -137,7 +137,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // The function for Facebook Login to start running
+    public void loadFacebookLogin(View view){
+        Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+        String message = "Welcome to Facebook login page!";
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
 
+    //The function for deposit category activity to start running
+    public  void loadDepositCategoryActivity(View view){
+        if(FacebookLogin.getLoginStatus()) {
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Please login in to Facebook first.";
+            intent.putExtra("message", message);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            startActivity(intent);
+        }
+    }
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
