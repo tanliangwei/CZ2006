@@ -44,16 +44,19 @@ public class DatabaseManager {
     //getter methods
     public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
         pullPrivateData("e-waste");
+        delay(300);
         Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
         pullPrivateData("second-hand-goods");
+        delay(300);
         Log.d(TAG,"pull second-hand-goods private points: "+SecondHandPrivateTrashCollectionPoints.size());
         return SecondHandPrivateTrashCollectionPoints;
     }
     public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
         pullPrivateData("cash-for-trash");
+        delay(300);
         Log.d(TAG,"pull cash-for-trash private points: "+CashForTrashPrivateTrashCollectionPoints.size());
         return CashForTrashPrivateTrashCollectionPoints;
     }
@@ -301,10 +304,7 @@ public class DatabaseManager {
                     newPoint.setCoordinate(new LatLng(latitude, longitude));
 
                     // get address
-                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
-                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
-                    String addressStreetName = ith_object.get("address_building_name").getAsString();
-                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    String address = ith_object.get("address").getAsString();
                     newPoint.setAddress(address);
 
                     // set opening hours
@@ -597,6 +597,17 @@ public class DatabaseManager {
         });
         thread.start();
         return true;
+    }
+
+    private static void delay(int time){
+        try{
+            Thread.sleep(time);
+            Log.d(TAG, "pulling private data");
+        }
+        catch (InterruptedException e){
+            Log.d(TAG, "interrupted when pulling private data");
+            e.printStackTrace();
+        }
     }
 
     public static void pullDepositStat(){
