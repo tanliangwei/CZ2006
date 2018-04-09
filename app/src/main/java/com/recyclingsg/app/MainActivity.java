@@ -106,22 +106,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 //Test comment
 
     public void updateLoginView(){
-        String userID = UserManager.getUserId();
+        //String userID = UserManager.getUserId();
         String userName = UserManager.getUserName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
+        //ImageView navPicture = findViewById(R.id.nav_profile);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         TextView navPoints = (TextView) headerView.findViewById(R.id.nav_points);
         if(FacebookLogin.getLoginStatus()){
-            navUsername.setText("UserName");
+            navUsername.setText("User Name");
             navPoints.setText("Points: 0");
         }
         else{
+            //navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
-            //TODO Plese make sure that statistic manager is constructed before calling the following function
+            //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }

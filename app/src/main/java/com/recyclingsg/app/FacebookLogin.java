@@ -75,6 +75,7 @@ public class FacebookLogin extends AppCompatActivity {
                 updateLoginStatus();
                 final String userId = loginResult.getAccessToken().getUserId();
                 UserManager.setUserID(userId);
+                //UserManager.setFacebookProfilePicture(userId);
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -84,6 +85,7 @@ public class FacebookLogin extends AppCompatActivity {
 
                                 try {
                                     String name = jsonObject.getString("name");
+
                                     UserManager.setUserName(name);
 
                                     Log.d(TAG, "got user name "+name);
