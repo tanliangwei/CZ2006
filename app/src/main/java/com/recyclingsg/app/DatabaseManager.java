@@ -301,10 +301,7 @@ public class DatabaseManager {
                     newPoint.setCoordinate(new LatLng(latitude, longitude));
 
                     // get address
-                    String addressBlockNumber = ith_object.get("address_block_number").getAsString();
-                    String addressBuildingName = ith_object.get("address_building_name").getAsString();
-                    String addressStreetName = ith_object.get("address_building_name").getAsString();
-                    String address = addressBlockNumber+" "+addressBuildingName+" "+addressStreetName;
+                    String address = ith_object.get("address").getAsString();
                     newPoint.setAddress(address);
 
                     // set opening hours
