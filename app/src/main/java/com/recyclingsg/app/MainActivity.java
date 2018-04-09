@@ -96,27 +96,27 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //TODO [need to figure out how to get username and user id]
-        UserManager mine = new UserManager();
-        UserManager.getInstance();
-
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
-        navUsername.setText("UserName");
-        //navUsername.setText(UserManager.getUserName());
-
-        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
-        //navUserId.setText(UserManager.getUserId());
-        navUserId.setText("User ID");
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        //TODO [need to figure out how to get username and user id]
+//        UserManager mine = new UserManager();
+//        UserManager.getInstance();
+//
+//        View headerView = navigationView.getHeaderView(0);
+//        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+//        navUsername.setText("UserName");
+//        //navUsername.setText(UserManager.getUserName());
+//
+//        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+//        //navUserId.setText(UserManager.getUserId());
+//        navUserId.setText("User ID");
     }
 //Test comment
 
