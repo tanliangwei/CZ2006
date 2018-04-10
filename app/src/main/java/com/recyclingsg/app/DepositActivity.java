@@ -185,9 +185,18 @@ public class DepositActivity extends AppCompatActivity {
 
     public void onClick_deposit_enter(View v){
         if(v.getId() == R.id.btn_deposit_enter){
-            //Intent intent = new Intent(this, .class);
-            //startActivity(intent);
-            //TODO
+            Log.d("on_click deposit enter", "Enter button clicked");
+            //String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices)
+            //public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint)
+            //creating the new trash info
+            String trashType = spinner.getSelectedItem().toString();
+            //cash for trash names
+            ArrayList<String> cashForTrashNames=new ArrayList<String>();
+            ArrayList<String> CashForTrashUnits=new ArrayList<String>();
+            ArrayList<Double> cashForTrashPrices=new ArrayList<Double>();
+            TrashInfo depositTrash = new TrashInfo(trashType,cashForTrashNames,CashForTrashUnits,cashForTrashPrices);
+            DepositManager.getInstance();
+            //DepositManager.createDepositRecord();
 
         }
     }

@@ -58,6 +58,16 @@ public class TrashInfo {
 
     public void setTrashType(String trashType) {
         this.trashType = trashType;
+        if(trashType.equalsIgnoreCase("ewaste")){
+            this.trashType = "e-waste";
+        }
+        if(trashType.equalsIgnoreCase("Second Hand Goods")){
+            this.trashType="second-hand-goods";
+        }
+        if(trashType.equalsIgnoreCase("Cash For Trash")){
+            this.trashType="cash-for-trash";
+        }
+
     }
 
     @Deprecated

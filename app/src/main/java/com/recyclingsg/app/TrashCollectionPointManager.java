@@ -21,6 +21,7 @@ import android.location.Geocoder;
 public class TrashCollectionPointManager {
     private String userSelectedTrashPointID;
     private LatLng userSelectedTrashPointCoordinates;
+    private TrashCollectionPoint userSelectedTrashPoint;
 
     //to be removed
 
@@ -56,17 +57,10 @@ public class TrashCollectionPointManager {
         Log.d(TAG, "createPrivateTrashCollectionPoint: length of trashtypes " + trashTypes.size());
         for(int i=0;i<trashTypes.size();i++){
             if(!trashTypes.get(i).equalsIgnoreCase("Cash For Trash")) {
-                if(trashTypes.get(i).equalsIgnoreCase("ewaste")){
-                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
-                    TrashInfo trashinfo = new TrashInfo("e-waste");
-                    trashInfoList.add(trashinfo);
-                }else if(trashTypes.get(i).equalsIgnoreCase("Second Hand Goods")){
-                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
-                    TrashInfo trashinfo = new TrashInfo("second-hand-goods");
-                    trashInfoList.add(trashinfo);
-                }
+                TrashInfo trashinfo = new TrashInfo(trashTypes.get(i));
+                trashInfoList.add(trashinfo);
             }else if(trashTypes.get(i).equalsIgnoreCase("Cash For Trash")){
-                TrashInfo trashInfo = new TrashInfo("cash-for-trash",trashNames,units,trashPrices);
+                TrashInfo trashInfo = new TrashInfo(trashTypes.get(i),trashNames,units,trashPrices);
                 trashInfoList.add(trashInfo);
             }
         }
@@ -83,6 +77,14 @@ public class TrashCollectionPointManager {
         UserManager.addPrivateTrashCollectionPointToUser(ptcp);
         Log.d(TAG, "createPrivateTrashCollectionPoint: adding private trach collection point to user");
 
+    }
+
+    public TrashCollectionPoint getUserSelectedTrashPoint(){
+        return userSelectedTrashPoint;
+    }
+
+    public void setUserSelectedTrashPoint(TrashCollectionPoint userSelectedTrashPointCoordinates){
+        this.userSelectedTrashPoint = userSelectedTrashPoint;
     }
 
     public LatLng getUserSelectedTrashPointCoordinates() {
