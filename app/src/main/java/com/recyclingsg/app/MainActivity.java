@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
-    private TrashCollectionPointManager mCollectionPointManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     public MainActivity() throws Exception {
     }
@@ -65,8 +63,6 @@ public class MainActivity extends AppCompatActivity
         Configuration.startUp();
 
         setContentView(R.layout.activity_main);
-
-        mCollectionPointManager = new TrashCollectionPointManager();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

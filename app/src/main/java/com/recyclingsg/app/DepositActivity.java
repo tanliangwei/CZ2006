@@ -57,6 +57,9 @@ public class DepositActivity extends AppCompatActivity {
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+
         spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
@@ -64,11 +67,14 @@ public class DepositActivity extends AppCompatActivity {
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Initialise values of Spinner
-        for (String x : TrashInfo.typeOfTrash)
-            mSpinnerAdapter.add(x);
-
-        mSpinnerAdapter.add("Select Waste Type");
-
+        if (tcp.getTrash().size()>0){
+            for (TrashInfo x : tcp.getTrash()){
+                mSpinnerAdapter.add(x.getTrashType());
+            }
+        } else{
+                for (String x : TrashInfo.typeOfTrash)
+                    mSpinnerAdapter.add(x);
+            }
         // Apply the adapter to the spinner
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setSelection(mSpinnerAdapter.getCount());
@@ -148,6 +154,10 @@ public class DepositActivity extends AppCompatActivity {
         Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
         Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
 
+        coordinates[0]=spinner.getLeft();
+        coordinates[1]=spinner.getTop();
+
+
         Spinner cashForTrashSpinner = new Spinner(this);
         cashForTrashSpinner.setX(coordinates[0]);
         cashForTrashSpinner.setY((coordinates[1]/2)+300);
@@ -181,9 +191,18 @@ public class DepositActivity extends AppCompatActivity {
 
     public void onClick_deposit_enter(View v){
         if(v.getId() == R.id.btn_deposit_enter){
-            //Intent intent = new Intent(this, .class);
-            //startActivity(intent);
-            //TODO
+            Log.d("on_click deposit enter", "Enter button clicked");
+            //String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices)
+            //public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint)
+            //creating the new trash info
+            String trashType = spinner.getSelectedItem().toString();
+            //cash for trash names
+            ArrayList<String> cashForTrashNames=new ArrayList<String>();
+            ArrayList<String> CashForTrashUnits=new ArrayList<String>();
+            ArrayList<Double> cashForTrashPrices=new ArrayList<Double>();
+            TrashInfo depositTrash = new TrashInfo(trashType,cashForTrashNames,CashForTrashUnits,cashForTrashPrices);
+            DepositManager.getInstance();
+            //DepositManager.createDepositRecord();
 
         }
     }
