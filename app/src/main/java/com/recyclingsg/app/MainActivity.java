@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
-    private TrashCollectionPointManager mCollectionPointManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     public MainActivity() throws Exception {
     }
@@ -64,8 +62,6 @@ public class MainActivity extends AppCompatActivity
         Configuration.startUp();
 
         setContentView(R.layout.activity_main);
-
-        mCollectionPointManager = new TrashCollectionPointManager();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -82,14 +78,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,22 +93,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 //Test comment
 
     public void updateLoginView(){
-        String userID = UserManager.getUserId();
+        //String userID = UserManager.getUserId();
         String userName = UserManager.getUserName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
+        //ImageView navPicture = findViewById(R.id.nav_profile);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         TextView navPoints = (TextView) headerView.findViewById(R.id.nav_points);
         if(FacebookLogin.getLoginStatus()){
-            navUsername.setText("UserName");
+            navUsername.setText("User Name");
             navPoints.setText("Points: 0");
         }
         else{
+           // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
-            //TODO Plese make sure that statistic manager is constructed before calling the following function
+            //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
@@ -153,7 +144,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
         else {
-            Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
+            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
             startActivity(intent);
         }
     }

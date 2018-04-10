@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import static android.content.ContentValues.TAG;
@@ -12,8 +13,7 @@ public class UserManager {
 
     private static String userID;
     private static String userName;
-
-
+    private static Bitmap bitmap;
 
 
 
@@ -32,8 +32,34 @@ public class UserManager {
     }
 
     public UserManager(){}
+    /*public static Picture getPicture(){
+        Picture picture = new Picture();
+        Canvas canvas = picture.beginRecording(bitmap.getWidth(), bitmap.getHeight());
+        canvas.drawBitmap(bitmap, null, new RectF(0f, 0f, (float) bitmap.getWidth(), (float) bitmap.getHeight()), null);
+        picture.endRecording();
+        return picture;
+    }*/
 
+    /*public static void setFacebookProfilePicture(final String userID){
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final URL imageURL = new URL("https://graph.facebook.com/" + userID + "/picture?type=large");
+                        Log.d(TAG, "bitmap url: "+imageURL);
+                        bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                        Log.d(TAG, "Got bitmap");
+                    }
+                    catch(Exception e){
+                        Log.e(TAG,"fail to get url");
+                    }
 
+                }
+            });
+            thread.start();
+    }*/
+    //public static void setBitMap(Bitmap thebitmap){bitmap=thebitmap;}
+    //public static Bitmap getFacebookProfilePicture(){return bitmap;}
     public static String getUserId() {
         return userID;
     }

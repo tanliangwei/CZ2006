@@ -19,7 +19,7 @@
     </string>
 
 
-    <string-array name="trashTypeName">
+    <string-array name="cashForTrashSubCategories">
         <item>Cans</item>
         <item>Bottles</item>
         <item>Trash1</item>
