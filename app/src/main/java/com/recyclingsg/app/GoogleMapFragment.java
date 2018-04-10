@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Use the {@link GoogleMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
+public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,7 +84,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     public GoogleMapFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -172,8 +171,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
         }
         Log.d(TAG, "onMapReady: Google Map" + mMap);
-
-
     }
 
 
@@ -204,7 +201,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         moveCamera(userSelectedLocation,DEFAULT_ZOOM);
     }
 
-
     public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
         mMap.clear();
         Log.d(TAG, "displayCollectionPoints: Map clearing");
@@ -212,11 +208,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
                     .title(c_point.getCollectionPointName());
-            mMap.addMarker(options);
+
+            Marker temp = mMap.addMarker(options);
+            temp.setTag(c_point); //this code saves the trash collection point to the marker
         }
 
     }
-
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -279,10 +276,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         return false;
     }
 
-
-
-
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called.");
 
@@ -307,16 +300,13 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public void onInfoWindowClick(Marker marker) {
         Toast.makeText(this.getContext(), "Info Window Clicked" + trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onInfoWindowClick: Clicked Info Window");
     }
-
 
     @Override
     public void onInfoWindowLongClick(Marker marker) {
         Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onInfoWindowLongClick: Long Clicked Info Window");
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

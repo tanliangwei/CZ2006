@@ -45,6 +45,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
 
     @Override
     public View getInfoWindow(Marker marker) {
+        TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPointManager.setUserSelectedTrashPoint(tcp);
+        Log.d("MARKER CLICK","THE SELECTED POINT IS" + tcp.getCollectionPointName());
         return null;
     }
 
