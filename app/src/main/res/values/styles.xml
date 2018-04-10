@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="auto_complete_field">
+        <item name="android:colorControlNormal">#FFF</item>
+        <item name="android:colorControlActivated">#4DBC4D</item>
+
+    </style>
+
 </resources>

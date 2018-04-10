@@ -1,6 +1,7 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -304,6 +305,7 @@ public class MainActivity extends AppCompatActivity
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setTextColor(Color.WHITE);
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
 
