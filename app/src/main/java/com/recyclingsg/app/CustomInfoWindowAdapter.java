@@ -66,12 +66,15 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
             popUpTitle.setText(marker.getTitle());
+
             //trashCollectionPointManager.setUserSelectedTrashPoint();
             TrashCollectionPointManager.getInstance();
             TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
             TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+
             popUpContent.setText("Hello dudes");
-            customInfoWindowButton.setText("Hold Down to Navigate");
+            customInfoWindowButton.setText("Hold Down to Navigate/n");
+            Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
             popUP = popUp;
             return popUp;
         }
