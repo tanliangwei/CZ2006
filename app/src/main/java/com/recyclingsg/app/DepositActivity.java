@@ -57,6 +57,9 @@ public class DepositActivity extends AppCompatActivity {
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+
         spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
@@ -64,11 +67,14 @@ public class DepositActivity extends AppCompatActivity {
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Initialise values of Spinner
-        for (String x : TrashInfo.typeOfTrash)
-            mSpinnerAdapter.add(x);
-
-        mSpinnerAdapter.add("Select Waste Type");
-
+        if (tcp.getTrash().size()>0){
+            for (TrashInfo x : tcp.getTrash()){
+                mSpinnerAdapter.add(x.getTrashType());
+            }
+        } else{
+                for (String x : TrashInfo.typeOfTrash)
+                    mSpinnerAdapter.add(x);
+            }
         // Apply the adapter to the spinner
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setSelection(mSpinnerAdapter.getCount());

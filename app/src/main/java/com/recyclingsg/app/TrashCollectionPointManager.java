@@ -41,11 +41,11 @@ public class TrashCollectionPointManager {
 
     public TrashCollectionPointManager(){}
 
-    public String getUserSelectedTrashPointID(){
+    public String getUserSelectedTrashCollectionPointID(){
         return userSelectedTrashPointID;
     }
 
-    public void setUserSelectedTrashPointID(String id){
+    public static void setUserSelectedTrashPointID(String id){
         userSelectedTrashPointID = id;
     }
 
@@ -79,11 +79,11 @@ public class TrashCollectionPointManager {
 
     }
 
-    public TrashCollectionPoint getUserSelectedTrashPoint(){
+    public static TrashCollectionPoint getUserSelectedTrashCollectionPoint(){
         return userSelectedTrashPoint;
     }
 
-    public static void setUserSelectedTrashPoint(TrashCollectionPoint tcp){
+    public static void setUserSelectedTrashCollectionPoint(TrashCollectionPoint tcp){
         userSelectedTrashPoint = tcp;
     }
 
@@ -91,7 +91,7 @@ public class TrashCollectionPointManager {
         return userSelectedTrashPointCoordinates;
     }
 
-    public void setUserSelectedTrashPointCoordinates(LatLng userSelectedTrashPointCoordinates) {
-        this.userSelectedTrashPointCoordinates = userSelectedTrashPointCoordinates;
+    public static void setUserSelectedTrashPointCoordinates(LatLng ustcpc) {
+        userSelectedTrashPointCoordinates = ustcpc;
     }
 }
