@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity
     public MainActivity() throws Exception {
     }
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // to call startup functions.
