@@ -1,11 +1,13 @@
 package com.recyclingsg.app;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +34,7 @@ public class DepositActivity extends AppCompatActivity {
     EditText dateEditText;
     TextView unitText;
     EditText unitEditText;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class DepositActivity extends AppCompatActivity {
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
-        Spinner spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
+        spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
         // Specify the layout to use when the list of choices appears
@@ -136,18 +139,20 @@ public class DepositActivity extends AppCompatActivity {
         int[] coordinates = new int[2];
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
         ConstraintLayout.LayoutParams params;
-        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight());
+        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
 
-        unitEditText.getLocationOnScreen(coordinates);
+        spinner.getLocationInWindow(coordinates);
 
-
-
-        params.leftMargin = coordinates[0];
-        params.topMargin = coordinates[1] + 60;
+//        params.leftMargin = coordinates[0];
+//        params.topMargin = coordinates[1]+100;
         Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
         Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
 
         Spinner cashForTrashSpinner = new Spinner(this);
+        cashForTrashSpinner.setX(coordinates[0]);
+        cashForTrashSpinner.setY((coordinates[1]/2)+300);
+        //cashForTrashSpinner.setY((coordinates[1]/2)+500);
+
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item,
@@ -158,7 +163,9 @@ public class DepositActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout
                 .simple_spinner_dropdown_item);
         cashForTrashSpinner.setAdapter(adapter);
-        cl.addView(cashForTrashSpinner, params);
+        unitText.setVisibility(View.VISIBLE);
+        unitEditText.setVisibility(View.VISIBLE);
+        cl.addView(cashForTrashSpinner,params);
         cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
