@@ -1,6 +1,7 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-<<<<<<< HEAD
+
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -101,29 +102,8 @@ public class MainActivity extends AppCompatActivity
 //        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
 //        //navUserId.setText(UserManager.getUserId());
 //        navUserId.setText("User ID");
-||||||| merged common ancestors
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        //TODO [need to figure out how to get username and user id]
-        UserManager mine = new UserManager();
-        UserManager.getInstance();
-
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
-        navUsername.setText("UserName");
-        //navUsername.setText(UserManager.getUserName());
-
-        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
-        //navUserId.setText(UserManager.getUserId());
-        navUserId.setText("User ID");
-=======
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -160,7 +140,7 @@ public class MainActivity extends AppCompatActivity
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
->>>>>>> c20c4b71baee2a47c3ca16c6cd43ad9b0afe6c90
+
     }
 
     public void navigate(View view) {
@@ -360,6 +340,7 @@ public class MainActivity extends AppCompatActivity
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setTextColor(Color.WHITE);
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
 
@@ -406,6 +387,7 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                 break;
+                //for jh
 
             case "Second Hand Goods":
                 filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
