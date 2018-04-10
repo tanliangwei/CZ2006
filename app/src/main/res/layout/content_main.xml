@@ -8,10 +8,13 @@
     tools:context="com.recyclingsg.app.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+
+
+
     <FrameLayout
         android:id="@+id/mapfragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/search_bar"
@@ -55,7 +58,7 @@
             <!--app:layout_constraintStart_toStartOf="@id/search_field"-->
 
 
-            <!--<requestFocus />-->
+            <requestFocus />
 
         </AutoCompleteTextView>
 
@@ -96,6 +99,44 @@
         android:text="Navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trash_type_selection_spinner" />
+
+    <Button
+        android:id="@+id/btn_homeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Info"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="346dp" />
+
+    <Button
+        android:id="@+id/btn_centerMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CenterMap"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="394dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:onClick="loadFacebookLogin"
+        android:text="Login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Navigation" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="loadDepositCategoryActivity"
+        android:text="Deposit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     <!--android:id="@+id/depositTrash"-->
     <!--android:layout_width="wrap_content"-->

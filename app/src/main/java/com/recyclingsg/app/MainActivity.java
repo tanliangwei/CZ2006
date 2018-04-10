@@ -107,22 +107,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 //Test comment
 
     public void updateLoginView(){
-        String userID = UserManager.getUserId();
+        //String userID = UserManager.getUserId();
         String userName = UserManager.getUserName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
+        //ImageView navPicture = findViewById(R.id.nav_profile);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         TextView navPoints = (TextView) headerView.findViewById(R.id.nav_points);
         if(FacebookLogin.getLoginStatus()){
-            navUsername.setText("UserName");
+            navUsername.setText("User Name");
             navPoints.setText("Points: 0");
         }
         else{
+            //navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
-            //TODO Plese make sure that statistic manager is constructed before calling the following function
+            //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
@@ -138,7 +141,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // The function for Facebook Login to start running
+    public void loadFacebookLogin(View view){
+        Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
+        String message = "Welcome to Facebook login page!";
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
 
+    //The function for deposit category activity to start running
+    public  void loadDepositCategoryActivity(View view){
+        if(FacebookLogin.getLoginStatus()) {
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Please login in to Facebook first.";
+            intent.putExtra("message", message);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
+            startActivity(intent);
+        }
+    }
 
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
