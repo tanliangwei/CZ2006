@@ -1,17 +1,26 @@
 package com.recyclingsg.app;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by kelvin on 21/3/18.
@@ -21,75 +30,154 @@ public class DepositActivity extends AppCompatActivity {
     private static final String TAG = "DepositActivity";
     Spinner trashTypeSpinner;
     ArrayAdapter<CharSequence> adapter;
+    TextView trashCollectionPointText;
+    EditText dateEditText;
+    TextView unitText;
+    EditText unitEditText;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deposit_activity);
 
-        Bundle b = getIntent().getExtras();
-        String selectedCategory = "none"; // Category of trash selected
-        if(b != null) {
-            selectedCategory = b.getString("trashCategory");
+        initWasteTypeSpinner();
+        initTexts();
+    }
 
-            Log.d(TAG, "trashCategory is :" + selectedCategory);
+    public void initTexts(){
+        trashCollectionPointText = (TextView) findViewById(R.id.trashCollectionPointText);
+        dateEditText = (EditText) findViewById(R.id.dateEditText);
+        unitText = (TextView) findViewById(R.id.unitText);
+        unitEditText = (EditText) findViewById(R.id.unitEditText);
+        unitText.setVisibility(View.INVISIBLE);
+        unitEditText.setVisibility(View.INVISIBLE);
+    }
 
-            if (selectedCategory.equals("cash_for_trash")) {
-                trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
-                adapter = ArrayAdapter.createFromResource(this, R.array.trashTypeName, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                trashTypeSpinner.setAdapter(adapter);
+    public void initWasteTypeSpinner(){
+        Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
-                trashTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
-                    }
+        spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
+        // Specify the layout to use when the list of choices appears
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
+        // Initialise values of Spinner
+        for (String x : TrashInfo.typeOfTrash)
+            mSpinnerAdapter.add(x);
 
-                    }
-                });
-            } else if (selectedCategory.equals("eWaste")) {
-                trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
-                adapter = ArrayAdapter.createFromResource(this, R.array.trashTypeName, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                trashTypeSpinner.setAdapter(adapter);
+        mSpinnerAdapter.add("Select Waste Type");
 
-                trashTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        //Do nothing
-                    }
-                });
-            } else { //(selectedCategory.equals("secondHand")
-                trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
-                adapter = ArrayAdapter.createFromResource(this, R.array.trashTypeName, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                trashTypeSpinner.setAdapter(adapter);
-
-                trashTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        //Do nothing
-                    }
-                });
-            }
-        }
+        // Apply the adapter to the spinner
+        spinner.setAdapter(mSpinnerAdapter);
+        spinner.setSelection(mSpinnerAdapter.getCount());
+        spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
 
     }
 
+    private ArrayAdapter<String> createSpinnerAdapter() {
+        ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                View v = super.getView(position, convertView, parent);
+                if (position == getCount()) {
+                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+                }
+
+                return v;
+            }
+
+            @Override
+            public int getCount() {
+                return super.getCount() - 1; // you dont display last item. It is used as hint.
+            }
+
+        };
+
+        return mSpinnerAdapter;
+    }
+
+    private AdapterView.OnItemSelectedListener mWasteTypeSpinnerListener = new AdapterView.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            if (id != parent.getCount()) {
+//
+                Object trashTypeSelected = parent.getItemAtPosition(position);
+
+                Toast.makeText(getApplicationContext(), "Selected Waste Type: " + trashTypeSelected.toString(),
+                        Toast.LENGTH_SHORT).show();
+
+                Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
+
+                if(id ==1 || id==0){
+                    unitText.setVisibility(View.VISIBLE);
+                    unitEditText.setVisibility(View.VISIBLE);
+                }else if(id==2){
+                    //call function to generate second spinner
+                    generateSpinnerForCashForTrash();
+                }else{
+                    unitText.setVisibility(View.INVISIBLE);
+                    unitEditText.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
+        @Override
+        public void onNothingSelected (AdapterView < ? > adapterView){
+
+        }
+
+    };
+
+    public void generateSpinnerForCashForTrash(){
+        Log.d("generate spinner cash for trash", "coooooool");
+        int[] coordinates = new int[2];
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
+        ConstraintLayout.LayoutParams params;
+        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
+
+        spinner.getLocationInWindow(coordinates);
+
+//        params.leftMargin = coordinates[0];
+//        params.topMargin = coordinates[1]+100;
+        Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
+        Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
+
+        Spinner cashForTrashSpinner = new Spinner(this);
+        cashForTrashSpinner.setX(coordinates[0]);
+        cashForTrashSpinner.setY((coordinates[1]/2)+300);
+        //cashForTrashSpinner.setY((coordinates[1]/2)+500);
+
+        ArrayList<String> spinnerArray = new ArrayList<String>();
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        spinnerArray);
+        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        trashTypeSpinner.setAdapter(adapter);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                .simple_spinner_dropdown_item);
+        cashForTrashSpinner.setAdapter(adapter);
+        unitText.setVisibility(View.VISIBLE);
+        unitEditText.setVisibility(View.VISIBLE);
+        cl.addView(cashForTrashSpinner,params);
+        cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 
     public void onClick_deposit_enter(View v){
         if(v.getId() == R.id.btn_deposit_enter){
