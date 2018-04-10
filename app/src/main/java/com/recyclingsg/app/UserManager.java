@@ -39,8 +39,8 @@ public class UserManager {
         picture.endRecording();
         return picture;
     }*/
-    /*
-    public static void setFacebookProfilePicture(final String userID){
+
+    /*public static void setFacebookProfilePicture(final String userID){
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -57,8 +57,9 @@ public class UserManager {
                 }
             });
             thread.start();
-    }
-    public static Bitmap getFacebookProfilePicture(){return bitmap;}*/
+    }*/
+    //public static void setBitMap(Bitmap thebitmap){bitmap=thebitmap;}
+    //public static Bitmap getFacebookProfilePicture(){return bitmap;}
     public static String getUserId() {
         return userID;
     }

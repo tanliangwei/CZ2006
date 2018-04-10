@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
             navPoints.setText("Points: 0");
         }
         else{
-            //navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
+           // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
             //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
