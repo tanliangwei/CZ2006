@@ -2,6 +2,7 @@ package com.recyclingsg.app;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -165,6 +167,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             if (getLocationPermission()) {
                 //Location Permission already granted
                 mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
             }
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
@@ -207,12 +210,21 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
                     .title(c_point.getCollectionPointName());
-
+            options = assignIcon(c_point, options);
             Marker temp = mMap.addMarker(options);
-            temp.setTag(c_point); //this code saves the trash collection point to the marker
+            temp.setTag(c_point);
         }
-
     }
+
+    private MarkerOptions assignIcon(TrashCollectionPoint tcp, MarkerOptions markerOptions){
+
+       if( tcp instanceof PrivateTrashCollectionPoint)
+           markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
+        else if (tcp instanceof PublicTrashCollectionPoint)
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.green_loc_icon));
+       return markerOptions;
+    }
+
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
