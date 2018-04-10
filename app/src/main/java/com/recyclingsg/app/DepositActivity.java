@@ -1,11 +1,13 @@
 package com.recyclingsg.app;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +34,7 @@ public class DepositActivity extends AppCompatActivity {
     EditText dateEditText;
     TextView unitText;
     EditText unitEditText;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +57,24 @@ public class DepositActivity extends AppCompatActivity {
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
-        Spinner spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+
+        spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
         // Specify the layout to use when the list of choices appears
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Initialise values of Spinner
-        for (String x : TrashInfo.typeOfTrash)
-            mSpinnerAdapter.add(x);
-
-        mSpinnerAdapter.add("Select Waste Type");
-
+        if (tcp.getTrash().size()>0){
+            for (TrashInfo x : tcp.getTrash()){
+                mSpinnerAdapter.add(x.getTrashType());
+            }
+        } else{
+                for (String x : TrashInfo.typeOfTrash)
+                    mSpinnerAdapter.add(x);
+            }
         // Apply the adapter to the spinner
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setSelection(mSpinnerAdapter.getCount());
@@ -136,18 +145,24 @@ public class DepositActivity extends AppCompatActivity {
         int[] coordinates = new int[2];
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
         ConstraintLayout.LayoutParams params;
-        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight());
+        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
 
-        unitEditText.getLocationOnScreen(coordinates);
+        spinner.getLocationInWindow(coordinates);
 
-
-
-        params.leftMargin = coordinates[0];
-        params.topMargin = coordinates[1] + 60;
+//        params.leftMargin = coordinates[0];
+//        params.topMargin = coordinates[1]+100;
         Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
         Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
 
+        coordinates[0]=spinner.getLeft();
+        coordinates[1]=spinner.getTop();
+
+
         Spinner cashForTrashSpinner = new Spinner(this);
+        cashForTrashSpinner.setX(coordinates[0]);
+        cashForTrashSpinner.setY((coordinates[1]/2)+300);
+        //cashForTrashSpinner.setY((coordinates[1]/2)+500);
+
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item,
@@ -158,7 +173,9 @@ public class DepositActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout
                 .simple_spinner_dropdown_item);
         cashForTrashSpinner.setAdapter(adapter);
-        cl.addView(cashForTrashSpinner, params);
+        unitText.setVisibility(View.VISIBLE);
+        unitEditText.setVisibility(View.VISIBLE);
+        cl.addView(cashForTrashSpinner,params);
         cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -174,9 +191,18 @@ public class DepositActivity extends AppCompatActivity {
 
     public void onClick_deposit_enter(View v){
         if(v.getId() == R.id.btn_deposit_enter){
-            //Intent intent = new Intent(this, .class);
-            //startActivity(intent);
-            //TODO
+            Log.d("on_click deposit enter", "Enter button clicked");
+            //String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices)
+            //public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint)
+            //creating the new trash info
+            String trashType = spinner.getSelectedItem().toString();
+            //cash for trash names
+            ArrayList<String> cashForTrashNames=new ArrayList<String>();
+            ArrayList<String> CashForTrashUnits=new ArrayList<String>();
+            ArrayList<Double> cashForTrashPrices=new ArrayList<Double>();
+            TrashInfo depositTrash = new TrashInfo(trashType,cashForTrashNames,CashForTrashUnits,cashForTrashPrices);
+            DepositManager.getInstance();
+            //DepositManager.createDepositRecord();
 
         }
     }

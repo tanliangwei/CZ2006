@@ -102,19 +102,13 @@
 
     <Button
         android:id="@+id/btn_homeInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Info"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="346dp" />
-
-    <Button
-        android:id="@+id/btn_centerMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CenterMap"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="394dp" />
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="16dp"
+        android:background="@mipmap/ic_btn_homeinfo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button4"
@@ -137,6 +131,16 @@
         android:text="Deposit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+    <Button
+        android:id="@+id/btn_centerMap"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@mipmap/ic_btn_centermap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!--android:id="@+id/depositTrash"-->
     <!--android:layout_width="wrap_content"-->

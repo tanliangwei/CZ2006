@@ -73,6 +73,9 @@
             android:name=".StatisticsActivity"
             android:label="@string/title_activity_statistics"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".DepositCompleteActivity"
+            android:label="DepositCompleteActivity"/>
     </application>
 
 </manifest>

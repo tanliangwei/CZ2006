@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.Marker;
  */
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
     private Marker markerShowingInfoWindow;
     private Context mContext;
     private View popUP;
@@ -45,6 +44,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
 
     @Override
     public View getInfoWindow(Marker marker) {
+        TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
+        Log.d("MARKER CLICK","THE SELECTED POINT IS" + tcp.getCollectionPointName());
         return null;
     }
 
@@ -63,10 +66,15 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
             popUpTitle.setText(marker.getTitle());
-            trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
-            trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+
+            //trashCollectionPointManager.setUserSelectedTrashPoint();
+            TrashCollectionPointManager.getInstance();
+            TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+            TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+
             popUpContent.setText("Hello dudes");
-            customInfoWindowButton.setText("Hold Down to Navigate");
+            customInfoWindowButton.setText("Hold Down to Navigate/n");
+            Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
             popUP = popUp;
             return popUp;
         }

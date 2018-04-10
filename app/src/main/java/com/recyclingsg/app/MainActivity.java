@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
-    private TrashCollectionPointManager mCollectionPointManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     public MainActivity() throws Exception {
     }
@@ -66,8 +64,6 @@ public class MainActivity extends AppCompatActivity
         Configuration.startUp();
 
         setContentView(R.layout.activity_main);
-
-        mCollectionPointManager = new TrashCollectionPointManager();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -84,15 +80,52 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
+<<<<<<< HEAD
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        //TODO [need to figure out how to get username and user id]
+//        UserManager mine = new UserManager();
+//        UserManager.getInstance();
+//
+//        View headerView = navigationView.getHeaderView(0);
+//        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+//        navUsername.setText("UserName");
+//        //navUsername.setText(UserManager.getUserName());
+//
+//        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+//        //navUserId.setText(UserManager.getUserId());
+//        navUserId.setText("User ID");
+||||||| merged common ancestors
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //TODO [need to figure out how to get username and user id]
+        UserManager mine = new UserManager();
+        UserManager.getInstance();
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+        navUsername.setText("UserName");
+        //navUsername.setText(UserManager.getUserName());
+
+        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+        //navUserId.setText(UserManager.getUserId());
+        navUserId.setText("User ID");
+=======
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -123,12 +156,13 @@ public class MainActivity extends AppCompatActivity
             navPoints.setText("Points: 0");
         }
         else{
-            //navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
+           // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
             //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
+>>>>>>> c20c4b71baee2a47c3ca16c6cd43ad9b0afe6c90
     }
 
     public void navigate(View view) {
