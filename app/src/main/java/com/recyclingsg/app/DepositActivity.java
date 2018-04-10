@@ -148,6 +148,10 @@ public class DepositActivity extends AppCompatActivity {
         Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
         Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
 
+        coordinates[0]=spinner.getLeft();
+        coordinates[1]=spinner.getTop();
+
+
         Spinner cashForTrashSpinner = new Spinner(this);
         cashForTrashSpinner.setX(coordinates[0]);
         cashForTrashSpinner.setY((coordinates[1]/2)+300);
