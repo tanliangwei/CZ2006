@@ -26,6 +26,7 @@ public class DepositManager {
         }
         return instance;
     }
+
     //constructor for database manger
     public DepositManager(){}
 
@@ -60,3 +61,5 @@ public class DepositManager {
     }
 
 }
+
+//calculateRevenue
