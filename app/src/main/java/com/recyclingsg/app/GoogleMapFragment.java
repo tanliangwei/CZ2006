@@ -2,6 +2,7 @@ package com.recyclingsg.app;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -208,9 +209,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
-                    .title(c_point.getCollectionPointName())
-                    .snippet(c_point.getDescription());
-            mMap.addMarker(options);
+                    .title(c_point.getCollectionPointName());
             options = assignIcon(c_point, options);
             Marker temp = mMap.addMarker(options);
             temp.setTag(c_point);
@@ -219,11 +218,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     private MarkerOptions assignIcon(TrashCollectionPoint tcp, MarkerOptions markerOptions){
 
-       if( tcp instanceof PrivateTrashCollectionPoint)
-           markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
+        if( tcp instanceof PrivateTrashCollectionPoint)
+            markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
         else if (tcp instanceof PublicTrashCollectionPoint)
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.green_loc_icon));
-       return markerOptions;
+        return markerOptions;
     }
 
 
@@ -335,6 +334,4 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }
