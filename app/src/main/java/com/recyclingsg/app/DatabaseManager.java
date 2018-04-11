@@ -530,7 +530,7 @@ public class DatabaseManager {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "http://www.sjtume.cn/cz2006/api/add-private-point";
+                String url = "http://www.sjtume.cn/cz2006/api/add-deposit-record";
                 HttpURLConnection conn;
                 try{
                     conn = (HttpURLConnection) new URL(url).openConnection();
@@ -577,6 +577,7 @@ public class DatabaseManager {
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
 
+                    Log.d(TAG, "adding deposit record with record "+ params.toString());
                     writer.write(params.toString());
                     writer.flush();
                     writer.close();
