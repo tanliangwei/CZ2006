@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class FacebookLogin extends AppCompatActivity {
+public class FacebookLogin extends Activity {
     private static final String TAG = "FacebookLogin";
     LoginButton loginButton;
     private static boolean notLoggedIn = true; // true means didn't login

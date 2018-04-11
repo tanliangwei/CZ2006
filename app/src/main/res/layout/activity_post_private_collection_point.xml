@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_post_private_collection_point" />
+    <include layout="@layout/content_post_private_collection_point2" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

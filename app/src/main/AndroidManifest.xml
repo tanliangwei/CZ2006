@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -46,7 +46,9 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,6 +73,9 @@
             android:name=".StatisticsActivity"
             android:label="@string/title_activity_statistics"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".DepositCompleteActivity"
+            android:label="DepositCompleteActivity"/>
     </application>
 
 </manifest>

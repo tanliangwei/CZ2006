@@ -19,8 +19,9 @@ import android.location.Geocoder;
  */
 
 public class TrashCollectionPointManager {
-    private String userSelectedTrashPointID;
-    private LatLng userSelectedTrashPointCoordinates;
+    private static String userSelectedTrashPointID;
+    private static  LatLng userSelectedTrashPointCoordinates;
+    private static TrashCollectionPoint userSelectedTrashPoint;
 
     //to be removed
 
@@ -40,11 +41,11 @@ public class TrashCollectionPointManager {
 
     public TrashCollectionPointManager(){}
 
-    public String getUserSelectedTrashPointID(){
+    public String getUserSelectedTrashCollectionPointID(){
         return userSelectedTrashPointID;
     }
 
-    public void setUserSelectedTrashPointID(String id){
+    public static void setUserSelectedTrashPointID(String id){
         userSelectedTrashPointID = id;
     }
 
@@ -56,17 +57,10 @@ public class TrashCollectionPointManager {
         Log.d(TAG, "createPrivateTrashCollectionPoint: length of trashtypes " + trashTypes.size());
         for(int i=0;i<trashTypes.size();i++){
             if(!trashTypes.get(i).equalsIgnoreCase("Cash For Trash")) {
-                if(trashTypes.get(i).equalsIgnoreCase("ewaste")){
-                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
-                    TrashInfo trashinfo = new TrashInfo("e-waste");
-                    trashInfoList.add(trashinfo);
-                }else if(trashTypes.get(i).equalsIgnoreCase("Second Hand Goods")){
-                    Log.d(TAG, "createPrivateTrashCollectionPoint: what i am looking for " + trashTypes.get(i));
-                    TrashInfo trashinfo = new TrashInfo("second-hand-goods");
-                    trashInfoList.add(trashinfo);
-                }
+                TrashInfo trashinfo = new TrashInfo(trashTypes.get(i));
+                trashInfoList.add(trashinfo);
             }else if(trashTypes.get(i).equalsIgnoreCase("Cash For Trash")){
-                TrashInfo trashInfo = new TrashInfo("cash-for-trash",trashNames,units,trashPrices);
+                TrashInfo trashInfo = new TrashInfo(trashTypes.get(i),trashNames,units,trashPrices);
                 trashInfoList.add(trashInfo);
             }
         }
@@ -85,11 +79,19 @@ public class TrashCollectionPointManager {
 
     }
 
-    public LatLng getUserSelectedTrashPointCoordinates() {
+    public static TrashCollectionPoint getUserSelectedTrashCollectionPoint(){
+        return userSelectedTrashPoint;
+    }
+
+    public static void setUserSelectedTrashCollectionPoint(TrashCollectionPoint tcp){
+        userSelectedTrashPoint = tcp;
+    }
+
+    public static LatLng getUserSelectedTrashPointCoordinates() {
         return userSelectedTrashPointCoordinates;
     }
 
-    public void setUserSelectedTrashPointCoordinates(LatLng userSelectedTrashPointCoordinates) {
-        this.userSelectedTrashPointCoordinates = userSelectedTrashPointCoordinates;
+    public static void setUserSelectedTrashPointCoordinates(LatLng ustcpc) {
+        userSelectedTrashPointCoordinates = ustcpc;
     }
 }

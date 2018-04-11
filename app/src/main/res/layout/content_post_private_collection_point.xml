@@ -4,112 +4,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.recyclingsg.app.PostPrivateCollectionPointActivity"
-    tools:showIn="@layout/activity_post_private_collection_point"
-    android:background="#fff">
+    tools:showIn="@layout/activity_post_private_collection_point">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parent_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/parent_name"
-        android:paddingLeft="20px">
+        android:paddingLeft="20px"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="          Collection Point Name">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="          Collection Point Name"></TextView>
+
         <EditText
-            android:hint="Name"
             android:id="@+id/name_fill_up_field"
-            android:layout_width="wrap_content"
+            android:layout_width="154dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            />
+            android:hint="Name"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parent_address_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
-        android:id="@+id/parent_address_bar"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_name"
-        android:paddingLeft="20px">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
+            android:id="@+id/txtTotalAmt"
             android:layout_width="wrap_content"
-            android:text="          Address"
-            android:id="@+id/txtTotalAmt" >
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="          Address"></TextView>
+
         <EditText
-            android:hint="Address"
             android:id="@+id/address_fill_up_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            />
+            android:hint="Address"
+            android:inputType="text" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_zip_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_address_bar"
-        android:id="@+id/parent_zip_bar">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="         ZIP code">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="         ZIP code"></TextView>
+
         <EditText
             android:id="@+id/zip_fill_up_field"
-            android:hint="Zip Code"
-            android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:hint="Zip Code"
+            android:inputType="number" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_contact_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_zip_bar"
-        android:id="@+id/parent_contact_bar">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="         Contact ">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="         Contact "></TextView>
+
         <EditText
             android:id="@+id/contact_details_fill_up_field"
-            android:hint="Contact Number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number">
-        </EditText>
+            android:hint="Contact Number"
+            android:inputType="number"></EditText>
     </LinearLayout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_type_of_trash_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/parent_contact_bar"
-        android:id="@+id/parent_type_of_trash_bar">
+        android:paddingLeft="20px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_contact_bar">
 
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             android:id="@+id/typeoftrash"
-            android:text="Type of Trash">
-        </TextView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type of Trash"></TextView>
 
         <Spinner
+            android:id="@+id/trash_type_to_post_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/typeoftrash"
-            android:id="@+id/trash_type_to_post_spinner">
+            android:layout_toRightOf="@id/typeoftrash">
 
         </Spinner>
 
@@ -119,39 +132,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/trash_type_to_post_spinner"
+            android:hint="name"
             android:inputType="text"
             android:paddingHorizontal="5dp"
-            android:hint="name"
 
             />
+
         <EditText
             android:id="@+id/trash_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/trash_name"
-            android:inputType="numberDecimal"
             android:digits="0123456789.,"
-            android:paddingHorizontal="5dp"
             android:hint="price"
-            />
+            android:inputType="numberDecimal"
+            android:paddingHorizontal="5dp" />
+
         <EditText
             android:id="@+id/trash_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/trash_price"
-            android:inputType="text"
-            android:paddingHorizontal="5dp"
             android:hint="unit"
-            />
+            android:inputType="text"
+            android:paddingHorizontal="5dp" />
+
         <Button
             android:id="@+id/add_trash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add another trash type"
-            android:paddingTop="10dp"
             android:layout_alignStart="@id/trash_type_to_post_spinner"
             android:layout_below="@id/trash_type_to_post_spinner"
-            />
+            android:paddingTop="10dp"
+            android:text="Add another trash type" />
 
         <ListView
             android:id="@+id/added_trash_list"
@@ -162,90 +175,98 @@
     </RelativeLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_open_time_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_type_of_trash_bar"
-        android:id="@+id/parent_open_time_field">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Opening Time">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="Opening Time"></TextView>
+
         <EditText
             android:id="@+id/opening_time_fill_up_field"
-            android:hint="Opening Time"
-            android:inputType="time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:hint="Opening Time"
+            android:inputType="time" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_close_time_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_open_time_field"
-        android:id="@+id/parent_close_time_field">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="  Closing Time">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="  Closing Time"></TextView>
+
         <EditText
             android:id="@+id/closing_time_fill_up_field"
-            android:hint="Closing Time"
-            android:inputType="time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:hint="Closing Time"
+            android:inputType="time" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_description_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal"
+        android:paddingLeft="20px"
         app:layout_constraintTop_toBottomOf="@id/parent_close_time_field"
-        android:id="@+id/parent_description_field">
+        tools:layout_editor_absoluteX="0dp">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="  Description">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="  Description"></TextView>
+
         <EditText
             android:id="@+id/description_fill_up_field"
-            android:hint="Description"
-            android:inputType="text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:hint="Description"
+            android:inputType="text" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingLeft="20px"
+        android:id="@+id/parent_camera_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/parent_description_field"
-        android:id="@+id/parent_camera_field">
+        android:paddingLeft="20px"
+        app:layout_constraintTop_toBottomOf="@id/parent_description_field">
+
         <TextView
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="    Take Photo">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:text="    Take Photo"></TextView>
     </LinearLayout>
+
     <Button
         android:id="@+id/postPrivateCollectionPointButton"
-        android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingBottom="10dp"
         android:layout_marginBottom="80px"
-        />
-
+        android:paddingBottom="10dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

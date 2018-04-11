@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
    // private Marker markerShowingInfoWindow;
+    private Marker markerShowingInfoWindow;
     private Context mContext;
     private View popUP;
     private Button testButton;
@@ -43,6 +44,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
 
     @Override
     public View getInfoWindow(Marker marker) {
+        TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
+        Log.d("MARKER CLICK","THE SELECTED POINT IS" + tcp.getCollectionPointName());
         return null;
     }
 
@@ -52,7 +57,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Getting view from the layout file info_window_layout
-        final View popUp = inflater.inflate(R.layout.layout_popup, null);
+        View popUp = inflater.inflate(R.layout.layout_popup, null);
         Log.d("TAG", "onClick: customInfoWindow Created! ");
 
         TextView popUpTitle = (TextView) popUp.findViewById(R.id.popup_title);
@@ -65,6 +70,15 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
             trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
             popUpContent.setText(marker.getSnippet());
             customInfoWindowButton.setText("Hold Down to Navigate");
+
+            //trashCollectionPointManager.setUserSelectedTrashPoint();
+            TrashCollectionPointManager.getInstance();
+            TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+            TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+
+            popUpContent.setText("Hello dudes");
+            customInfoWindowButton.setText("Hold Down to Navigate/n");
+            Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
             popUP = popUp;
             return popUp;
         }

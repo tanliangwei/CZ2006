@@ -1,6 +1,7 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity
 
     //vars
     private GoogleMapFragment mGoogleMapManager;
-    private TrashCollectionPointManager mCollectionPointManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
@@ -52,11 +52,9 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     public MainActivity() throws Exception {
     }
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +63,6 @@ public class MainActivity extends AppCompatActivity
         Configuration.startUp();
 
         setContentView(R.layout.activity_main);
-
-        mCollectionPointManager = new TrashCollectionPointManager();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -83,14 +79,30 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        //TODO [need to figure out how to get username and user id]
+//        UserManager mine = new UserManager();
+//        UserManager.getInstance();
+//
+//        View headerView = navigationView.getHeaderView(0);
+//        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
+//        navUsername.setText("UserName");
+//        //navUsername.setText(UserManager.getUserName());
+//
+//        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
+//        //navUserId.setText(UserManager.getUserId());
+//        navUserId.setText("User ID");
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,6 +140,7 @@ public class MainActivity extends AppCompatActivity
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
         }
+
     }
 
     public void navigate(View view) {
@@ -327,6 +340,7 @@ public class MainActivity extends AppCompatActivity
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setTextColor(Color.WHITE);
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
 
@@ -373,6 +387,7 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                 break;
+                //for jh
 
             case "Second Hand Goods":
                 filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
