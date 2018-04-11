@@ -541,9 +541,9 @@ public class DatabaseManager {
                     conn.setDoOutput(true);
 
                     StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
-                    params.append("&userId=");
+                    params.append("&user_id=");
                     params.append(URLEncoder.encode(depositRecord.getUserId().toString(),"UTF-8"));
-                    params.append("&userName=");
+                    params.append("&user_name=");
                     params.append(URLEncoder.encode(depositRecord.getNameOfUser().toString(),"UTF-8"));
                     params.append("&date=");
                     params.append(URLEncoder.encode(String.valueOf((depositRecord.getDate().getTime()*1000)),"UTF-8"));
