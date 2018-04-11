@@ -210,7 +210,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                     .position(c_point.getCoordinate())
                     .title(c_point.getCollectionPointName())
                     .snippet(c_point.getDescription());
-            mMap.addMarker(options);
+            // mMap.addMarker(options);
             options = assignIcon(c_point, options);
             Marker temp = mMap.addMarker(options);
             temp.setTag(c_point);
