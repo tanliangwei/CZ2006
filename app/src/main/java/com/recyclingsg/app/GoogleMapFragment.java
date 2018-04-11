@@ -32,7 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 
 
 /**
@@ -312,17 +312,22 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public void onInfoWindowClick(Marker marker) {
         TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        Date openTime= tcp.getOpenTime();
+        Date closeTime=tcp.getCloseTime();
         String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
         int zipcode = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getZipCode();
-        Toast.makeText(this.getContext(), "Info Window Clicked" + latlngLocation.substring(10,latlngLocation.length()-1)+zipcode, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(), "Info Window Clicked\n" +openTime+"\n"+closeTime+"\n"+tcp.getCollectionPointName() , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInfoWindowLongClick(Marker marker) {
         //Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
         latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
-        String collectionPointName = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName();
+        String collectionPointName = tcp.getCollectionPointName();
         Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
