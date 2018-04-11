@@ -577,7 +577,7 @@ public class DatabaseManager {
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
 
-                    Log.d(TAG, "adding deposit record with record "+ params.toString());
+                    Log.d(TAG, "adding deposit record with parameter "+ params.toString());
                     writer.write(params.toString());
                     writer.flush();
                     writer.close();
