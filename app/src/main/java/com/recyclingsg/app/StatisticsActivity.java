@@ -18,6 +18,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -40,6 +42,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
@@ -62,6 +65,7 @@ public class StatisticsActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private static final String TAG = "Statistics Activity";
 
     /**
      The BarChart is defined here
@@ -230,15 +234,15 @@ public class StatisticsActivity extends AppCompatActivity {
             switch (viewNumber){
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_statistics1, container, false);
-                    textView = (TextView) rootView.findViewById(R.id.section_label);
-                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    // textView = (TextView) rootView.findViewById(R.id.section_label);
+                    // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     pieChart = (PieChart) rootView.findViewById(R.id.PieChart);
                     loadNationalView();
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
-                    textView = (TextView) rootView.findViewById(R.id.section_label);
-                    textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                    // textView = (TextView) rootView.findViewById(R.id.section_label);
+                    // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     barChart = (BarChart) rootView.findViewById(R.id.BarChart);
                     loadTopUserView();
                     return rootView;
@@ -364,34 +368,36 @@ public class StatisticsActivity extends AppCompatActivity {
             barChart.getAxisLeft().setDrawGridLines(false);
 
             barChart.getLegend().setEnabled(false);
-            ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
 
-            for(int i=0;i<5;i++){
-                //TopUser t = topUsers.get(i);
-                //barEntries.add(new BarEntry(i, (float) t.getScore()));
-                barEntries.add(new BarEntry(i, i*10));
+            ArrayList<TopUser> topUsers = StatisticsManager.getTopUsers();
+            ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
+            final ArrayList<String> xVals = new ArrayList<>();
+
+            for(int i=0;i<topUsers.size();i++){
+                TopUser user = topUsers.get(i);
+
+                yVals.add(new BarEntry(i,(float)user.getScore()));
+                xVals.add(user.getUserName());
+                // barentries.add(new barentry(i, i*10));
             }
 
-            BarDataSet set1;
 
-            if (barChart.getData() != null &&
-                    barChart.getData().getDataSetCount() > 0) {
-                set1 = (BarDataSet)barChart.getData().getDataSetByIndex(0);
-                set1.setValues(barEntries);
-                barChart.getData().notifyDataChanged();
-                barChart.notifyDataSetChanged();
-            }else {
-                set1 = new BarDataSet(barEntries, "Scores");
-                set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                set1.setDrawValues(false);
 
-                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-                dataSets.add(set1);
+            BarDataSet dataSet = new BarDataSet(yVals, "Top User Scores");
+            ArrayList<IBarDataSet> bardataIB = new ArrayList<>();
+            bardataIB.add(dataSet);
+            BarData barData = new BarData(bardataIB);
+            xAxis.setLabelCount(xVals.size() - 1, false);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return xVals.get((int)value);
+                }
+            });
 
-                BarData data = new BarData(dataSets);
-                barChart.setData(data);
-                barChart.setFitBars(true);
-            }
+            barChart.setData(barData);
+            barChart.setFitBars(true);
         }
 
         /**

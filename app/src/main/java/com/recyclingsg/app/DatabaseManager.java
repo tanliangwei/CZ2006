@@ -706,7 +706,8 @@ public class DatabaseManager {
                     topUserArrayList.add(topUser);
                 }
                 StatisticsManager.setTopUsers(topUserArrayList);
-                Log.d(TAG, "successfully pulled top users");
+                Log.d(TAG, "successfully pulled "+topUserArrayList.size()+" top users");
+                StatisticsManager.setLastUpdate(new Date());
             }
         });
         thread.start();
