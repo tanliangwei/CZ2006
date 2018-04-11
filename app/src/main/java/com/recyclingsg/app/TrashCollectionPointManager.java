@@ -1,17 +1,13 @@
 package com.recyclingsg.app;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static android.content.ContentValues.TAG;
-import static com.recyclingsg.app.UserManager.*;
-import android.content.Context;
-
-import android.location.Geocoder;
 
 
 /**

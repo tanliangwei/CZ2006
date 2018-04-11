@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.Marker;
  */
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
-    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
+    //private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
    // private Marker markerShowingInfoWindow;
     private Marker markerShowingInfoWindow;
     private Context mContext;
@@ -66,8 +66,8 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
             popUpTitle.setText(marker.getTitle());
-            trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
-            trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+            //trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+            //trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
             popUpContent.setText(marker.getSnippet());
             customInfoWindowButton.setText("Hold Down to Navigate");
 
