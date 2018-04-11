@@ -203,8 +203,9 @@ public class DatabaseManager {
                         for (int j = 0; j < jArray.size(); j++) {
                             TrashInfo newTrashType = new TrashInfo(jArray.get(j).getAsString());
                             //Log.e("REGARDING TRASHINFO", "TRASH INFO NAME "+jArray.get(j).getAsString()+" "+ newTrashType.getTrashType());
-                            if(newTrashType.getTrashType() == "cash-for-trash"){
+                            if(newTrashType.getTrashType().equalsIgnoreCase("cash-for-trash")){
                                 JsonArray trashPrices = ith_object.get("trash_prices").getAsJsonArray();
+                                // Log.d(TAG, "got cash-for-trash public point with trashpice size: "+trashPrices.size());
                                 for(int t=0; t<trashPrices.size(); t++){
                                     JsonObject priceInfo = trashPrices.get(t).getAsJsonObject();
                                     String trashName = priceInfo.get("trash_name").getAsString();
