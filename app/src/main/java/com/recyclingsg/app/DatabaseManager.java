@@ -553,14 +553,16 @@ public class DatabaseManager {
                     params.append("&score=");
                     params.append(URLEncoder.encode(String.valueOf(depositRecord.getScore()),"UTF-8"));
 
-                    String trashType = depositRecord.getTrashInfo().getTrashName();
+                    TrashInfo trashInfo = depositRecord.getTrashInfo();
+                    String trashType = trashInfo.getTrashType();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashType,"UTF-8"));
 
-                    String trashName = String.valueOf(" ");
-                    if(trashName != null) {
+                    //String trashName = String.valueOf(" ");
+
+                    if(trashType.equalsIgnoreCase("cash-for-trash") && trashInfo.getFirstTrashName() != null) {
                         params.append("&trash_name=");
-                        params.append(URLEncoder.encode(trashName,"UTF-8"));
+                        params.append(URLEncoder.encode(trashInfo.getFirstTrashName(),"UTF-8"));
                     }
 
                     String unit = String.valueOf(depositRecord.getUnits());
