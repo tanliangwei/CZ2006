@@ -3,12 +3,10 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -19,7 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
-    private Marker markerShowingInfoWindow;
+   // private Marker markerShowingInfoWindow;
     private Context mContext;
     private View popUP;
     private Button testButton;
@@ -65,7 +63,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
             popUpTitle.setText(marker.getTitle());
             trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
             trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
-            popUpContent.setText("Hello dudes");
+            popUpContent.setText(marker.getSnippet());
             customInfoWindowButton.setText("Hold Down to Navigate");
             popUP = popUp;
             return popUp;

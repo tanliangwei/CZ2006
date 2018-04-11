@@ -211,7 +211,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
-                    .title(c_point.getCollectionPointName());
+                    .title(c_point.getCollectionPointName())
+                    .snippet(c_point.getDescription());
             mMap.addMarker(options);
         }
 
