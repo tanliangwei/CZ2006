@@ -3,6 +3,7 @@ package com.recyclingsg.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import android.widget.Toast;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kelvin on 21/3/18.
@@ -31,10 +35,11 @@ public class DepositActivity extends Activity {
     Spinner trashTypeSpinner;
     ArrayAdapter<CharSequence> adapter;
     TextView trashCollectionPointText;
-    EditText dateEditText;
+    TextView dateEditText;
     TextView unitText;
     EditText unitEditText;
     Spinner spinner;
+    Spinner cashForTrashSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +47,13 @@ public class DepositActivity extends Activity {
         setContentView(R.layout.deposit_activity);
 
         initWasteTypeSpinner();
+        initialiseDateButtons();
         initTexts();
     }
 
     public void initTexts(){
         trashCollectionPointText = (TextView) findViewById(R.id.trashCollectionPointText);
-        dateEditText = (EditText) findViewById(R.id.dateEditText);
+        dateEditText = (TextView) findViewById(R.id.dateEditText);
         unitText = (TextView) findViewById(R.id.unitText);
         unitEditText = (EditText) findViewById(R.id.unitEditText);
         unitText.setVisibility(View.INVISIBLE);
@@ -141,6 +147,30 @@ public class DepositActivity extends Activity {
 
     };
 
+    public void initialiseDateButtons(){
+        dateEditText = (TextView) findViewById(R.id.dateEditText);
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("generate ", "DATE DIALOG");
+                Calendar mCurrentDate;
+                mCurrentDate = Calendar.getInstance();
+                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+                int month = mCurrentDate.get(Calendar.MONTH);
+                int year= mCurrentDate.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DepositActivity.this, new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                        monthOfYear = monthOfYear+1;
+                        dateEditText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+
+                    }
+                }, year,month,day);
+                datePickerDialog.show();
+            }
+        });
+    }
+
     public void generateSpinnerForCashForTrash(){
         Log.d("ge", "coooooool");
         int[] coordinates = new int[2];
@@ -158,21 +188,34 @@ public class DepositActivity extends Activity {
 //        coordinates[1]=spinner.getTop();
 
 
-        Spinner cashForTrashSpinner = new Spinner(this);
+        cashForTrashSpinner = new Spinner(this);
         cashForTrashSpinner.setX(coordinates[0]);
         cashForTrashSpinner.setY((coordinates[1]/2)+300);
         //cashForTrashSpinner.setY((coordinates[1]/2)+500);
-
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        int index = 0;
+        for(int i =0;i<tcp.getTrash().size();i++){
+            if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")){
+                index = i;
+                break;
+            }
+        }
         ArrayList<String> spinnerArray = new ArrayList<String>();
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item,
-                        spinnerArray);
-        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if (tcp.getTrash().get(index).getPriceInfoList().size()>0) {
+            spinnerArrayAdapter.add(tcp.getTrash().get(index).getPriceInfoList().get(0).getTrashName());
+            for (PriceInfo x : tcp.getTrash().get(index).getPriceInfoList()) {
+                String Temp = x.getTrashName();
+                Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + Temp);
+                spinnerArrayAdapter.add(Temp);
+            }
+        }
+//        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        trashTypeSpinner.setAdapter(adapter);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
-                .simple_spinner_dropdown_item);
-        cashForTrashSpinner.setAdapter(adapter);
+        cashForTrashSpinner.setAdapter(spinnerArrayAdapter);
         cl.addView(cashForTrashSpinner,params);
         cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -209,14 +252,41 @@ public class DepositActivity extends Activity {
             //String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices)
             //public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint)
             //creating the new trash info
-            String trashType = spinner.getSelectedItem().toString();
-            //cash for trash names
-            ArrayList<String> cashForTrashNames=new ArrayList<String>();
+            TrashCollectionPointManager.getInstance();
+            TrashCollectionPoint currentTCP = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
             ArrayList<String> CashForTrashUnits=new ArrayList<String>();
-            ArrayList<Double> cashForTrashPrices=new ArrayList<Double>();
-            TrashInfo depositTrash = new TrashInfo(trashType,cashForTrashNames,CashForTrashUnits,cashForTrashPrices);
+            ArrayList<String> CashForTrashNames=new ArrayList<String>();
+            ArrayList<Double> CashForTrashPrices=new ArrayList<Double>();
+            //get user selected trash
+            String trashType = spinner.getSelectedItem().toString();
+            //cash for trash nameseee
+            if(cashForTrashSpinner!=null){
+                String trashName = cashForTrashSpinner.getSelectedItem().toString();
+                TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                int index = 0;
+                for(int i =0;i<tcp.getTrash().size();i++){
+                    if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")){
+                        index = i;
+                        break;
+                    }
+                }
+                // getting the appropriate trash info
+                TrashInfo temp = tcp.getTrash().get(index);
+                for(int i =0;i<temp.getPriceInfoList().size();i++){
+                    if (temp.getPriceInfoList().get(i).getTrashName().equalsIgnoreCase(trashName)){
+                        index = i;
+                        break;
+                    }
+                }
+                CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
+                CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
+                CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
+            }
+
+            TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);
+            float units = Float.valueOf(unitEditText.getText().toString());
             DepositManager.getInstance();
-            //DepositManager.createDepositRecord();
+            DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
 
         }
     }

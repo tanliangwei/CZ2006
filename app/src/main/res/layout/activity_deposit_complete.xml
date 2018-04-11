@@ -1,9 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.recyclingsg.app.DepositCompleteActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/deposit_complete_gradient"
+tools:context="com.recyclingsg.app.DepositCompleteActivity">
+
+
+<ImageButton
+    android:id="@+id/depositComplete_exit"
+    android:layout_width="160dp"
+    android:layout_height="48dp"
+    android:layout_marginBottom="14dp"
+    android:layout_marginEnd="14dp"
+    android:adjustViewBounds="false"
+    android:background="@mipmap/ic_deposit_exit"
+    android:cropToPadding="false"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+<ImageButton
+    android:id="@+id/depositComplete_continue"
+    android:layout_width="160dp"
+    android:layout_height="48dp"
+    android:layout_marginBottom="14dp"
+    android:layout_marginStart="14dp"
+    android:background="@mipmap/ic_deposit_confirm"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+<ImageView
+    android:id="@+id/depositComplete_sologan"
+    android:layout_width="300dp"
+    android:layout_height="110dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="48dp"
+    android:background="@mipmap/ic_deposit_slogan"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/ic_signCheck" />
+
+<ImageView
+    android:id="@+id/ic_coins"
+    android:layout_width="80dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:background="@mipmap/ic_deposit_coins"
+    app:layout_constraintStart_toEndOf="@+id/txt_points"
+    app:layout_constraintTop_toBottomOf="@+id/depositComplete_sologan" />
+
+<TextView
+    android:id="@+id/txt_points"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="124dp"
+    android:layout_marginTop="12dp"
+    android:text="Points: "
+    android:textColor="@android:color/holo_orange_light"
+    android:textSize="24sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/depositComplete_sologan" />
+
+<android.support.constraint.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_begin="20dp" />
+
+<TextView
+    android:id="@+id/txt_depostiConfirm"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="16dp"
+    android:text="Deposit Confirmed!"
+    android:textColor="@android:color/background_light"
+    android:textSize="36sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<ImageView
+    android:id="@+id/ic_signCheck"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="88dp"
+    android:src="@mipmap/ic_signcheck"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/txt_depostiConfirm" />
+
 
 </android.support.constraint.ConstraintLayout>
