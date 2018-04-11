@@ -547,7 +547,7 @@ public class DatabaseManager {
                     params.append(URLEncoder.encode(depositRecord.getNameOfUser().toString(),"UTF-8"));
                     params.append("&date=");
                     params.append(URLEncoder.encode(String.valueOf((depositRecord.getDate().getTime()*1000)),"UTF-8"));
-                    params.append("&point=");
+                    params.append("&point_id=");
                     params.append(URLEncoder.encode(String.valueOf(depositRecord.getTrashCollectionPointID()),"UTF-8"));
                     params.append("&score=");
                     params.append(URLEncoder.encode(String.valueOf(depositRecord.getScore()),"UTF-8"));
