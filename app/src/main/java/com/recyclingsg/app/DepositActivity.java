@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by kelvin on 21/3/18.
  */
 
-public class DepositActivity extends AppCompatActivity {
+public class DepositActivity extends Activity {
     private static final String TAG = "DepositActivity";
     Spinner trashTypeSpinner;
     ArrayAdapter<CharSequence> adapter;
@@ -68,14 +68,19 @@ public class DepositActivity extends AppCompatActivity {
 
         // Initialise values of Spinner
         if (tcp.getTrash().size()>0){
+            mSpinnerAdapter.add(tcp.getTrash().get(0).getTrashType());
             for (TrashInfo x : tcp.getTrash()){
-                mSpinnerAdapter.add(x.getTrashType());
+                String Temp = x.getTrashType();
+                Log.d("INITIALISE SPINNER","THROUGH ARRAY " + Temp);
+                mSpinnerAdapter.add(Temp);
             }
         } else{
+            Log.d("INITIALISE SPINNER","THROUGH DEFAULT");
                 for (String x : TrashInfo.typeOfTrash)
                     mSpinnerAdapter.add(x);
             }
         // Apply the adapter to the spinner
+        //Log.d("SIZE OF ADAPTER","IS "+mSpinnerAdapter.getCount());
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setSelection(mSpinnerAdapter.getCount());
         spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
@@ -121,15 +126,11 @@ public class DepositActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
 
-                if(id ==1 || id==0){
-                    unitText.setVisibility(View.VISIBLE);
-                    unitEditText.setVisibility(View.VISIBLE);
-                }else if(id==2){
-                    //call function to generate second spinner
+                if(trashTypeSelected.toString().equalsIgnoreCase("cash-for-trash") || trashTypeSelected.toString().equalsIgnoreCase("cash for trash") ){
                     generateSpinnerForCashForTrash();
                 }else{
-                    unitText.setVisibility(View.INVISIBLE);
-                    unitEditText.setVisibility(View.INVISIBLE);
+                    unitText.setVisibility(View.VISIBLE);
+                    unitEditText.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -141,21 +142,20 @@ public class DepositActivity extends AppCompatActivity {
     };
 
     public void generateSpinnerForCashForTrash(){
-        Log.d("generate spinner cash for trash", "coooooool");
+        Log.d("ge", "coooooool");
         int[] coordinates = new int[2];
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
         ConstraintLayout.LayoutParams params;
         params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
 
         spinner.getLocationInWindow(coordinates);
+        Log.d("generate ", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
+        Log.d("generate", "coooooool"+params.leftMargin+"    "+params.topMargin);
+        params.leftMargin = coordinates[0];
+        params.topMargin = 60;
 
-//        params.leftMargin = coordinates[0];
-//        params.topMargin = coordinates[1]+100;
-        Log.d("generate spinner cash for trash", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
-        Log.d("generate spinner cash for trash", "coooooool"+params.leftMargin+"    "+params.topMargin);
-
-        coordinates[0]=spinner.getLeft();
-        coordinates[1]=spinner.getTop();
+//        coordinates[0]=spinner.getLeft();
+//        coordinates[1]=spinner.getTop();
 
 
         Spinner cashForTrashSpinner = new Spinner(this);
@@ -173,8 +173,6 @@ public class DepositActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout
                 .simple_spinner_dropdown_item);
         cashForTrashSpinner.setAdapter(adapter);
-        unitText.setVisibility(View.VISIBLE);
-        unitEditText.setVisibility(View.VISIBLE);
         cl.addView(cashForTrashSpinner,params);
         cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -187,6 +185,22 @@ public class DepositActivity extends AppCompatActivity {
 
             }
         });
+
+//         set the unit text and unit edit text
+        cashForTrashSpinner.getLocationInWindow(coordinates);
+//        coordinates[0]=cashForTrashSpinner.getLeft();
+//        coordinates[1]=cashForTrashSpinner.getTop();
+        unitText.setX(coordinates[0]);
+        unitText.setY((coordinates[1]/2)+500);
+
+        unitText.getLocationInWindow(coordinates);
+//        coordinates[0]=unitText.getLeft();
+//        coordinates[1]=unitText.getTop();
+        unitEditText.setX(coordinates[0]);
+        unitEditText.setY((coordinates[1]/2)+500);
+
+        unitText.setVisibility(View.VISIBLE);
+        unitEditText.setVisibility(View.VISIBLE);
     }
 
     public void onClick_deposit_enter(View v){

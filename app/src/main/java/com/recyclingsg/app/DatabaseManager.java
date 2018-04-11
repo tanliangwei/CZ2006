@@ -202,6 +202,7 @@ public class DatabaseManager {
                     if (jArray != null) {
                         for (int j = 0; j < jArray.size(); j++) {
                             TrashInfo newTrashType = new TrashInfo(jArray.get(j).getAsString());
+                            //Log.e("REGARDING TRASHINFO", "TRASH INFO NAME "+jArray.get(j).getAsString()+" "+ newTrashType.getTrashType());
                             if(newTrashType.getTrashType() == "cash-for-trash"){
                                 JsonArray trashPrices = ith_object.get("trash_prices").getAsJsonArray();
                                 for(int t=0; t<trashPrices.size(); t++){
