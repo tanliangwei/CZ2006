@@ -3,7 +3,6 @@ package com.recyclingsg.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -76,6 +75,7 @@ public class FacebookLogin extends Activity {
                 updateLoginStatus();
                 final String userId = loginResult.getAccessToken().getUserId();
                 UserManager.setUserID(userId);
+                StatisticsManager.refreshData();
 /*
                 Bundle params = new Bundle();
                 params.putString("fields","picture.type(large)");
