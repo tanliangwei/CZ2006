@@ -203,8 +203,9 @@ public class DatabaseManager {
                         for (int j = 0; j < jArray.size(); j++) {
                             TrashInfo newTrashType = new TrashInfo(jArray.get(j).getAsString());
                             //Log.e("REGARDING TRASHINFO", "TRASH INFO NAME "+jArray.get(j).getAsString()+" "+ newTrashType.getTrashType());
-                            if(newTrashType.getTrashType() == "cash-for-trash"){
+                            if(newTrashType.getTrashType().equalsIgnoreCase("cash-for-trash")){
                                 JsonArray trashPrices = ith_object.get("trash_prices").getAsJsonArray();
+                                // Log.d(TAG, "got cash-for-trash public point with trashpice size: "+trashPrices.size());
                                 for(int t=0; t<trashPrices.size(); t++){
                                     JsonObject priceInfo = trashPrices.get(t).getAsJsonObject();
                                     String trashName = priceInfo.get("trash_name").getAsString();
@@ -541,9 +542,9 @@ public class DatabaseManager {
                     conn.setDoOutput(true);
 
                     StringBuilder params = new StringBuilder("token=9ca2218ae5c6f5166850cc749085fa6d");
-                    params.append("&userId=");
+                    params.append("&user_id=");
                     params.append(URLEncoder.encode(depositRecord.getUserId().toString(),"UTF-8"));
-                    params.append("&userName=");
+                    params.append("&user_name=");
                     params.append(URLEncoder.encode(depositRecord.getNameOfUser().toString(),"UTF-8"));
                     params.append("&date=");
                     params.append(URLEncoder.encode(String.valueOf((depositRecord.getDate().getTime()*1000)),"UTF-8"));
@@ -552,14 +553,16 @@ public class DatabaseManager {
                     params.append("&score=");
                     params.append(URLEncoder.encode(String.valueOf(depositRecord.getScore()),"UTF-8"));
 
-                    String trashType = depositRecord.getTrashInfo().getTrashName();
+                    TrashInfo trashInfo = depositRecord.getTrashInfo();
+                    String trashType = trashInfo.getTrashType();
                     params.append("&trash_type=");
                     params.append(URLEncoder.encode(trashType,"UTF-8"));
 
-                    String trashName = String.valueOf(" ");
-                    if(trashName != null) {
+                    //String trashName = String.valueOf(" ");
+
+                    if(trashType.equalsIgnoreCase("cash-for-trash") && trashInfo.getFirstTrashName() != null) {
                         params.append("&trash_name=");
-                        params.append(URLEncoder.encode(trashName,"UTF-8"));
+                        params.append(URLEncoder.encode(trashInfo.getFirstTrashName(),"UTF-8"));
                     }
 
                     String unit = String.valueOf(depositRecord.getUnits());
@@ -577,7 +580,7 @@ public class DatabaseManager {
                     OutputStream os = conn.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
 
-                    Log.d(TAG, "adding deposit record with record "+ params.toString());
+                    Log.d(TAG, "adding deposit record with parameter "+ params.toString());
                     writer.write(params.toString());
                     writer.flush();
                     writer.close();

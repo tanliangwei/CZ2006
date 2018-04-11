@@ -83,6 +83,15 @@ public class TrashInfo {
     PriceInfo getTrashPrice(String trashName){
         return trashPrices.get(trashName);
     }
+
+    String getFirstTrashName(){
+        for (String trashName : trashPrices.keySet()){
+            // only return the first trash name
+            return trashName;
+        }
+        return null;
+    }
+
     ArrayList<PriceInfo> getPriceInfoList(){
         ArrayList<PriceInfo> result = new ArrayList<>();
         for (PriceInfo priceInfo : trashPrices.values()){
