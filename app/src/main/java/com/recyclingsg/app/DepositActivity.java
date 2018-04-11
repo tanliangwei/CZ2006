@@ -180,7 +180,6 @@ public class DepositActivity extends Activity {
 
         spinner.getLocationInWindow(coordinates);
         Log.d("generate ", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
-        Log.d("generate", "coooooool"+params.leftMargin+"    "+params.topMargin);
         params.leftMargin = coordinates[0];
         params.topMargin = 60;
 
@@ -201,6 +200,7 @@ public class DepositActivity extends Activity {
                 break;
             }
         }
+        Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + tcp.getTrash().get(index).getTrashType() + " "+ tcp.getTrash().get(index).getPriceInfoList().size());
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -215,19 +215,19 @@ public class DepositActivity extends Activity {
 //        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        trashTypeSpinner.setAdapter(adapter);
-        cashForTrashSpinner.setAdapter(spinnerArrayAdapter);
-        cl.addView(cashForTrashSpinner,params);
-        cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        cashForTrashSpinner.setAdapter(spinnerArrayAdapter);
+//        cl.addView(cashForTrashSpinner,params);
+//        cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
 //         set the unit text and unit edit text
         cashForTrashSpinner.getLocationInWindow(coordinates);
@@ -287,6 +287,9 @@ public class DepositActivity extends Activity {
             float units = Float.valueOf(unitEditText.getText().toString());
             DepositManager.getInstance();
             DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
+
+            Intent intent = new Intent(DepositActivity.this, MainActivity.class);
+            startActivity(intent);
 
         }
     }
