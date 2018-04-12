@@ -42,12 +42,21 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         mContext = context;
     }
 
+
+
+
+
+
+
     @Override
     public View getInfoWindow(Marker marker) {
         TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
         TrashCollectionPointManager.getInstance();
         TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
         Log.d("MARKER CLICK","THE SELECTED POINT IS" + tcp.getCollectionPointName());
+
+
+
         return null;
     }
 
@@ -74,7 +83,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
 
             popUpContent.setText("Hello dudes");
             customInfoWindowButton.setText("Hold Down to Navigate/n");
-            Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
+            Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().length()-1));
             popUP = popUp;
             return popUp;
         }

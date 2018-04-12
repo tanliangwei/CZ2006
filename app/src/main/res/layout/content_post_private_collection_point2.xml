@@ -42,7 +42,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 >
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/name_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -55,7 +55,7 @@
                     android:textStyle="normal" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/name_fill_up_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -66,7 +66,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
-                    android:text="Insert Text Here"
+                    android:hint="Insert Text Here"
                     android:textColor="#616161"
                     android:textSize="22dp" />
             </android.support.v7.widget.CardView>
@@ -87,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 >
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/contact_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -97,7 +97,7 @@
                     android:textSize="22dp"
                     android:textStyle="normal" />
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/contact_details_fill_up_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -108,7 +108,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
-                    android:text="Insert Text Here"
+                    android:hint="Insert Text Here"
                     android:textColor="#616161"
                     android:textSize="22dp" />
             </android.support.v7.widget.CardView>
@@ -130,7 +130,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 >
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/zip_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -140,7 +140,7 @@
                     android:textSize="22dp"
                     android:textStyle="normal" />
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/zip_fill_up_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -151,7 +151,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
-                    android:text="Insert Text Here"
+                    android:hint="Insert Text Here"
                     android:textColor="#616161"
                     android:textSize="22dp" />
 
@@ -173,7 +173,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/address_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -183,7 +183,7 @@
                     android:textSize="22dp"
                     android:textStyle="normal" />
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/address_fill_up_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -194,7 +194,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
-                    android:text="Insert Text Here"
+                    android:hint="Insert Text Here"
                     android:textColor="#616161"
                     android:textSize="22dp" />
 
@@ -227,7 +227,7 @@
                     android:textStyle="normal" />
 
                 <Spinner
-                    android:id="@+id/trashtypespinner"
+                    android:id="@+id/trash_type_to_post_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -241,10 +241,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_alignEnd="@+id/cardView6"
+                android:layout_marginTop="10dp"
                 android:layout_alignRight="@+id/cardView6"
                 android:layout_below="@+id/cardView6"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
                 android:elevation="6dp"
                 android:translationZ="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -294,6 +294,25 @@
                     app:srcCompat="@drawable/ic_add_picture" />
 
             </android.support.v7.widget.CardView>
+
+
+            <Button
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/postPrivateCollectionPointButton"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="16dp"
+                    android:textSize="20dp"
+                    android:layout_below="@id/cardView7"
+                    android:elevation="6dp"
+                    android:translationZ="4dp"
+                    android:backgroundTint="#4DBC4D"
+                    android:text="Confirm"
+                    android:textColor="#ffffff"
+
+                    />
 
         </RelativeLayout>
 

@@ -333,14 +333,12 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayAdapter<String> createSpinnerAdapter() {
         ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
-
+            
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setTextColor(Color.WHITE);
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
 
@@ -387,7 +385,6 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                 break;
-                //for jh
 
             case "Second Hand Goods":
                 filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());

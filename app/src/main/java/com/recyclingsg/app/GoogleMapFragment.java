@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
@@ -163,6 +164,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this.getContext()));
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnInfoWindowLongClickListener(this);
+
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
@@ -201,6 +203,10 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     public void moveCameraToUserSelectedLocation (){
         moveCamera(userSelectedLocation,DEFAULT_ZOOM);
+    }
+
+    public void clearMapOfMarkers(){
+        mMap.clear();
     }
 
     public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
@@ -312,6 +318,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     public void onInfoWindowClick(Marker marker) {
         TrashCollectionPointManager.getInstance();
         Toast.makeText(this.getContext(), "Info Window Clicked" + TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
+
+
     }
 
     @Override
