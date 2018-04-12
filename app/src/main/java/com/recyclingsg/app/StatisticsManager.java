@@ -14,6 +14,7 @@ public class StatisticsManager {
     private static ArrayList<TopUser> topUsers = null;
     private static NationalStat nationalStat = null;
     private static double userScore = -1;
+    public static Date lastUpdate = null;
 
     /**
      * refresh the cached data,
@@ -65,6 +66,9 @@ public class StatisticsManager {
         if(userScore == -1){
             DatabaseManager.pullDepositStat();
         }
+        if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
+            DatabaseManager.pullDepositStat();
+        }
         return userScore;
     }
 
@@ -77,6 +81,9 @@ public class StatisticsManager {
         if(topUsers == null){
             DatabaseManager.pullDepositStat();
         }
+        if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
+            DatabaseManager.pullDepositStat();
+        }
         return topUsers;
     }
 
@@ -87,6 +94,9 @@ public class StatisticsManager {
      */
     public static NationalStat getNationalStat() {
         if(nationalStat == null){
+            DatabaseManager.pullDepositStat();
+        }
+        if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
             DatabaseManager.pullDepositStat();
         }
         return nationalStat;
@@ -102,6 +112,10 @@ public class StatisticsManager {
 
     public static void setUserScore(double userScore) {
         StatisticsManager.userScore = userScore;
+    }
+
+    public static void setLastUpdate(Date lastUpdate) {
+        StatisticsManager.lastUpdate = lastUpdate;
     }
 }
 

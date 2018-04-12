@@ -35,7 +35,7 @@ public class DepositActivity extends Activity {
     Spinner trashTypeSpinner;
     ArrayAdapter<CharSequence> adapter;
     TextView trashCollectionPointText;
-    TextView dateEditText;
+    TextView dateText;
     TextView unitText;
     EditText unitEditText;
     Spinner spinner;
@@ -44,25 +44,20 @@ public class DepositActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deposit_activity);
+        setContentView(R.layout.deposit_activity_2);
 
         initWasteTypeSpinner();
-        initialiseDateButtons();
         initTexts();
     }
 
     public void initTexts(){
-        trashCollectionPointText = (TextView) findViewById(R.id.trashCollectionPointText);
-        dateEditText = (TextView) findViewById(R.id.dateEditText);
-        unitText = (TextView) findViewById(R.id.unitText);
+        trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
+        dateText = (TextView) findViewById(R.id.textViewDate2);
+        unitText = (TextView) findViewById(R.id.textViewUnit2);
         unitEditText = (EditText) findViewById(R.id.unitEditText);
-        unitText.setVisibility(View.INVISIBLE);
-        unitEditText.setVisibility(View.INVISIBLE);
     }
 
     public void initWasteTypeSpinner(){
-        Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
-
         TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
 
@@ -90,6 +85,7 @@ public class DepositActivity extends Activity {
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setSelection(mSpinnerAdapter.getCount());
         spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
+        initialiseDateButtons();
 
     }
 
@@ -148,8 +144,8 @@ public class DepositActivity extends Activity {
     };
 
     public void initialiseDateButtons(){
-        dateEditText = (TextView) findViewById(R.id.dateEditText);
-        dateEditText.setOnClickListener(new View.OnClickListener() {
+        dateText = (TextView) findViewById(R.id.dateEditText);
+        dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("generate ", "DATE DIALOG");
@@ -162,7 +158,7 @@ public class DepositActivity extends Activity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
                         monthOfYear = monthOfYear+1;
-                        dateEditText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+                        dateText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
 
                     }
                 }, year,month,day);
@@ -180,7 +176,6 @@ public class DepositActivity extends Activity {
 
         spinner.getLocationInWindow(coordinates);
         Log.d("generate ", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
-        Log.d("generate", "coooooool"+params.leftMargin+"    "+params.topMargin);
         params.leftMargin = coordinates[0];
         params.topMargin = 60;
 
@@ -201,6 +196,7 @@ public class DepositActivity extends Activity {
                 break;
             }
         }
+        Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + tcp.getTrash().get(index).getTrashType() + " "+ tcp.getTrash().get(index).getPriceInfoList().size());
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -212,9 +208,8 @@ public class DepositActivity extends Activity {
                 spinnerArrayAdapter.add(Temp);
             }
         }
-//        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        trashTypeSpinner.setAdapter(adapter);
+        //adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cashForTrashSpinner.setAdapter(spinnerArrayAdapter);
         cl.addView(cashForTrashSpinner,params);
         cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -287,6 +282,9 @@ public class DepositActivity extends Activity {
             float units = Float.valueOf(unitEditText.getText().toString());
             DepositManager.getInstance();
             DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
+
+            Intent intent = new Intent(DepositActivity.this, MainActivity.class);
+            startActivity(intent);
 
         }
     }
