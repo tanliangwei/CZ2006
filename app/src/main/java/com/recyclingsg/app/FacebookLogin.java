@@ -127,9 +127,6 @@ public class FacebookLogin extends Activity {
                 //go back to main if successful logged in
                     Intent backToMain=new Intent(FacebookLogin.this, MainActivity.class);
                     startActivity(backToMain);
-
-
-
             }
 
             @Override
