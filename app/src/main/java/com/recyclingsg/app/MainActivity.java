@@ -163,10 +163,12 @@ public class MainActivity extends AppCompatActivity
     //The function for deposit category activity to start running
     public  void loadDepositCategoryActivity(View view){
         if(FacebookLogin.getLoginStatus()) {
-            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-            String message = "Please login in to Facebook first.";
-            intent.putExtra("message", message);
+            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
             startActivity(intent);
+//            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//            String message = "Please login in to Facebook first.";
+//            intent.putExtra("message", message);
+//            startActivity(intent);
         }
         else {
             Intent intent = new Intent(MainActivity.this, DepositActivity.class);
