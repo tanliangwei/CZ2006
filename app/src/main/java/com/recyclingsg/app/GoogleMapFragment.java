@@ -1,8 +1,8 @@
 package com.recyclingsg.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,7 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 
 
 /**
@@ -215,7 +214,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
                     .position(c_point.getCoordinate())
-                    .title(c_point.getCollectionPointName());
+                    .title(c_point.getCollectionPointName())
+                    .snippet(c_point.getDescription());
             options = assignIcon(c_point, options);
             Marker temp = mMap.addMarker(options);
             temp.setTag(c_point);
@@ -224,11 +224,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     private MarkerOptions assignIcon(TrashCollectionPoint tcp, MarkerOptions markerOptions){
 
-       if( tcp instanceof PrivateTrashCollectionPoint)
-           markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
+        if( tcp instanceof PrivateTrashCollectionPoint)
+            markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
         else if (tcp instanceof PublicTrashCollectionPoint)
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.green_loc_icon));
-       return markerOptions;
+        return markerOptions;
     }
 
 
@@ -317,15 +317,27 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public void onInfoWindowClick(Marker marker) {
         TrashCollectionPointManager.getInstance();
-        Toast.makeText(this.getContext(), "Info Window Clicked" + TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
-
-
+        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        Date openTime= tcp.getOpenTime();
+        Date closeTime=tcp.getCloseTime();
+        String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+        int zipcode = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getZipCode();
+        Toast.makeText(this.getContext(), "Info Window Clicked\n" +openTime+"\n"+closeTime+"\n"+tcp.getCollectionPointName() , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInfoWindowLongClick(Marker marker) {
-        Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onInfoWindowLongClick: Long Clicked Info Window");
+        //Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
+        TrashCollectionPointManager.getInstance();
+        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+        latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
+        String collectionPointName = tcp.getCollectionPointName();
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+        //Log.d(TAG, "onInfoWindowLongClick: Long Clicked Info Window");
     }
 
     /**
@@ -342,6 +354,4 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }

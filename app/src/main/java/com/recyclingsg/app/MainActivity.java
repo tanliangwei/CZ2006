@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        StatisticsManager.refreshData();
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -164,10 +163,12 @@ public class MainActivity extends AppCompatActivity
     //The function for deposit category activity to start running
     public  void loadDepositCategoryActivity(View view){
         if(FacebookLogin.getLoginStatus()) {
-            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-            String message = "Please login in to Facebook first.";
-            intent.putExtra("message", message);
+            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
             startActivity(intent);
+//            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+//            String message = "Please login in to Facebook first.";
+//            intent.putExtra("message", message);
+//            startActivity(intent);
         }
         else {
             Intent intent = new Intent(MainActivity.this, DepositActivity.class);
@@ -460,8 +461,17 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         }  else if (id == R.id.nav_standings) {
-            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-            startActivity(intent);
+            if(FacebookLogin.getLoginStatus()){
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                String message = "Please login in to Facebook first.";
+                intent.putExtra("message", message);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+                startActivity(intent);
+            }
+
         } else if (id == R.id.nav_settings) {
             //TODO this will jump to settings activity
         } /*else if (id == R.id.nav_deposit) {
