@@ -10,6 +10,7 @@ import android.os.Debug;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,41 +34,85 @@ import java.util.Date;
 
 public class DepositActivity extends Activity {
     private static final String TAG = "DepositActivity";
-    Spinner trashTypeSpinner;
     ArrayAdapter<CharSequence> adapter;
     TextView trashCollectionPointText;
-    TextView dateEditText;
+    TextView dateText;
+    Spinner trashTypeSpinner;
     TextView unitText;
     EditText unitEditText;
-    Spinner spinner;
-    Spinner cashForTrashSpinner;
-
+    TextView perUnitText;
+    Spinner subTrashSpinner;
+    CardView subTrashCardView;
+    CardView unitsCardView;
+    CardView trashTypeCardView;
+    RelativeLayout rl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deposit_activity);
+        setContentView(R.layout.deposit_activity_2);
 
-        initWasteTypeSpinner();
+        initViews();
         initialiseDateButtons();
-        initTexts();
+        initWasteTypeSpinner();
     }
 
-    public void initTexts(){
-        trashCollectionPointText = (TextView) findViewById(R.id.trashCollectionPointText);
-        dateEditText = (TextView) findViewById(R.id.dateEditText);
-        unitText = (TextView) findViewById(R.id.unitText);
+    public void initViews(){
+        rl = (RelativeLayout) findViewById(R.id.depositRelativeLayout);
+        trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
+        dateText = (TextView) findViewById(R.id.textViewDate2);
+        unitText = (TextView) findViewById(R.id.textViewUnit2);
         unitEditText = (EditText) findViewById(R.id.unitEditText);
-        unitText.setVisibility(View.INVISIBLE);
-        unitEditText.setVisibility(View.INVISIBLE);
+        perUnitText = (TextView) findViewById(R.id.textViewUnit2);
+        trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
+        subTrashSpinner = (Spinner) findViewById(R.id.subTrashTypeSpinner);
+        subTrashCardView = (CardView) findViewById(R.id.cardViewSubTrash);
+        trashTypeCardView = (CardView) findViewById(R.id.cardViewTrashType);
+        unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
+
+        RelativeLayout.LayoutParams params;
+        params = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
+        params.removeRule(RelativeLayout.BELOW);
+        params.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
+
+        unitsCardView.setVisibility(View.INVISIBLE);
+
+        //unitsCardView.setTranslationY(-(unitsCardView.getHeight()+100));
+
+    }
+
+    public void initialiseDateButtons(){
+
+        Calendar mCurrentDate;
+        mCurrentDate = Calendar.getInstance();
+        int curDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+        int curMonth = mCurrentDate.get(Calendar.MONTH);
+        int curYear= mCurrentDate.get(Calendar.YEAR);
+        dateText.setText(curDay+"/"+curMonth+"/"+curYear);
+        dateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("generate ", "DATE DIALOG");
+                Calendar mCurrentDate;
+                mCurrentDate = Calendar.getInstance();
+                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+                int month = mCurrentDate.get(Calendar.MONTH);
+                int year= mCurrentDate.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DepositActivity.this, new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                        monthOfYear = monthOfYear+1;
+                        dateText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+
+                    }
+                }, year,month,day);
+                datePickerDialog.show();
+            }
+        });
     }
 
     public void initWasteTypeSpinner(){
-        Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
-
         TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
-
-        spinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
         // Specify the layout to use when the list of choices appears
@@ -87,9 +133,10 @@ public class DepositActivity extends Activity {
             }
         // Apply the adapter to the spinner
         //Log.d("SIZE OF ADAPTER","IS "+mSpinnerAdapter.getCount());
-        spinner.setAdapter(mSpinnerAdapter);
-        spinner.setSelection(mSpinnerAdapter.getCount());
-        spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
+        trashTypeSpinner.setAdapter(mSpinnerAdapter);
+        trashTypeSpinner.setSelection(mSpinnerAdapter.getCount());
+        trashTypeSpinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
+        initialiseDateButtons();
 
     }
 
@@ -147,30 +194,6 @@ public class DepositActivity extends Activity {
 
     };
 
-    public void initialiseDateButtons(){
-        dateEditText = (TextView) findViewById(R.id.dateEditText);
-        dateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("generate ", "DATE DIALOG");
-                Calendar mCurrentDate;
-                mCurrentDate = Calendar.getInstance();
-                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-                int month = mCurrentDate.get(Calendar.MONTH);
-                int year= mCurrentDate.get(Calendar.YEAR);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(DepositActivity.this, new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                        monthOfYear = monthOfYear+1;
-                        dateEditText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-
-                    }
-                }, year,month,day);
-                datePickerDialog.show();
-            }
-        });
-    }
-
     public void generateSpinnerForCashForTrash(){
         Log.d("ge", "coooooool");
         int[] coordinates = new int[2];
@@ -178,20 +201,19 @@ public class DepositActivity extends Activity {
         ConstraintLayout.LayoutParams params;
         params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
 
-        spinner.getLocationInWindow(coordinates);
+        trashTypeSpinner.getLocationInWindow(coordinates);
         Log.d("generate ", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
-        Log.d("generate", "coooooool"+params.leftMargin+"    "+params.topMargin);
         params.leftMargin = coordinates[0];
         params.topMargin = 60;
 
-//        coordinates[0]=spinner.getLeft();
-//        coordinates[1]=spinner.getTop();
+//        coordinates[0]=trashTypeSpinner.getLeft();
+//        coordinates[1]=trashTypeSpinner.getTop();
 
 
-        cashForTrashSpinner = new Spinner(this);
-        cashForTrashSpinner.setX(coordinates[0]);
-        cashForTrashSpinner.setY((coordinates[1]/2)+300);
-        //cashForTrashSpinner.setY((coordinates[1]/2)+500);
+        subTrashSpinner = new Spinner(this);
+        subTrashSpinner.setX(coordinates[0]);
+        subTrashSpinner.setY((coordinates[1]/2)+300);
+        //subTrashSpinner.setY((coordinates[1]/2)+500);
         TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         int index = 0;
@@ -201,6 +223,7 @@ public class DepositActivity extends Activity {
                 break;
             }
         }
+        Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + tcp.getTrash().get(index).getTrashType() + " "+ tcp.getTrash().get(index).getPriceInfoList().size());
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -212,12 +235,11 @@ public class DepositActivity extends Activity {
                 spinnerArrayAdapter.add(Temp);
             }
         }
-//        adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        trashTypeSpinner.setAdapter(adapter);
-        cashForTrashSpinner.setAdapter(spinnerArrayAdapter);
-        cl.addView(cashForTrashSpinner,params);
-        cashForTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subTrashSpinner.setAdapter(spinnerArrayAdapter);
+        cl.addView(subTrashSpinner,params);
+        subTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
@@ -230,9 +252,9 @@ public class DepositActivity extends Activity {
         });
 
 //         set the unit text and unit edit text
-        cashForTrashSpinner.getLocationInWindow(coordinates);
-//        coordinates[0]=cashForTrashSpinner.getLeft();
-//        coordinates[1]=cashForTrashSpinner.getTop();
+        subTrashSpinner.getLocationInWindow(coordinates);
+//        coordinates[0]=subTrashSpinner.getLeft();
+//        coordinates[1]=subTrashSpinner.getTop();
         unitText.setX(coordinates[0]);
         unitText.setY((coordinates[1]/2)+500);
 
@@ -258,10 +280,10 @@ public class DepositActivity extends Activity {
             ArrayList<String> CashForTrashNames=new ArrayList<String>();
             ArrayList<Double> CashForTrashPrices=new ArrayList<Double>();
             //get user selected trash
-            String trashType = spinner.getSelectedItem().toString();
+            String trashType = trashTypeSpinner.getSelectedItem().toString();
             //cash for trash nameseee
-            if(cashForTrashSpinner!=null){
-                String trashName = cashForTrashSpinner.getSelectedItem().toString();
+            if(subTrashSpinner!=null){
+                String trashName = subTrashSpinner.getSelectedItem().toString();
                 TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
                 int index = 0;
                 for(int i =0;i<tcp.getTrash().size();i++){
@@ -287,6 +309,9 @@ public class DepositActivity extends Activity {
             float units = Float.valueOf(unitEditText.getText().toString());
             DepositManager.getInstance();
             DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
+
+            Intent intent = new Intent(DepositActivity.this, MainActivity.class);
+            startActivity(intent);
 
         }
     }
