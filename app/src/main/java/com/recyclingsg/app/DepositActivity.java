@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,8 @@ public class DepositActivity extends Activity {
     Spinner subTrashSpinner;
     CardView subTrashCardView;
     CardView unitsCardView;
-
+    CardView trashTypeCardView;
+    RelativeLayout rl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class DepositActivity extends Activity {
     }
 
     public void initViews(){
+        rl = (RelativeLayout) findViewById(R.id.depositRelativeLayout);
         trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
         dateText = (TextView) findViewById(R.id.textViewDate2);
         unitText = (TextView) findViewById(R.id.textViewUnit2);
@@ -63,7 +66,17 @@ public class DepositActivity extends Activity {
         trashTypeSpinner = (Spinner) findViewById(R.id.trashTypeSpinner);
         subTrashSpinner = (Spinner) findViewById(R.id.subTrashTypeSpinner);
         subTrashCardView = (CardView) findViewById(R.id.cardViewSubTrash);
+        trashTypeCardView = (CardView) findViewById(R.id.cardViewTrashType);
         unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
+
+        RelativeLayout.LayoutParams params;
+        params = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
+        params.removeRule(RelativeLayout.BELOW);
+        params.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
+
+        unitsCardView.setVisibility(View.INVISIBLE);
+
+        //unitsCardView.setTranslationY(-(unitsCardView.getHeight()+100));
 
     }
 
