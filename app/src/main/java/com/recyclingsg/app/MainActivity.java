@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -366,6 +367,16 @@ public class MainActivity extends AppCompatActivity
     private void query(View view) {
         Log.d(TAG, "onClick: taking user to query results");
 
+        if (userSelectedTrashType == null){
+            Context context = getApplicationContext();
+            CharSequence text = "Please select a waste type before query";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+
         // display relevant collection points
         switch (userSelectedTrashType) {
             case "eWaste":
@@ -391,7 +402,6 @@ public class MainActivity extends AppCompatActivity
                 mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
                 filterManager.getClosedTrashCollectionPoints().clear();
                 break;
-
         }
 
 
