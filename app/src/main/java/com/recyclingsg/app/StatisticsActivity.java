@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -53,6 +54,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static java.lang.Math.round;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -112,16 +115,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
 
     private void initialiseTheDateButtons(){
@@ -247,10 +240,12 @@ public class StatisticsActivity extends AppCompatActivity {
                     loadTopUserView();
                     return rootView;
                 case 3:
-                    rootView = inflater.inflate(R.layout.fragment_statistics3, container, false);
-                    topAverageUserPersonalChart = (BarChart) rootView.findViewById(R.id.BarChart2);
-                    loadTopUserPersonalAverageView();
-                    return rootView;
+                    return null;
+                    //TODO DISPLAY PERSONAL HISTORY
+//                    rootView = inflater.inflate(R.layout.fragment_statistics3, container, false);
+//                    topAverageUserPersonalChart = (BarChart) rootView.findViewById(R.id.BarChart2);
+//                    // loadUserHistory();
+//                    return rootView;
                 default:
                     break;
             }
@@ -261,7 +256,7 @@ public class StatisticsActivity extends AppCompatActivity {
          * new function to load
          */
 
-        private void loadTopUserPersonalAverageView(){
+        private void loadUserHistory(){
             float barWidth;
             float barSpace;
             float groupSpace;
@@ -369,7 +364,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
             barChart.getLegend().setEnabled(false);
 
-            ArrayList<TopUser> topUsers = StatisticsManager.getTopUsers();
+            final ArrayList<TopUser> topUsers = StatisticsManager.getTopUsers();
             ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
             final ArrayList<String> xVals = new ArrayList<>();
 
@@ -378,21 +373,32 @@ public class StatisticsActivity extends AppCompatActivity {
 
                 yVals.add(new BarEntry(i,(float)user.getScore()));
                 xVals.add(user.getUserName());
-                // barentries.add(new barentry(i, i*10));
             }
 
+            double nationalAvgScore = StatisticsManager.getNationalStat().getAvgScore();
+            ArrayList<BarEntry> nationY = new ArrayList<>();
+
+            nationY.add(new BarEntry(topUsers.size(), (float)nationalAvgScore));
 
 
             BarDataSet dataSet = new BarDataSet(yVals, "Top User Scores");
+            BarDataSet nationAvgDataSet = new BarDataSet(nationY, "National Average");
+            dataSet.setColor(ResourcesCompat.getColor(getResources(), R.color.navGreen, null));
+            nationAvgDataSet.setColor(ResourcesCompat.getColor(getResources(), R.color.ligthBlue, null));
             ArrayList<IBarDataSet> bardataIB = new ArrayList<>();
             bardataIB.add(dataSet);
+            bardataIB.add(nationAvgDataSet);
             BarData barData = new BarData(bardataIB);
-            xAxis.setLabelCount(xVals.size() - 1, false);
+            xAxis.setLabelCount(xVals.size()+1, false);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setValueFormatter(new IAxisValueFormatter() {
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
-                    return xVals.get((int)value);
+                    if (value>=topUsers.size())
+                        return "National Average Score";
+                    else {
+                        return xVals.get(round(value));
+                    }
                 }
             });
 
@@ -429,31 +435,28 @@ public class StatisticsActivity extends AppCompatActivity {
             pieChart.setRotationEnabled(true);
             pieChart.setHighlightPerTapEnabled(true);
 
-            // pieChart.setUnit(" €");
-            // pieChart.setDrawUnitsInChart(true);
-
             // add a selection listener
             //pieChart.setOnChartValueSelectedListener(this);
 
-            setData(3, 100);
+            setNationalPercentageData();
 
             pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         }
 
-        private void setData(int count, float range) {
-
-            float mult = range;
-
+        private void setNationalPercentageData() {
             ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
             // NOTE: The order of the entries when being added to the entries array determines their position around the center of
             // the chart.
-            for (int i = 0; i < count ; i++) {
-                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-                        TrashInfo.typeOfTrash[i]));
-            }
+//            for (int i = 0; i < count ; i++) {
+//                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
+//                        TrashInfo.typeOfTrash[i]));
+//            }
+            entries.add(new PieEntry(StatisticsManager.getNationalStat().getCashForTrashCount(), "Cash for Trash"));
+            entries.add(new PieEntry(StatisticsManager.getNationalStat().getEwastCount(),"E-waste"));
+            entries.add(new PieEntry(StatisticsManager.getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
 
-            PieDataSet dataSet = new PieDataSet(entries, "Trash BreakDown");
+            PieDataSet dataSet = new PieDataSet(entries, "Trash Type");
 
             dataSet.setDrawIcons(false);
 
@@ -488,8 +491,9 @@ public class StatisticsActivity extends AppCompatActivity {
             PieData data = new PieData(dataSet);
             data.setValueFormatter(new PercentFormatter());
             data.setValueTextSize(11f);
-            data.setValueTextColor(Color.WHITE);
+            data.setValueTextColor(Color.BLACK);
             pieChart.setData(data);
+            pieChart.setEntryLabelColor(Color.BLACK);
 
             // undo all highlights
             pieChart.highlightValues(null);
@@ -499,7 +503,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         private SpannableString generateCenterSpannableText() {
 
-            SpannableString s = new SpannableString("PieChart on Trash");
+            SpannableString s = new SpannableString("National Trash Pool");
             s.setSpan(new RelativeSizeSpan(1.7f), 0, s.length(), 0);
             s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length(), 0);
             return s;

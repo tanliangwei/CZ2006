@@ -16,6 +16,7 @@ public class StatisticsManager {
     private static double userScore = -1;
     public static Date lastUpdate = null;
 
+
     /**
      * refresh the cached data,
      * this method should be called in the following scenarios:
@@ -26,6 +27,9 @@ public class StatisticsManager {
      * @param endDate the ending time of the time window to query
      * @param n_top the number of top users to query
      */
+    public static void refreshData(Date begDate, Date endDate, int n_top){
+        DatabaseManager.pullDepositStat(begDate, endDate, n_top);
+    }
 
     private static final String TAG = "Statistics Manager";
 
@@ -46,9 +50,7 @@ public class StatisticsManager {
     //constructor for database manger
     public StatisticsManager(){}
 
-    public static void refreshData(Date begDate, Date endDate, int n_top){
-        DatabaseManager.pullDepositStat(begDate, endDate, n_top);
-    }
+
 
     /**
      * refresh the cached data with default parameters,
@@ -142,10 +144,16 @@ class NationalStat{
     private double avgScore;
     // the number of depositors in the country
     private int userCount;
+    private int ewastCount = 0;
+    private int secondHandGoodCount = 0;
+    private int cashForTrashCount = 0;
 
-    public NationalStat(double avgScore, int userCount){
+    public NationalStat(double avgScore, int userCount, int cashForTrashCount, int ewastCount, int secondHandGoodCount){
         this.avgScore = avgScore;
         this.userCount = userCount;
+        this.cashForTrashCount = cashForTrashCount;
+        this.ewastCount = ewastCount;
+        this.secondHandGoodCount = secondHandGoodCount;
     }
 
     public double getAvgScore() {
@@ -154,5 +162,17 @@ class NationalStat{
 
     public int getUserCount() {
         return userCount;
+    }
+
+    public int getCashForTrashCount() {
+        return cashForTrashCount;
+    }
+
+    public int getEwastCount() {
+        return ewastCount;
+    }
+
+    public int getSecondHandGoodCount() {
+        return secondHandGoodCount;
     }
 }
