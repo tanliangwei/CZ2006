@@ -44,7 +44,7 @@ public class DepositActivity extends Activity {
     TextView dateText;
     Spinner trashTypeSpinner;
     TextView unitText;
-    EditText unitEditText;
+    static EditText unitEditText;
     TextView perUnitText;
     Spinner subTrashSpinner;
     CardView subTrashCardView;
@@ -153,8 +153,10 @@ public class DepositActivity extends Activity {
         {
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
+                Log.e("THIS KEY IS CLICKED", " "+keyCode);
                 if (event.getAction() == KeyEvent.ACTION_DOWN)
                 {
+
                     switch (keyCode)
                     {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
@@ -176,6 +178,7 @@ public class DepositActivity extends Activity {
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
+        checkToSeeIfWeShouldGenerateConfirmButton();
     }
 
     private void generateConfirmButton(){
@@ -184,6 +187,20 @@ public class DepositActivity extends Activity {
         depositButtonLayoutParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
         depositButton.setVisibility(View.VISIBLE);
         depositButton.setClickable(true);
+    }
+
+    private static void checkToSeeIfWeShouldGenerateConfirmButton(){
+
+        String text = unitEditText.getText().toString();
+        try {
+            int num = Integer.parseInt(text);
+            Log.i("",num+" is a number");
+        } catch (NumberFormatException e) {
+            Log.i("",text+" is not a number");
+            if (unitEditText.getText().toString().equals("")){
+                Log.e("Its not empty","Go input function");
+            }
+        }
     }
 
     private ArrayAdapter<String> createSpinnerAdapter() {

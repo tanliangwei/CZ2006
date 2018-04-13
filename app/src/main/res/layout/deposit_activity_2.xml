@@ -207,6 +207,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="90dp"
                     android:layout_marginRight="60dp"
+                    android:gravity="right"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:inputType="number"
