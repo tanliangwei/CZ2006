@@ -7,8 +7,8 @@
         android:font="@font/futur"
         />
     <font
-        android:fontStyle="bold"
+        android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/Futura Bold font"
+        android:font="@font/futura_bold_font"
         />
 </font-family>
