@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -69,6 +71,13 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private OnFragmentInteractionListener mListener;
     private LatLng userSelectedLocation;
 
+    //by bobby
+    private ViewGroup infoWindow;
+    private TextView infoTitle;
+    private TextView infoSnippet;
+    private Button infoButton;
+    private OnInfoWindowElemTouchListener infoButtonListener;
+
 
 
     public static LatLngBounds getBoundsCoordSg() {
@@ -119,14 +128,121 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        Log.d(TAG, "onCreateView: ");
+//        // Inflate the layout for this fragment
+//        View view = inflater.inflate(R.layout.fragment_google_map, container, false);
+//        getLocationPermission();
+//        initMap();
+
+        //temporary
         Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_google_map, container, false);
+        View view = inflater.inflate(R.layout.map_fragment, container, false);
         getLocationPermission();
-        initMap();
+        Log.d(TAG, "initMap: initializing map");
+
+//        final MapFragment mapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+//        final MapWrapperLayout mapWrapperLayout = (MapWrapperLayout)findViewById(R.id.map_relative_layout);
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map_new);
+        Log.d(TAG, "initMap: Map Fragment "+ mapFragment);
+        if (mapFragment==null)
+        {
+            Log.d(TAG, "initMap: null map fragment");
+        }
+
+        mapFragment.getMapAsync( this);
 
 
         return view;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        getDeviceLocation();
+        final MapWrapperLayout mapWrapperLayout = (MapWrapperLayout)getView().findViewById(R.id.map_relative_layout);
+        mapWrapperLayout.init(mMap, getPixelsFromDp(getActivity(), 39 + 20));
+
+        this.infoWindow = (ViewGroup)getLayoutInflater().inflate(R.layout.info_window, null);
+        this.infoTitle = (TextView)infoWindow.findViewById(R.id.trashCollectionPointTitle);
+        this.infoSnippet = (TextView)infoWindow.findViewById(R.id.descriptionText);
+        this.infoButton = (Button)infoWindow.findViewById(R.id.depositButton);
+
+        this.infoButtonListener = new OnInfoWindowElemTouchListener(infoButton,
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
+                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+        {
+            @Override
+            protected void onClickConfirmed(View v, Marker marker) {
+                // Here we can perform some action triggered after clicking the button
+                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+            }
+        };
+        this.infoButton.setOnTouchListener(infoButtonListener);
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
+                TrashCollectionPointManager.getInstance();
+                TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
+                Toast.makeText(getActivity(), marker.getTitle() + "at " +TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName(), Toast.LENGTH_SHORT).show();
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                // Setting up the infoWindow with current's marker info
+                infoTitle.setText(marker.getTitle());
+                infoSnippet.setText(marker.getSnippet());
+                infoButtonListener.setMarker(marker);
+
+                // We must call this to set the current marker and infoWindow references
+                // to the MapWrapperLayout
+                mapWrapperLayout.setMarkerWithInfoWindow(marker, infoWindow);
+
+                //to set certain things
+                TrashCollectionPointManager.getInstance();
+                TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+                TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+                Toast.makeText(getActivity(), marker.getTitle() + "coordinates are " +TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
+                return infoWindow;
+            }
+        });
+
+        //setting my location
+
+        try {
+            if (getLocationPermission()) {
+                //Location Permission already granted
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            }
+        }catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+        }
+
+        mMap.addMarker(new MarkerOptions()
+                .title("Prague")
+                .snippet("Czech Republic")
+                .position(new LatLng(50.08, 14.43)));
+
+        mMap.addMarker(new MarkerOptions()
+                .title("Paris")
+                .snippet("France")
+                .position(new LatLng(48.86,2.33)));
+
+        mMap.addMarker(new MarkerOptions()
+                .title("London")
+                .snippet("United Kingdom")
+                .position(new LatLng(51.51,-0.1)));
+
+
+    }
+
+    public static int getPixelsFromDp(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dp * scale + 0.5f);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -155,26 +271,26 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         mListener = null;
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady: Ready");
-        getDeviceLocation();
-        mMap = googleMap;
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this.getContext()));
-        mMap.setOnInfoWindowClickListener(this);
-        mMap.setOnInfoWindowLongClickListener(this);
-
-        try {
-            if (getLocationPermission()) {
-                //Location Permission already granted
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            }
-        }catch (SecurityException e){
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
-        }
-        Log.d(TAG, "onMapReady: Google Map" + mMap);
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        Log.d(TAG, "onMapReady: Ready");
+//        getDeviceLocation();
+//        mMap = googleMap;
+//        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this.getContext()));
+//        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnInfoWindowLongClickListener(this);
+//
+//        try {
+//            if (getLocationPermission()) {
+//                //Location Permission already granted
+//                mMap.setMyLocationEnabled(true);
+//                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//            }
+//        }catch (SecurityException e){
+//            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+//        }
+//        Log.d(TAG, "onMapReady: Google Map" + mMap);
+//    }
 
     public void initMap(){
         Log.d(TAG, "initMap: initializing map");
@@ -211,9 +327,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         Log.d(TAG, "displayCollectionPoints: Map clearing");
         for (TrashCollectionPoint c_point : collectionPoints){
             MarkerOptions options = new MarkerOptions()
-                    .position(c_point.getCoordinate())
                     .title(c_point.getCollectionPointName())
-                    .snippet(c_point.getDescription());
+                    .snippet(c_point.getDescription())
+                    .position(c_point.getCoordinate());
+                    //.title(c_point.getCollectionPointName())
+                    //.snippet(c_point.getDescription());
             options = assignIcon(c_point, options);
             Marker temp = mMap.addMarker(options);
             temp.setTag(c_point);

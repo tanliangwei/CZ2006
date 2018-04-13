@@ -111,12 +111,12 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="220dp"
             android:fontFamily="@font/myriadpro"
-            android:text="Insert Description Text Here"
+            android:text="Insert Description Texfewfwfewfeefewft Here"
             android:textColor="#4DBC4D"
-
             android:textSize="20dp"
-
             />
+
+
 
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>
