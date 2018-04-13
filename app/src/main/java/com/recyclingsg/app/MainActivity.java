@@ -1,10 +1,8 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -332,14 +330,12 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayAdapter<String> createSpinnerAdapter() {
         ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
-
+            
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setTextColor(Color.WHITE);
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
 
@@ -386,7 +382,6 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
                 break;
-                //for jh
 
             case "Second Hand Goods":
                 filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
@@ -454,7 +449,9 @@ public class MainActivity extends AppCompatActivity
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
+                String activity = "TrashPool";
                 intent.putExtra("message", message);
+                intent.putExtra("activity",activity);
                 startActivity(intent);
             }
             else {
@@ -465,7 +462,9 @@ public class MainActivity extends AppCompatActivity
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
+                String activity = "Statistics";
                 intent.putExtra("message", message);
+                intent.putExtra("activity",activity);
                 startActivity(intent);
             }
             else {

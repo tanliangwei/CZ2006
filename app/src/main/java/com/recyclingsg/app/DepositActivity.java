@@ -51,6 +51,7 @@ public class DepositActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deposit_activity_2);
 
+        TrashCollectionPointManager.getInstance();
         initViews();
         initialiseDateButtons();
         initWasteTypeSpinner();
@@ -59,6 +60,7 @@ public class DepositActivity extends Activity {
     public void initViews(){
         rl = (RelativeLayout) findViewById(R.id.depositRelativeLayout);
         trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
+        trashCollectionPointText.setText(TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName());
         dateText = (TextView) findViewById(R.id.textViewDate2);
         unitText = (TextView) findViewById(R.id.textViewUnit2);
         unitEditText = (EditText) findViewById(R.id.unitEditText);
@@ -69,14 +71,8 @@ public class DepositActivity extends Activity {
         trashTypeCardView = (CardView) findViewById(R.id.cardViewTrashType);
         unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
 
-        RelativeLayout.LayoutParams params;
-        params = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
-        params.removeRule(RelativeLayout.BELOW);
-        params.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
-
-        unitsCardView.setVisibility(View.INVISIBLE);
-
-        //unitsCardView.setTranslationY(-(unitsCardView.getHeight()+100));
+        subTrashCardView.setVisibility(View.INVISIBLE);
+        subTrashCardView.setClickable(false);
 
     }
 
@@ -111,7 +107,6 @@ public class DepositActivity extends Activity {
     }
 
     public void initWasteTypeSpinner(){
-        TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
@@ -131,12 +126,13 @@ public class DepositActivity extends Activity {
                 for (String x : TrashInfo.typeOfTrash)
                     mSpinnerAdapter.add(x);
             }
+
         // Apply the adapter to the spinner
         //Log.d("SIZE OF ADAPTER","IS "+mSpinnerAdapter.getCount());
         trashTypeSpinner.setAdapter(mSpinnerAdapter);
         trashTypeSpinner.setSelection(mSpinnerAdapter.getCount());
         trashTypeSpinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
-        initialiseDateButtons();
+        Log.e("SELECTED","VALUES"+trashTypeSpinner.getSelectedItem().toString());
 
     }
 
@@ -194,26 +190,18 @@ public class DepositActivity extends Activity {
 
     };
 
-    public void generateSpinnerForCashForTrash(){
-        Log.d("ge", "coooooool");
-        int[] coordinates = new int[2];
-        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
-        ConstraintLayout.LayoutParams params;
-        params = new ConstraintLayout.LayoutParams(unitEditText.getWidth(), unitEditText.getHeight()+50);
+    private void generateSpinnerForCashForTrash(){
 
-        trashTypeSpinner.getLocationInWindow(coordinates);
-        Log.d("generate ", "cooorinates"+coordinates[0]+"    "+coordinates[1]);
-        params.leftMargin = coordinates[0];
-        params.topMargin = 60;
+        RelativeLayout.LayoutParams subTrashCardParams = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
+        subTrashCardParams.removeRule(RelativeLayout.BELOW);
+        subTrashCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
+        subTrashCardView.setVisibility(View.VISIBLE);
+        subTrashCardView.setClickable(true);
 
-//        coordinates[0]=trashTypeSpinner.getLeft();
-//        coordinates[1]=trashTypeSpinner.getTop();
+        RelativeLayout.LayoutParams unitsCardParams = (RelativeLayout.LayoutParams) unitsCardView.getLayoutParams();
+        unitsCardParams.removeRule(RelativeLayout.BELOW);
+        unitsCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewSubTrash);
 
-
-        subTrashSpinner = new Spinner(this);
-        subTrashSpinner.setX(coordinates[0]);
-        subTrashSpinner.setY((coordinates[1]/2)+300);
-        //subTrashSpinner.setY((coordinates[1]/2)+500);
         TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         int index = 0;
@@ -238,7 +226,6 @@ public class DepositActivity extends Activity {
         //adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subTrashSpinner.setAdapter(spinnerArrayAdapter);
-        cl.addView(subTrashSpinner,params);
         subTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -251,21 +238,18 @@ public class DepositActivity extends Activity {
             }
         });
 
-//         set the unit text and unit edit text
-        subTrashSpinner.getLocationInWindow(coordinates);
-//        coordinates[0]=subTrashSpinner.getLeft();
-//        coordinates[1]=subTrashSpinner.getTop();
-        unitText.setX(coordinates[0]);
-        unitText.setY((coordinates[1]/2)+500);
+    }
 
-        unitText.getLocationInWindow(coordinates);
-//        coordinates[0]=unitText.getLeft();
-//        coordinates[1]=unitText.getTop();
-        unitEditText.setX(coordinates[0]);
-        unitEditText.setY((coordinates[1]/2)+500);
+    private void removeSpinnerForCashForTrash(){
+        RelativeLayout.LayoutParams unitsCardParams = (RelativeLayout.LayoutParams) unitsCardView.getLayoutParams();
+        unitsCardParams.removeRule(RelativeLayout.BELOW);
+        unitsCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
 
-        unitText.setVisibility(View.VISIBLE);
-        unitEditText.setVisibility(View.VISIBLE);
+        RelativeLayout.LayoutParams subTrashCardParams = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
+        subTrashCardParams.removeRule(RelativeLayout.BELOW);
+        subTrashCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
+        subTrashCardView.setVisibility(View.INVISIBLE);
+        subTrashCardView.setClickable(false);
     }
 
     public void onClick_deposit_enter(View v){
