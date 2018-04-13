@@ -1,10 +1,8 @@
 package com.recyclingsg.app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -157,6 +155,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
         String message = "Welcome to Facebook login page!";
         intent.putExtra("message", message);
+        intent.putExtra("activity"," ");
         startActivity(intent);
     }
 
@@ -453,7 +452,9 @@ public class MainActivity extends AppCompatActivity
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
+                String activity = "TrashPool";
                 intent.putExtra("message", message);
+                intent.putExtra("activity",activity);
                 startActivity(intent);
             }
             else {
@@ -464,7 +465,9 @@ public class MainActivity extends AppCompatActivity
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
                 String message = "Please login in to Facebook first.";
+                String activity = "Statistics";
                 intent.putExtra("message", message);
+                intent.putExtra("activity",activity);
                 startActivity(intent);
             }
             else {
