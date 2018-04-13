@@ -38,7 +38,8 @@ public class FacebookLogin extends Activity {
     }
     private void startTargetActivity(String activity){
         try {
-            Intent goToTargetActivity = new Intent();
+            Intent goToTargetActivity;
+            Intent goToMain = new Intent(this,MainActivity.class);
             if (activity.equals("Statistics")) {
                 goToTargetActivity = new Intent(this, StatisticsActivity.class);
             }
@@ -51,6 +52,7 @@ public class FacebookLogin extends Activity {
             else{
                 goToTargetActivity = new Intent(this,MainActivity.class);
             }
+            startActivity(goToMain);
             startActivity(goToTargetActivity);
         }
         catch(Exception e){

@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
         String message = "Welcome to Facebook login page!";
         intent.putExtra("message", message);
+        intent.putExtra("activity"," ");
         startActivity(intent);
     }
 
