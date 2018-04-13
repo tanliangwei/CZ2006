@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -48,9 +50,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     Button postPrivateCollectionPointButton;
     Spinner typeOfTrashSpinner;
     ArrayAdapter<String> mSpinnerAdapter;
-    EditText trashNameFillField;
-    EditText trashPricesFillField;
-    EditText trashUnitFillField;
+//    EditText trashNameFillField;
+//    EditText trashPricesFillField;
+//    EditText trashUnitFillField;
     Button addTypeOfTrash;
     String trashTypeSelected;
     List<TrashTypePost> ttpList;
@@ -93,87 +95,97 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         ttpList = new ArrayList<>();
         typeOfTrashSpinner = initWasteTypeSpinner();
         addTypeOfTrash = (Button) findViewById(R.id.add_trash);
-        trashNameFillField = (EditText) findViewById(R.id.trash_name);
-        trashNameFillField.setVisibility(View.INVISIBLE);
-        trashPricesFillField = (EditText) findViewById(R.id.trash_price);
-        trashPricesFillField.setVisibility(View.INVISIBLE);
-        trashUnitFillField = (EditText) findViewById(R.id.trash_unit);
-        trashUnitFillField.setVisibility(View.INVISIBLE);
+//        trashNameFillField = (EditText) findViewById(R.id.trash_name);
+//        trashNameFillField.setVisibility(View.INVISIBLE);
+//        trashPricesFillField = (EditText) findViewById(R.id.trash_price);
+//        trashPricesFillField.setVisibility(View.INVISIBLE);
+//        trashUnitFillField = (EditText) findViewById(R.id.trash_unit);
+//        trashUnitFillField.setVisibility(View.INVISIBLE);
         trashTypeListAdapter = new TrashTypeListAdapter(this, ttpList);
-        ListView trashTypeListView = (ListView) findViewById(R.id.added_trash_list);
-        trashTypeListView.setAdapter(trashTypeListAdapter);
+//        ListView trashTypeListView = (ListView) findViewById(R.id.added_trash_list);
+//        trashTypeListView.setAdapter(trashTypeListAdapter);
 
 
-        addTypeOfTrash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (trashTypeSelected == null) {
-                    Log.d(TAG, "onClick: trashType Null");
-                    return;
-                }
-
-                TrashTypePost ttp = new TrashTypePost();
-                ttp.typeOfTrash = trashTypeSelected;
-                ttp.trashName = trashNameFillField.getText().toString();
-                ttp.trashPrice = trashPricesFillField.getText().toString();
-                ttp.trashUnit = trashUnitFillField.getText().toString();
-                ttpList.add(ttp);
-                Log.d(TAG, "onClick: " + ttpList.toString());
-                trashTypeListAdapter.notifyDataSetChanged();
-                saveTtpToList(ttp);
-
-                typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
-                trashTypeSelected = null;
-                trashNameFillField.setText("");
-                trashPricesFillField.setText("");
-                trashUnitFillField.setText("");
-
-
-
-        trashPricesFillField.setRawInputType(KEYBOARD_12KEY);
-        trashPricesFillField.addTextChangedListener(new TextWatcher() {
-
-            DecimalFormat dec = new DecimalFormat("0.00");
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-                    if (userInput.length() > 0) {
-                        Float in = Float.parseFloat(userInput);
-                        float percen = in / 100;
-                        trashPricesFillField.setText("$" + dec.format(percen));
-                        trashPricesFillField.setSelection(trashPricesFillField.getText().length());
-                    }
-                }
-          }
-        });
+//        addTypeOfTrash.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (trashTypeSelected == null) {
+//                    Log.d(TAG, "onClick: trashType Null");
+//                    return;
+//                }
+//
+//                TrashTypePost ttp = new TrashTypePost();
+//                ttp.typeOfTrash = trashTypeSelected;
+////                ttp.trashName = trashNameFillField.getText().toString();
+////                ttp.trashPrice = trashPricesFillField.getText().toString();
+////                ttp.trashUnit = trashUnitFillField.getText().toString();
+//                ttpList.add(ttp);
+//                Log.d(TAG, "onClick: " + ttpList.toString());
+//                trashTypeListAdapter.notifyDataSetChanged();
+////                saveTtpToList(ttp);
+//
+//                typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
+//                trashTypeSelected = null;
+////                trashNameFillField.setText("");
+////                trashPricesFillField.setText("");
+//                trashUnitFillField.setText("");
 
 
-            }
-        });
+
+//        trashPricesFillField.setRawInputType(KEYBOARD_12KEY);
+//        trashPricesFillField.addTextChangedListener(new TextWatcher() {
+//
+//            DecimalFormat dec = new DecimalFormat("0.00");
+//            @Override
+//            public void afterTextChanged(Editable arg0) {
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start,
+//                                          int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start,
+//                                      int before, int count) {
+////                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+////                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
+////                    if (userInput.length() > 0) {
+////                        Float in = Float.parseFloat(userInput);
+////                        float percen = in / 100;
+////                        trashPricesFillField.setText("$" + dec.format(percen));
+////                        trashPricesFillField.setSelection(trashPricesFillField.getText().length());
+//////                    }
+//                }
+//          }
+//        });
+
+
+
+//            }
+//        });
+
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SimpleFragmentPagerAdapter tabAdapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+
+        viewPager.setAdapter(tabAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
-    void saveTtpToList(TrashTypePost ttp){
+
+        void saveTtpToList(TrashTypePost ttp){
 
         if (ttp.typeOfTrash.equals("Cash For Trash")){
-            trashNames.add(ttp.trashName);
-            trashPrices.add(Double.parseDouble(ttp.trashPrice));
-            trashUnits.add(ttp.trashUnit);
+        trashNames.add(ttp.trashName);
+        trashPrices.add(Double.parseDouble(ttp.trashPrice));
+        trashUnits.add(ttp.trashUnit);
         }
         typeOfTrashes.add(ttp.typeOfTrash);
-    }
-
+        }
 
     //this function is called when the submit button is pressed
     private void submitCollectionPointForm() {
@@ -194,11 +206,11 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
 
         if(trashTypeSelected != null){
-            if (trashTypeSelected.equals("Cash for Trash")){
-                trashNames.add(trashNameFillField.getText().toString());
-                trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
-                trashUnits.add(trashUnitFillField.getText().toString());
-            }
+//            if (trashTypeSelected.equals("Cash for Trash")){
+//                trashNames.add(trashNameFillField.getText().toString());
+//                trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
+//                trashUnits.add(trashUnitFillField.getText().toString());
+//            }
             typeOfTrashes.add(trashTypeSelected);
 
         }
@@ -276,14 +288,14 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
                 trashTypeSelected = trashTypeObjectSelected.toString();
 
                 if(!trashTypeSelected.equals("Cash For Trash")) {
-                    trashNameFillField.setVisibility(View.INVISIBLE);
-                    trashPricesFillField.setVisibility(View.INVISIBLE);
-                    trashUnitFillField.setVisibility(View.INVISIBLE);
+//                    trashNameFillField.setVisibility(View.INVISIBLE);
+//                    trashPricesFillField.setVisibility(View.INVISIBLE);
+//                    trashUnitFillField.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    trashNameFillField.setVisibility(View.VISIBLE);
-                    trashPricesFillField.setVisibility(View.VISIBLE);
-                    trashUnitFillField.setVisibility(View.VISIBLE);
+//                    trashNameFillField.setVisibility(View.VISIBLE);
+//                    trashPricesFillField.setVisibility(View.VISIBLE);
+//                    trashUnitFillField.setVisibility(View.VISIBLE);
 
 
                 }
