@@ -461,10 +461,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_help) {
-            /*Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
-            String message = "Welcome to Facebook login page!";
-            intent.putExtra("message", message);
-            startActivity(intent);*/
+            Intent intent = new Intent(this, HelpActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_trashPool) {
             if(FacebookLogin.getLoginStatus()){
                 Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
@@ -494,18 +492,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
             //TODO this will jump to settings activity
-        } /*else if (id == R.id.nav_deposit) {
-            if(FacebookLogin.getLoginStatus()) {
-                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-                String message = "Please login in to Facebook first.";
-                intent.putExtra("message", message);
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(MainActivity.this, DepositCategoryActivity.class);
-                startActivity(intent);
-            }
-        }*/
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
