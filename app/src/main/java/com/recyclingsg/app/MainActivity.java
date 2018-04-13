@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         else{
            // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
             navUsername.setText(userName);
+            navPoints.setText("Points: "+StatisticsManager.getUserScore());
             //TODO Please make sure that statistic manager is constructed before calling the following function
             //StatisticsManager.getInstance();
             //navPoints.setText("Points: " + StatisticsManager.getUserScore());
