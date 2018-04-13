@@ -207,6 +207,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="90dp"
                     android:layout_marginRight="60dp"
+                    android:gravity="right"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:inputType="number"
@@ -265,6 +266,24 @@
                     android:text="trash" />
 
             </android.support.v7.widget.CardView>
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/depositButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="16dp"
+                android:textSize="20dp"
+                android:onClick="onClick_deposit_enter"
+                android:layout_below="@id/cardViewSubTrash"
+                android:elevation="6dp"
+                android:translationZ="4dp"
+                android:backgroundTint="#4DBC4D"
+                android:text="Confirm"
+                android:textColor="#ffffff"
+
+                />
 
 
 

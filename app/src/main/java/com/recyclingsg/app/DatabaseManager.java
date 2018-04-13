@@ -681,7 +681,11 @@ public class DatabaseManager {
                 // parse and set the national statistics
                 int userCount = rootobj.get("national_user_count").getAsInt();
                 double avgScore = rootobj.get("national_user_avgscore").getAsDouble();
-                StatisticsManager.setNationalStat(new NationalStat(avgScore, userCount));
+                int cashForTrashCount = rootobj.get("cash_for_trash_cnt").getAsInt();
+                int ewasteCount = rootobj.get("ewaste_cnt").getAsInt();
+                int secondHandCount = rootobj.get("second_hand_good_cnt").getAsInt();
+                StatisticsManager.setNationalStat(new NationalStat(avgScore, userCount,
+                        cashForTrashCount, ewasteCount, secondHandCount));
                 Log.d(TAG, "successfully pulled national statistics");
 
                 // set user score

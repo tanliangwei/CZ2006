@@ -29,20 +29,43 @@ public class FacebookLogin extends Activity {
     LoginButton loginButton;
     private static boolean notLoggedIn = true; // true means didn't login
     CallbackManager callbackManager;
+
     public static boolean getLoginStatus(){
         return notLoggedIn;
     }
     private void updateLoginStatus(){
         notLoggedIn=(AccessToken.getCurrentAccessToken()==null);
     }
-
+    private void startTargetActivity(String activity){
+        try {
+            Intent goToTargetActivity;
+            Intent goToMain = new Intent(this,MainActivity.class);
+            if (activity.equals("Statistics")) {
+                goToTargetActivity = new Intent(this, StatisticsActivity.class);
+            }
+            else if (activity.equals("Deposit")) {
+                goToTargetActivity = new Intent(this, DepositActivity.class);
+            }
+            else if (activity.equals("TrashPool")) {
+                goToTargetActivity = new Intent(this, PostPrivateCollectionPointActivity.class);
+            }
+            else{
+                goToTargetActivity = new Intent(this,MainActivity.class);
+            }
+            startActivity(goToMain);
+            startActivity(goToTargetActivity);
+        }
+        catch(Exception e){
+            Log.e(TAG,"Fail to get intent");
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
-        // Get the Intent that started this activity and extract the string
         final Intent intent = getIntent();
+        // Get the Intent that started this activity and extract the string
         String message=" ";
         message = (String)intent.getStringExtra("message");
         if(notLoggedIn){
@@ -79,7 +102,7 @@ public class FacebookLogin extends Activity {
 /*
                 Bundle params = new Bundle();
                 params.putString("fields","picture.type(large)");
-                new GraphRequest(AccessToken.getCurrentAccessToken(), "me", params, HttpMethod.GET, new Callback() {
+                new GraphRequest(AccessToken.getCurrentAccessToken(), , HttpMethod.GET, new Callback() {
                     @Override
                     public void onCompleted(GraphResponse response) {
                         if(response!=null){
@@ -124,11 +147,9 @@ public class FacebookLogin extends Activity {
                 parameters.putString("fields", "name");
                 request.setParameters(parameters);
                 request.executeAsync();
-                //go back to main if successful logged in
-                    Intent backToMain=new Intent(FacebookLogin.this, MainActivity.class);
-                    startActivity(backToMain);
-
-
+                //go back to target activity if successful logged in
+                String activity = intent.getStringExtra("activity");
+                startTargetActivity(activity);
 
             }
 
