@@ -51,12 +51,15 @@ public class DepositActivity extends Activity {
     CardView unitsCardView;
     CardView trashTypeCardView;
     RelativeLayout rl;
-    Button depositButton;
+    static Button depositButton;
+    static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deposit_activity_2);
 
+        //initialising context
+        context = this.getApplicationContext();
         TrashCollectionPointManager.getInstance();
         initViews();
         initialiseDateButtons();
@@ -181,7 +184,7 @@ public class DepositActivity extends Activity {
         checkToSeeIfWeShouldGenerateConfirmButton();
     }
 
-    private void generateConfirmButton(){
+    private static void generateConfirmButton(){
         RelativeLayout.LayoutParams depositButtonLayoutParams = (RelativeLayout.LayoutParams) depositButton.getLayoutParams();
         depositButtonLayoutParams.removeRule(RelativeLayout.BELOW);
         depositButtonLayoutParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
@@ -195,11 +198,10 @@ public class DepositActivity extends Activity {
         try {
             int num = Integer.parseInt(text);
             Log.i("",num+" is a number");
+            generateConfirmButton();
         } catch (NumberFormatException e) {
-            Log.i("",text+" is not a number");
-            if (unitEditText.getText().toString().equals("")){
-                Log.e("Its not empty","Go input function");
-            }
+            Toast.makeText(context, "Enter valid units",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -240,7 +242,6 @@ public class DepositActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Selected Waste Type: " + trashTypeSelected.toString(),
                         Toast.LENGTH_SHORT).show();
 
-                Log.d(TAG, "onItemSelected: Selected " + id + ": " + trashTypeSelected.toString());
 
                 if(trashTypeSelected.toString().equalsIgnoreCase("cash-for-trash") || trashTypeSelected.toString().equalsIgnoreCase("cash for trash") ){
                     generateSpinnerForCashForTrash();
