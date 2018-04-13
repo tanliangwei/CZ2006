@@ -3,10 +3,12 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -18,8 +20,6 @@ import java.util.Date;
  */
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
-    //private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
-   // private Marker markerShowingInfoWindow;
     private Marker markerShowingInfoWindow;
     private Context mContext;
     private View popUP;
