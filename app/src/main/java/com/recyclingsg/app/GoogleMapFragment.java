@@ -176,8 +176,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         Log.d(TAG, "onMapReady: Google Map" + mMap);
     }
 
-
-
     public void initMap(){
         Log.d(TAG, "initMap: initializing map");
 
