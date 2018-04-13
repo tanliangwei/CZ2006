@@ -18,7 +18,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
 
     }
-
+//Jiaheng
     public CharSequence getPageTitle(int position){
         switch (position){
             case 0:
