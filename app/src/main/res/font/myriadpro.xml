@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/MyriadPro-Regular" />
+    <font
+        android:fontStyle="bold"
+        android:fontWeight="400"
+        android:font="@font/Myriad-Pro-Bold_31631" />
+    <font
+        android:fontStyle="semilight"
+        android:fontWeight="400"
+        android:font="@font/Myriad-Pro-Light-SemiExtended_31641" />
+    <font
+        android:fontStyle="light"
+        android:fontWeight="400"
+        android:font="@font/Myriad-Pro-Light_31642" />
+    <font
+        android:fontStyle="semibold"
+        android:fontWeight="400"
+        android:font="@font/Myriad-Pro-Semibold_31650" />
+    <font
+        android:fontStyle="semibold"
+        android:fontWeight="400"
+        android:font="@font/Myriad-Pro-Semibold-Condensed_31644" />
 </font-family>
