@@ -222,7 +222,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
                 TrashCollectionPointManager.getInstance();
                 TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
-                Toast.makeText(getActivity(), marker.getTitle() + "at " +TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName(), Toast.LENGTH_SHORT).show();
                 return null;
             }
 
@@ -241,7 +240,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 TrashCollectionPointManager.getInstance();
                 TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
                 TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
-                Toast.makeText(getActivity(), marker.getTitle() + "coordinates are " +TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
                 return infoWindow;
             }
         });
