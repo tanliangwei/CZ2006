@@ -183,6 +183,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 if(FacebookLogin.getLoginStatus()) {
                     Intent intent = new Intent(getActivity(), FacebookLogin.class);
                     String message = "Please login in to Facebook first.";
+                    String activity = "Deposit";
+                    intent.putExtra("activity",activity);
                     intent.putExtra("message", message);
                     startActivity(intent);
                 }
