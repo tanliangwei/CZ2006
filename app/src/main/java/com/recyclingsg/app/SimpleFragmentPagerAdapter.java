@@ -10,6 +10,9 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+    private String tabTitles[] =new String[]{"Cash For Trash", "eWaste", "General Waste"};
+    private int PAGECOUNT = 3;
+
 
     private Context mContext;
 
@@ -19,20 +22,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     }
 
+
+
+
     public CharSequence getPageTitle(int position){
-        switch (position){
-            case 0:
-                return "Cash For Trash";
-            case 1:
-                return "eWaste";
-            case 2:
-                return "General Waste";
-            default:
-                return null;
+        return tabTitles[position];
 
-
-
-        }
 
 
     }
@@ -41,16 +36,16 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if ( position == 0 )
-            return new CashForTrashTabFragment();
+            return CashForTrashTabFragment.newInstance(position+1);
         else if (position == 1)
-            return new eWasteFragment();
+            return new eWasteTabFragment();
         else if (position == 2)
-            return new GeneralWasteFragment();
+            return new SecondHandTabFragment();
         return null;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return PAGECOUNT;
     }
 }

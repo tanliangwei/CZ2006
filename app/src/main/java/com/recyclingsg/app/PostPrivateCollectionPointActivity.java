@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -34,12 +35,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 import static android.content.ContentValues.TAG;
 import static android.content.res.Configuration.KEYBOARD_12KEY;
 
 public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
     private static final String TAG = "PrivatePointActivity";
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    SimpleFragmentPagerAdapter tabAdapter;
+
     EditText nameFillField;
     EditText addressFillField;
     EditText zipFillField;
@@ -81,8 +87,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         addressFillField = (EditText) findViewById(R.id.address_fill_up_field);
         zipFillField = (EditText) findViewById(R.id.zip_fill_up_field);
         contactDetailsFillField = (EditText) findViewById(R.id.contact_details_fill_up_field);
-        openingTimeFillField = (EditText) findViewById(R.id.opening_time_fill_up_field);
-        closingTimeFillField = (EditText) findViewById(R.id.closing_time_fill_up_field);
         descriptionFillField = (EditText) findViewById(R.id.description_fill_up_field);
         postPrivateCollectionPointButton = (Button) findViewById(R.id.postPrivateCollectionPointButton);
         postPrivateCollectionPointButton.setOnClickListener(new View.OnClickListener() {
@@ -93,91 +97,66 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         });
 
         ttpList = new ArrayList<>();
-        typeOfTrashSpinner = initWasteTypeSpinner();
-        addTypeOfTrash = (Button) findViewById(R.id.add_trash);
-//        trashNameFillField = (EditText) findViewById(R.id.trash_name);
-//        trashNameFillField.setVisibility(View.INVISIBLE);
-//        trashPricesFillField = (EditText) findViewById(R.id.trash_price);
-//        trashPricesFillField.setVisibility(View.INVISIBLE);
-//        trashUnitFillField = (EditText) findViewById(R.id.trash_unit);
-//        trashUnitFillField.setVisibility(View.INVISIBLE);
-        trashTypeListAdapter = new TrashTypeListAdapter(this, ttpList);
-//        ListView trashTypeListView = (ListView) findViewById(R.id.added_trash_list);
-//        trashTypeListView.setAdapter(trashTypeListAdapter);
 
 
-//        addTypeOfTrash.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (trashTypeSelected == null) {
-//                    Log.d(TAG, "onClick: trashType Null");
-//                    return;
-//                }
-//
-//                TrashTypePost ttp = new TrashTypePost();
-//                ttp.typeOfTrash = trashTypeSelected;
-////                ttp.trashName = trashNameFillField.getText().toString();
-////                ttp.trashPrice = trashPricesFillField.getText().toString();
-////                ttp.trashUnit = trashUnitFillField.getText().toString();
-//                ttpList.add(ttp);
-//                Log.d(TAG, "onClick: " + ttpList.toString());
-//                trashTypeListAdapter.notifyDataSetChanged();
-////                saveTtpToList(ttp);
-//
-//                typeOfTrashSpinner.setSelection(mSpinnerAdapter.getCount());
-//                trashTypeSelected = null;
-////                trashNameFillField.setText("");
-////                trashPricesFillField.setText("");
-//                trashUnitFillField.setText("");
-
-
-
-//        trashPricesFillField.setRawInputType(KEYBOARD_12KEY);
-//        trashPricesFillField.addTextChangedListener(new TextWatcher() {
-//
-//            DecimalFormat dec = new DecimalFormat("0.00");
-//            @Override
-//            public void afterTextChanged(Editable arg0) {
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,
-//                                          int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,
-//                                      int before, int count) {
-////                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-////                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-////                    if (userInput.length() > 0) {
-////                        Float in = Float.parseFloat(userInput);
-////                        float percen = in / 100;
-////                        trashPricesFillField.setText("$" + dec.format(percen));
-////                        trashPricesFillField.setSelection(trashPricesFillField.getText().length());
-//////                    }
-//                }
-//          }
-//        });
-
-
-
-//            }
-//        });
-
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        SimpleFragmentPagerAdapter tabAdapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        tabAdapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
 
         viewPager.setAdapter(tabAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
 
-        void saveTtpToList(TrashTypePost ttp){
+
+
+
+    public void compileTtpList() {
+        if (((CheckBox)findViewById(R.id.checkbox_cashfortrash)).isChecked()){
+            typeOfTrashes.add("Cash for Trash");
+            compileCFTposts();
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_eWaste)).isChecked()){
+            typeOfTrashes.add("eWaste");
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_second_hand)).isChecked()){
+            typeOfTrashes.add("Second Hand Goods");
+        }
+
+
+    }
+    public void compileCFTposts(){
+        if (((CheckBox)findViewById(R.id.checkbox_aluminium_drink_cans)).isChecked()) {
+            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_aluminium_drink_cans)).toString().substring(1));
+            trashNames.add("Aluminium drink cans");
+            trashPrices.add(price);
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_metal_tins)).isChecked()) {
+            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_metal_tins)).toString().substring(1));
+            trashNames.add("Metal Tins");
+            trashPrices.add(price);
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_old_clothing)).isChecked()) {
+            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_old_clothing)).toString().substring(1));
+            trashNames.add("Old Clothing / bedsheet ");
+            trashPrices.add(price);
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_papers)).isChecked()) {
+            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_papers)).toString().substring(1));
+            trashNames.add("Papers");
+            trashPrices.add(price);
+        }
+        if (((CheckBox)findViewById(R.id.checkbox_small_appliances)).isChecked()) {
+            trashNames.add("Small Appliances");
+            trashPrices.add((double) 0);
+        }
+
+    }
+
+
+    void saveTtpToList(TrashTypePost ttp){
 
         if (ttp.typeOfTrash.equals("Cash For Trash")){
         trashNames.add(ttp.trashName);
@@ -193,36 +172,22 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         String address = addressFillField.getText().toString();
         String zipcode = zipFillField.getText().toString();
         String contact = contactDetailsFillField.getText().toString();
-        String openingTime = openingTimeFillField.getText().toString();
-        String closingTime = closingTimeFillField.getText().toString();
         String description = descriptionFillField.getText().toString();
         Log.d(TAG, "submitCollectionPointForm: " + name);
         Log.d(TAG, "submitCollectionPointForm: " + address);
         Log.d(TAG, "submitCollectionPointForm: " + zipcode);
         Log.d(TAG, "submitCollectionPointForm: " + contact);
-        Log.d(TAG, "submitCollectionPointForm: " + openingTime);
-        Log.d(TAG, "submitCollectionPointForm: " + closingTime);
         Log.d(TAG, "submitCollectionPointForm: " + description);
 
 
-        if(trashTypeSelected != null){
-//            if (trashTypeSelected.equals("Cash for Trash")){
-//                trashNames.add(trashNameFillField.getText().toString());
-//                trashPrices.add(Double.parseDouble(trashPricesFillField.getText().toString()));
-//                trashUnits.add(trashUnitFillField.getText().toString());
-//            }
-            typeOfTrashes.add(trashTypeSelected);
-
-        }
 
 
 
-        if (name.equals("Name") ||
-                address.equals("Address") ||
-                zipcode.equals("Zip Code") ||
-                contact.equals("Contact Number") ||
-                openingTime.equals("Opening Time") ||
-                closingTime.equals("Closing Time")) {
+
+        if (name.equals("") ||
+                address.equals("") ||
+                zipcode.equals("") ||
+                contact.equals("")) {
             Log.d(TAG, "onClick: null fields present");
             Toast.makeText(getApplicationContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show();
         } else {
@@ -245,7 +210,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
             TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
                     (ArrayList<String>) typeOfTrashes, (ArrayList<String>) trashUnits, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices,
-                    openingTime, closingTime, description,  daysOpen, this);
+                    "0000", "0000", description,  daysOpen, this);
 
             Toast.makeText(this, "Private Collection Point added!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(PostPrivateCollectionPointActivity.this, MainActivity.class);
@@ -253,87 +218,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         }
     }
 
-    public Spinner initWasteTypeSpinner(){
-        Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
-        Spinner spinner = (Spinner) findViewById(R.id.trash_type_to_post_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        mSpinnerAdapter = createSpinnerAdapter();
-// Specify the layout to use when the list of choices appears
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Initialise values of Spinner
-        for (String x : TrashInfo.typeOfTrash)
-            mSpinnerAdapter.add(x);
-
-        mSpinnerAdapter.add("Select Waste Type");
-
-// Apply the adapter to the spinner
-        spinner.setAdapter(mSpinnerAdapter);
-        spinner.setSelection(mSpinnerAdapter.getCount());
-        spinner.setOnItemSelectedListener(mWasteTypeSpinnerListener);
-        return spinner;
-
-    }
-
-
-    private AdapterView.OnItemSelectedListener mWasteTypeSpinnerListener = new AdapterView.OnItemSelectedListener() {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            if (id != parent.getCount()) {
-//
-                Object trashTypeObjectSelected = parent.getItemAtPosition(position);
-                trashTypeSelected = trashTypeObjectSelected.toString();
-
-                if(!trashTypeSelected.equals("Cash For Trash")) {
-//                    trashNameFillField.setVisibility(View.INVISIBLE);
-//                    trashPricesFillField.setVisibility(View.INVISIBLE);
-//                    trashUnitFillField.setVisibility(View.INVISIBLE);
-                }
-                else {
-//                    trashNameFillField.setVisibility(View.VISIBLE);
-//                    trashPricesFillField.setVisibility(View.VISIBLE);
-//                    trashUnitFillField.setVisibility(View.VISIBLE);
-
-
-                }
-
-            }
-        }
-        @Override
-        public void onNothingSelected (AdapterView < ? > adapterView){
-
-        }
-
-    };
-
-
-    private ArrayAdapter<String> createSpinnerAdapter() {
-        ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                View v = super.getView(position, convertView, parent);
-                if (position == getCount()) {
-                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
-                }
-
-                return v;
-            }
-
-            @Override
-            public int getCount() {
-                return super.getCount() - 1; // you dont display last item. It is used as hint.
-            }
-
-        };
-
-        return mSpinnerAdapter;
-    }
 
     class TrashTypePost{
         String typeOfTrash;
@@ -401,39 +286,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-
-//    mEditPrice.setRawInputType(Configuration.KEYBOARD_12KEY);
-//    public void priceClick(View view) {
-//        pricesFillField.addTextChangedListener(new TextWatcher() {
-//            DecimalFormat dec = new DecimalFormat("0.00");
-//
-//            @Override
-//            public void afterTextChanged(Editable arg0) {
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,
-//                                          int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,
-//                                      int before, int count) {
-//                if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-//                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-//                    if (userInput.length() > 0) {
-//                        Float in = Float.parseFloat(userInput);
-//                        float percen = in / 100;
-//                        pricesFillField.setText("$" + dec.format(percen));
-//                        pricesFillField.setSelection(pricesFillField.getText().length());
-//                    }
-//                }
-//            }
-//        });
-//    }
 
 
 
