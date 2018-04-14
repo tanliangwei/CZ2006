@@ -204,12 +204,22 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 // Here we can perform some action triggered after clicking the button
 //                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
 
-                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+                TrashCollectionPointManager.getInstance();
+                TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+                latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
+                String collectionPointName = tcp.getCollectionPointName();
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                }
+                startActivity(mapIntent);
+
+//                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//                mapIntent.setPackage("com.google.android.apps.maps");
+//                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//                    startActivity(mapIntent);
+//                }
             }
         };
 
