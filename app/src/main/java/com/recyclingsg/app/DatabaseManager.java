@@ -716,4 +716,74 @@ public class DatabaseManager {
         });
         thread.start();
     }
+
+
+    public static void pullDepositLogByUserId() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sURL = "http://www.sjtume.cn/cz2006/api/get-user-deposit-log?token=9ca2218ae5c6f5166850cc749085fa6d"; //Url to server
+                // set optional parameters
+                if (UserManager.getUserId() != null) {
+                    sURL += ("&user_id=" + UserManager.getUserId());
+                }
+                // return if not logged in
+                else {
+                    return;
+                }
+
+                URL url = null;
+                try {
+                    url = new URL(sURL);
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, "invalid url for deposit log query");
+                    e.printStackTrace();
+                }
+
+                HttpURLConnection request = null;
+                try {
+                    request = (HttpURLConnection) url.openConnection();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to open url connection");
+                    e.printStackTrace();
+                }
+                try {
+                    request.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to connect to url");
+                    e.printStackTrace();
+                }
+
+                JsonParser jp = new JsonParser();
+                JsonElement root = null;
+                try {
+                    root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to get reply content");
+                    e.printStackTrace();
+                }
+
+                JsonObject rootobj = null;
+                if (root != null) {
+                    rootobj = root.getAsJsonObject();
+                }
+
+                JsonArray logArray = rootobj.get("records").getAsJsonArray();
+                Log.d(TAG, "successfully pulled deposit records: "+logArray.size());
+
+                ArrayList<SimpleDepositLog> logs = new ArrayList<>();
+                for (int i = 0; i < logArray.size(); i++) {
+                    JsonObject logJsonObj = logArray.get(i).getAsJsonObject();
+                    String userName = logJsonObj.get("user_name").getAsString();
+                    String date = logJsonObj.get("date").getAsString();
+                    String trashType = logJsonObj.get("trash_type").getAsString();
+                    Double score = logJsonObj.get("score").getAsDouble();
+                    SimpleDepositLog newlog = new SimpleDepositLog(userName, date, trashType, score);
+                    logs.add(newlog);
+                }
+                StatisticsManager.setDepositLogs(logs);
+            }
+        });
+        thread.start();
+    }
 }

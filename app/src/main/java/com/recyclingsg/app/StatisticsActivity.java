@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -222,7 +224,6 @@ public class StatisticsActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView;
-            TextView textView;
             int viewNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (viewNumber){
                 case 1:
@@ -240,17 +241,29 @@ public class StatisticsActivity extends AppCompatActivity {
                     loadTopUserView();
                     return rootView;
                 case 3:
-                    return null;
-                    //TODO DISPLAY PERSONAL HISTORY
-//                    rootView = inflater.inflate(R.layout.fragment_statistics3, container, false);
-//                    topAverageUserPersonalChart = (BarChart) rootView.findViewById(R.id.BarChart2);
-//                    // loadUserHistory();
-//                    return rootView;
-                default:
-                    break;
+                    rootView = inflater.inflate(R.layout.deposit_history_layout, container, false);
+                    TableLayout depositHistoryTable = rootView.findViewById(R.id.DepositHistoryTable);
+
+                    ArrayList<SimpleDepositLog> depositLogs = StatisticsManager.getDepositLogs();
+                    for(SimpleDepositLog log : depositLogs){
+                        View tableRowView = inflater.inflate(R.layout.deposit_record_view, depositHistoryTable, false);
+                        tableRowView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                        TextView dateView =  tableRowView.findViewById(R.id.record_date);
+                        dateView.setText(log.getDepositDate());
+                        TextView trashTypeView = tableRowView.findViewById(R.id.record_trash_type);
+                        trashTypeView.setText(log.getTrashType());
+                        TextView scoreView = tableRowView.findViewById(R.id.record_score_change);
+                        scoreView.setText(String.valueOf(log.getScore()));
+
+                        depositHistoryTable.addView(tableRowView, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+                    }
+
+                    return rootView;
             }
             return null;
         }
+
 
         /**
          * new function to load
@@ -533,5 +546,6 @@ public class StatisticsActivity extends AppCompatActivity {
             return 3;
         }
     }
+
 }
 

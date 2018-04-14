@@ -14,7 +14,8 @@ public class StatisticsManager {
     private static ArrayList<TopUser> topUsers = null;
     private static NationalStat nationalStat = null;
     private static double userScore = -1;
-    public static Date lastUpdate = null;
+    private static Date lastUpdate = null;
+    private static ArrayList<SimpleDepositLog> depositLogs = new ArrayList<>();
 
 
     /**
@@ -29,6 +30,7 @@ public class StatisticsManager {
      */
     public static void refreshData(Date begDate, Date endDate, int n_top){
         DatabaseManager.pullDepositStat(begDate, endDate, n_top);
+        DatabaseManager.pullDepositLogByUserId();
     }
 
     private static final String TAG = "Statistics Manager";
@@ -58,6 +60,7 @@ public class StatisticsManager {
      */
     public static void refreshData(){
         DatabaseManager.pullDepositStat();
+        DatabaseManager.pullDepositLogByUserId();
     }
 
     /**
@@ -97,9 +100,11 @@ public class StatisticsManager {
     public static NationalStat getNationalStat() {
         if(nationalStat == null){
             DatabaseManager.pullDepositStat();
+            DatabaseManager.pullDepositLogByUserId();
         }
         if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
             DatabaseManager.pullDepositStat();
+            DatabaseManager.pullDepositLogByUserId();
         }
         return nationalStat;
     }
@@ -118,6 +123,14 @@ public class StatisticsManager {
 
     public static void setLastUpdate(Date lastUpdate) {
         StatisticsManager.lastUpdate = lastUpdate;
+    }
+
+    public static void setDepositLogs(ArrayList<SimpleDepositLog> depositLogs) {
+        StatisticsManager.depositLogs = depositLogs;
+    }
+
+    public static ArrayList<SimpleDepositLog> getDepositLogs() {
+        return depositLogs;
     }
 }
 
@@ -174,5 +187,44 @@ class NationalStat{
 
     public int getSecondHandGoodCount() {
         return secondHandGoodCount;
+    }
+}
+
+
+class SimpleDepositLog{
+    private String depositDate;
+    private String trashType;
+    private double score;
+    private String userName;
+
+    public SimpleDepositLog(String userName, String depositDate, String trashType, double score){
+        this.userName = userName;
+        this.depositDate = depositDate;
+        this.score = score;
+        if(trashType.equalsIgnoreCase("cash-for-trash")){
+            this.trashType = "cash for trash";
+        }
+        else if(trashType.equalsIgnoreCase("e-waste-recycling")|| trashType.equalsIgnoreCase("e-waste")){
+            this.trashType = "e-waste";
+        }
+        else{
+            this.trashType = "2nd hand goods";
+        }
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getDepositDate() {
+        return depositDate;
+    }
+
+    public String getTrashType() {
+        return trashType;
+    }
+
+    public double getScore() {
+        return score;
     }
 }
