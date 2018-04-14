@@ -148,7 +148,8 @@ public class FacebookLogin extends Activity {
                 request.setParameters(parameters);
                 request.executeAsync();
                 //go back to target activity if successful logged in
-                String activity = intent.getStringExtra("activity");
+                String activity = " ";
+                activity = intent.getStringExtra("activity");
                 startTargetActivity(activity);
 
             }
