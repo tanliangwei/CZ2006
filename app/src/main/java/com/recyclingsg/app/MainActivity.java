@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         }
     }*/
 
-    
+
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
 //
