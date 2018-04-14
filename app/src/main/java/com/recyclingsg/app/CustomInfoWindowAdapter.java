@@ -3,12 +3,10 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -69,9 +67,9 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         View popUp = inflater.inflate(R.layout.layout_popup, null);
         Log.d("TAG", "onClick: customInfoWindow Created! ");
 
-        TextView popUpTitle = (TextView) popUp.findViewById(R.id.popup_title);
-        TextView popUpContent = (TextView) popUp.findViewById(R.id.popup_content);
-        ImageView popUpImage = (ImageView) popUp.findViewById(R.id.popup_image);
+        TextView popUpTitle = (TextView) popUp.findViewById(R.id.trashPointTitle);
+        TextView popUpContent = (TextView) popUp.findViewById(R.id.descriptionText);
+        ImageView popUpImage = (ImageView) popUp.findViewById(R.id.trashTypeImageView);
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
 
