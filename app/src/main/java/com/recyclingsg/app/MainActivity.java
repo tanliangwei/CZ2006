@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void navigate(View view) {
+    /*public void navigate(View view) {
         //format: "geo: latitude,longitude? q="" "
         Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -158,31 +158,9 @@ public class MainActivity extends AppCompatActivity
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mapIntent);
         }
-    }
+    }*/
 
-    // The function for Facebook Login to start running
-    public void loadFacebookLogin(View view){
-        Intent intent = new Intent(getApplicationContext(), FacebookLogin.class);
-        String message = "Welcome to Facebook login page!";
-        intent.putExtra("message", message);
-        intent.putExtra("activity"," ");
-        startActivity(intent);
-    }
-
-    //The function for deposit category activity to start running
-    public  void loadDepositCategoryActivity(View view){
-        if(FacebookLogin.getLoginStatus()) {
-            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-            String message = "Please login in to Facebook first.";
-            intent.putExtra("message", message);
-            startActivity(intent);
-        }
-        else {
-            Intent intent = new Intent(MainActivity.this, DepositActivity.class);
-            startActivity(intent);
-        }
-    }
-
+    
 //    private void initSearchField() {
 //        Log.d(TAG, "initSearchField: initializing");
 //
