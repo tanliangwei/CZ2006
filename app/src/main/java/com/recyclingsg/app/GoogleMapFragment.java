@@ -78,6 +78,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private Button depositButton;
     private Button navigateButton;
     private OnInfoWindowElemTouchListener depositButtonListener;
+    private OnInfoWindowElemTouchListener navigateButtonListener;
 
 
 
@@ -168,6 +169,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.infoTitle = (TextView)infoWindow.findViewById(R.id.trashCollectionPointTitle);
         this.infoSnippet = (TextView)infoWindow.findViewById(R.id.descriptionText);
         this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
+        this.navigateButton=(Button)infoWindow.findViewById(R.id.navigateButton);
 
         this.depositButtonListener = new OnInfoWindowElemTouchListener(depositButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
@@ -190,6 +192,26 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 }
             }
         };
+
+        this.navigateButtonListener = new OnInfoWindowElemTouchListener(navigateButton,
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
+                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+        {
+            @Override
+            protected void onClickConfirmed(View v, Marker marker) {
+                // Here we can perform some action triggered after clicking the button
+//                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+
+                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        };
+
+
         this.depositButton.setOnTouchListener(depositButtonListener);
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -207,7 +229,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 // Setting up the infoWindow with current's marker info
                 infoTitle.setText(marker.getTitle());
                 infoSnippet.setText(marker.getSnippet());
-                depositButtonListener.setMarker(marker);
+                navigateButtonListener.setMarker(marker);
 
                 // We must call this to set the current marker and infoWindow references
                 // to the MapWrapperLayout
@@ -221,6 +243,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 return infoWindow;
             }
         });
+
+        this.navigateButton.setOnTouchListener(navigateButtonListener);
 
         //setting my location
 
