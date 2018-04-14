@@ -11,10 +11,10 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class eWasteFragment extends Fragment {
+public class SecondHandTabFragment extends Fragment {
 
 
-    public eWasteFragment() {
+    public SecondHandTabFragment() {
         // Required empty public constructor
     }
 
@@ -22,7 +22,7 @@ public class eWasteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_layout_ewaste,container,false);
+        View rootView = inflater.inflate(R.layout.tab_layout_general_waste,container,false);
 
         return rootView;
     }
