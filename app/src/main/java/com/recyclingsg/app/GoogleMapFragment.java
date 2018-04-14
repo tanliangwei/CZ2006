@@ -75,8 +75,9 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private ViewGroup infoWindow;
     private TextView infoTitle;
     private TextView infoSnippet;
-    private Button infoButton;
-    private OnInfoWindowElemTouchListener infoButtonListener;
+    private Button depositButton;
+    private Button navigateButton;
+    private OnInfoWindowElemTouchListener depositButtonListener;
 
 
 
@@ -166,19 +167,30 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.infoWindow = (ViewGroup)getLayoutInflater().inflate(R.layout.info_window, null);
         this.infoTitle = (TextView)infoWindow.findViewById(R.id.trashCollectionPointTitle);
         this.infoSnippet = (TextView)infoWindow.findViewById(R.id.descriptionText);
-        this.infoButton = (Button)infoWindow.findViewById(R.id.depositButton);
+        this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
 
-        this.infoButtonListener = new OnInfoWindowElemTouchListener(infoButton,
+        this.depositButtonListener = new OnInfoWindowElemTouchListener(depositButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
                 getResources().getDrawable(R.drawable.com_facebook_button_icon))
         {
             @Override
             protected void onClickConfirmed(View v, Marker marker) {
                 // Here we can perform some action triggered after clicking the button
-                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+
+                if(FacebookLogin.getLoginStatus()) {
+                    Intent intent = new Intent(getActivity(), FacebookLogin.class);
+                    String message = "Please login in to Facebook first.";
+                    intent.putExtra("message", message);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), DepositActivity.class);
+                    startActivity(intent);
+                }
             }
         };
-        this.infoButton.setOnTouchListener(infoButtonListener);
+        this.depositButton.setOnTouchListener(depositButtonListener);
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -195,7 +207,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 // Setting up the infoWindow with current's marker info
                 infoTitle.setText(marker.getTitle());
                 infoSnippet.setText(marker.getSnippet());
-                infoButtonListener.setMarker(marker);
+                depositButtonListener.setMarker(marker);
 
                 // We must call this to set the current marker and infoWindow references
                 // to the MapWrapperLayout
