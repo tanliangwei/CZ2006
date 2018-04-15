@@ -250,7 +250,8 @@ public class StatisticsActivity extends AppCompatActivity {
                     TableLayout depositHistoryTable = rootView.findViewById(R.id.DepositHistoryTable);
 
                     ArrayList<SimpleDepositLog> depositLogs = StatisticsManager.getDepositLogs();
-                    for(SimpleDepositLog log : depositLogs){
+                    for(int i=depositLogs.size()-1; i>=0; i--){
+                        SimpleDepositLog log = depositLogs.get(i);
                         View tableRowView = inflater.inflate(R.layout.deposit_record_view, depositHistoryTable, false);
                         tableRowView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
@@ -325,7 +326,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
                     if (value>=topUsers.size())
-                        return "National Average Score";
+                        return "National Average";
                     else {
                         return xVals.get(round(value));
                     }
