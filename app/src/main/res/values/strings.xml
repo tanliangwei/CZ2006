@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SoftwareEng</string>
+    <string name="app_name">RecyclingSG</string>
     <string name="google_maps_API_key">AIzaSyBGEY6qWiCGFDybzlsj5z_bVSfxB64pY28</string>
     <string name="facebook_app_id">1776523869311176</string>
     <string name="fb_login_protocol_scheme">fb1776523869311176</string>
