@@ -1,8 +1,7 @@
 package com.recyclingsg.app;
 
-import android.content.Context;
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -469,8 +467,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
 
-        } else if (id == R.id.nav_settings) {
-            //TODO this will jump to settings activity
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Welcome to the Facebook login!";
+            String activity = "Login";
+            intent.putExtra("message", message);
+            intent.putExtra("activity",activity);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
