@@ -239,7 +239,15 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             public View getInfoContents(Marker marker) {
                 // Setting up the infoWindow with current's marker info
                 infoTitle.setText(marker.getTitle());
-                infoSnippet.setText(marker.getSnippet());
+                if (marker.getSnippet().length()<40){
+                    String temp = marker.getSnippet();
+                    for(int i=0;i<80;i++){
+                        temp = temp +" ";
+                    }
+                    infoSnippet.setText(temp);
+                }else {
+                    infoSnippet.setText(marker.getSnippet());
+                }
                 navigateButtonListener.setMarker(marker);
 
                 // We must call this to set the current marker and infoWindow references
