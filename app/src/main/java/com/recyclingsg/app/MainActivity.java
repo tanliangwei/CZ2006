@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
+    private Menu menu;
 
     public MainActivity() throws Exception {
     }
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerOpened(View drawerView){
                 Log.d(TAG, "drawer opened");
                 updateLoginView();
+                updateItemTitle();
             }
         };
         drawer.addDrawerListener(toggle);
@@ -136,30 +138,38 @@ public class MainActivity extends AppCompatActivity
         //ImageView navPicture = findViewById(R.id.nav_profile);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         TextView navPoints = (TextView) headerView.findViewById(R.id.nav_points);
-        if(FacebookLogin.getLoginStatus()){
-            navUsername.setText("User Name");
-            navPoints.setText("Points: 0");
-        }
-        else{
-           // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
-            navUsername.setText(userName);
-            navPoints.setText("Points: "+StatisticsManager.getUserScore());
-            //TODO Please make sure that statistic manager is constructed before calling the following function
-            //StatisticsManager.getInstance();
-            //navPoints.setText("Points: " + StatisticsManager.getUserScore());
-        }
+
+
+            if (FacebookLogin.getLoginStatus()) {
+                navUsername.setText("User Name");
+                navPoints.setText("Points: 0");
+            } else {
+                // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
+                navUsername.setText(userName);
+                navPoints.setText("Points: " + StatisticsManager.getUserScore());
+                //TODO Please make sure that statistic manager is constructed before calling the following function
+                //StatisticsManager.getInstance();
+                //navPoints.setText("Points: " + StatisticsManager.getUserScore());
+            }
 
     }
-
-    /*public void navigate(View view) {
-        //format: "geo: latitude,longitude? q="" "
-        Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
+    public void updateItemTitle(){
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navView.getMenu();
+        MenuItem menuItem = menu.findItem(R.id.nav_login);
+        if(menuItem==null){Log.d(TAG,"catch menu item");}
+        try {
+            if (FacebookLogin.getLoginStatus()) {
+                menuItem.setTitle("Login");
+            } else {
+                menuItem.setTitle("Logout");
+            }
+        }catch (Exception e){
+            Log.e(TAG,"fail to set title");
         }
-    }*/
+    }
+
+
 
 
 //    private void initSearchField() {
@@ -471,15 +481,17 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_login) {
-            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
-            String message = "Welcome to the Facebook login!";
-            String activity = "Login";
-            intent.putExtra("message", message);
-            intent.putExtra("activity",activity);
-            startActivity(intent);
-        }
-        else if(id == R.id.nav_logout){
-            LoginManager.getInstance().logOut();
+            if(FacebookLogin.getLoginStatus()) {
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+                String message = "Welcome to the Facebook login!";
+                String activity = "Login";
+                intent.putExtra("message", message);
+                intent.putExtra("activity", activity);
+                startActivity(intent);
+            }
+            else{
+                LoginManager.getInstance().logOut();
+            }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
