@@ -3,6 +3,7 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -171,9 +173,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
         this.navigateButton=(Button)infoWindow.findViewById(R.id.navigateButton);
 
+        //kelvin liang
+        //this is your shit
+
         this.depositButtonListener = new OnInfoWindowElemTouchListener(depositButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
-                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark_focused))
         {
             @Override
             protected void onClickConfirmed(View v, Marker marker) {
@@ -197,7 +202,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
         this.navigateButtonListener = new OnInfoWindowElemTouchListener(navigateButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
-                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark_focused))
         {
             @Override
             protected void onClickConfirmed(View v, Marker marker) {
@@ -214,17 +219,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
 
-//                Uri gmmIntentUri = Uri.parse("geo:1.290270,103.851959?q=restaurant");
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//                mapIntent.setPackage("com.google.android.apps.maps");
-//                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-//                    startActivity(mapIntent);
-//                }
             }
         };
 
 
         this.depositButton.setOnTouchListener(depositButtonListener);
+        this.navigateButton.setOnTouchListener(navigateButtonListener);
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -252,12 +252,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
                 return infoWindow;
             }
+
         });
 
-        this.navigateButton.setOnTouchListener(navigateButtonListener);
-
         //setting my location
-
+        getDeviceLocation();
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
@@ -267,23 +266,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
         }
-
-        mMap.addMarker(new MarkerOptions()
-                .title("Prague")
-                .snippet("Czech Republic")
-                .position(new LatLng(50.08, 14.43)));
-
-        mMap.addMarker(new MarkerOptions()
-                .title("Paris")
-                .snippet("France")
-                .position(new LatLng(48.86,2.33)));
-
-        mMap.addMarker(new MarkerOptions()
-                .title("London")
-                .snippet("United Kingdom")
-                .position(new LatLng(51.51,-0.1)));
-
-
     }
 
     public static int getPixelsFromDp(Context context, float dp) {
@@ -355,13 +337,22 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     private void moveCamera(LatLng latLng, float zoom){
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
     }
 
     public void moveCameraToUserSelectedLocation (){
         moveCamera(userSelectedLocation,DEFAULT_ZOOM);
+    }
+
+    public void moveCameraToUserSelectedCollectionPoint(Marker marker){
+        Log.e("gege","i am in move camera to collectin point");
+        Projection projection = mMap.getProjection();
+        LatLng markerPosition = marker.getPosition();
+        Point markerPoint = projection.toScreenLocation(markerPosition);
+        Point targetPoint = new Point(markerPoint.x, markerPoint.y - 300);
+        LatLng targetPosition = projection.fromScreenLocation(targetPoint);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(targetPosition), 1000, null);
     }
 
     public void clearMapOfMarkers(){

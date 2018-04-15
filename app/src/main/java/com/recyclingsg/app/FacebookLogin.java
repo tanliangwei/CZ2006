@@ -3,6 +3,7 @@ package com.recyclingsg.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class FacebookLogin extends Activity {
+public class FacebookLogin extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
     LoginButton loginButton;
     private static boolean notLoggedIn = true; // true means didn't login
@@ -38,6 +39,7 @@ public class FacebookLogin extends Activity {
         notLoggedIn=(AccessToken.getCurrentAccessToken()==null);
     }
     private void startTargetActivity(String activity){
+        Log.e(TAG,"STARTTARGETACTIVITY") ;
         try {
             Intent goToTargetActivity;
             Intent goToMain = new Intent(this,MainActivity.class);
@@ -66,6 +68,9 @@ public class FacebookLogin extends Activity {
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
         final Intent intent = getIntent();
+
+        Log.e(TAG,"ONCREATE") ;
+
         // Get the Intent that started this activity and extract the string
         String message=" ";
         message = (String)intent.getStringExtra("message");
@@ -85,6 +90,7 @@ public class FacebookLogin extends Activity {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if(currentAccessToken==null){
+                    Log.e(TAG,"CURRENTACCESSTOKENNULL") ;
                     Log.d(TAG,"onLogout Caught");
                     updateLoginStatus();
                     UserManager.setUserName(null);
@@ -101,30 +107,6 @@ public class FacebookLogin extends Activity {
                 final String userId = loginResult.getAccessToken().getUserId();
                 UserManager.setUserID(userId);
                 StatisticsManager.refreshData();
-/*
-                Bundle params = new Bundle();
-                params.putString("fields","picture.type(large)");
-                new GraphRequest(AccessToken.getCurrentAccessToken(), , HttpMethod.GET, new Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        if(response!=null){
-                            try{
-                                JSONObject data = response.getJSONObject();
-                                if (data.has("picture")){
-                                    String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
-                                    URL url = new URL(profilePicUrl);
-                                    Bitmap profilePic = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                                    UserManager.setBitMap(profilePic);
-                                }
-                            }
-                            catch(Exception e){
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }).executeAsync();
-*/
-                //UserManager.setFacebookProfilePicture(userId);
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -150,7 +132,8 @@ public class FacebookLogin extends Activity {
                 request.setParameters(parameters);
                 request.executeAsync();
                 //go back to target activity if successful logged in
-                String activity = intent.getStringExtra("activity");
+                String activity = " ";
+                activity = intent.getStringExtra("activity");
                 startTargetActivity(activity);
 
             }
@@ -158,11 +141,13 @@ public class FacebookLogin extends Activity {
             @Override
             public void onCancel() {
                 // App code
+                Log.e(TAG,"LOGIN ACTIVITY CANCEL") ;
                 Log.v("LoginActivity", "cancel");
             }
 
             @Override
             public void onError(FacebookException exception) {
+                Log.e(TAG,"ERRROR") ;
                 Log.v("LoginActivity", exception.getCause().toString());
             }
 

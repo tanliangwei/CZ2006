@@ -70,6 +70,19 @@ public class TrashInfo {
 
     }
 
+    public String getTrashTypeForSpinner(){
+        if(trashType.equalsIgnoreCase("e-waste")||trashType.equalsIgnoreCase("e-waste-recycling")){
+            return "    EWaste    ";
+        }
+        if(trashType.equalsIgnoreCase("Second-Hand-Goods")||trashType.equalsIgnoreCase("2nd-hand-goods-collection-points")){
+            return "Second Hand Goods";
+        }
+        if(trashType.equalsIgnoreCase("Cash-For-Trash")){
+            return "Cash For Trash";
+        }
+        return trashType;
+    }
+
     @Deprecated
     public void setTrashName(String name){setTrashType(name);}
 

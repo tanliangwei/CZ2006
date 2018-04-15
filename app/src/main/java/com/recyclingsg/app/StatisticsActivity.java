@@ -102,7 +102,7 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
         loadAllStatistics();
-        initialiseTheDateButtons();
+        // initialiseTheDateButtons();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -119,48 +119,48 @@ public class StatisticsActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
 
-    private void initialiseTheDateButtons(){
-        fromDate = (TextView)findViewById(R.id.fromDate);
-        toDate = (TextView) findViewById(R.id.toDate);
-        fromDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar mCurrentDate;
-                mCurrentDate = Calendar.getInstance();
-                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-                int month = mCurrentDate.get(Calendar.MONTH);
-                int year= mCurrentDate.get(Calendar.YEAR);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                        monthOfYear = monthOfYear+1;
-                        fromDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-
-                    }
-                }, year,month,day);
-                datePickerDialog.show();
-            }
-        });
-        toDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar mCurrentDate;
-                mCurrentDate = Calendar.getInstance();
-                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-                int month = mCurrentDate.get(Calendar.MONTH);
-                int year= mCurrentDate.get(Calendar.YEAR);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                        monthOfYear = monthOfYear+1;
-                        toDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-
-                    }
-                }, year,month,day);
-                datePickerDialog.show();
-            }
-        });
-    }
+//    private void initialiseTheDateButtons(){
+//        fromDate = (TextView)findViewById(R.id.fromDate);
+//        toDate = (TextView) findViewById(R.id.toDate);
+//        fromDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar mCurrentDate;
+//                mCurrentDate = Calendar.getInstance();
+//                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+//                int month = mCurrentDate.get(Calendar.MONTH);
+//                int year= mCurrentDate.get(Calendar.YEAR);
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+//                        monthOfYear = monthOfYear+1;
+//                        fromDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+//
+//                    }
+//                }, year,month,day);
+//                datePickerDialog.show();
+//            }
+//        });
+//        toDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar mCurrentDate;
+//                mCurrentDate = Calendar.getInstance();
+//                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+//                int month = mCurrentDate.get(Calendar.MONTH);
+//                int year= mCurrentDate.get(Calendar.YEAR);
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+//                        monthOfYear = monthOfYear+1;
+//                        toDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+//
+//                    }
+//                }, year,month,day);
+//                datePickerDialog.show();
+//            }
+//        });
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -224,6 +224,7 @@ public class StatisticsActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView;
+
             int viewNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (viewNumber){
                 case 1:
@@ -232,6 +233,8 @@ public class StatisticsActivity extends AppCompatActivity {
                     // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     pieChart = (PieChart) rootView.findViewById(R.id.PieChart);
                     loadNationalView();
+                    rootView.canScrollVertically(1);
+                    rootView.canScrollVertically(-1);
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
@@ -239,13 +242,16 @@ public class StatisticsActivity extends AppCompatActivity {
                     // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     barChart = (BarChart) rootView.findViewById(R.id.BarChart);
                     loadTopUserView();
+                    rootView.canScrollVertically(1);
+                    rootView.canScrollVertically(-1);
                     return rootView;
                 case 3:
                     rootView = inflater.inflate(R.layout.deposit_history_layout, container, false);
                     TableLayout depositHistoryTable = rootView.findViewById(R.id.DepositHistoryTable);
 
                     ArrayList<SimpleDepositLog> depositLogs = StatisticsManager.getDepositLogs();
-                    for(SimpleDepositLog log : depositLogs){
+                    for(int i=depositLogs.size()-1; i>=0; i--){
+                        SimpleDepositLog log = depositLogs.get(i);
                         View tableRowView = inflater.inflate(R.layout.deposit_record_view, depositHistoryTable, false);
                         tableRowView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
@@ -258,101 +264,13 @@ public class StatisticsActivity extends AppCompatActivity {
 
                         depositHistoryTable.addView(tableRowView, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
                     }
-
+                    rootView.canScrollVertically(1);
+                    rootView.canScrollVertically(-1);
                     return rootView;
             }
             return null;
         }
 
-
-        /**
-         * new function to load
-         */
-
-        private void loadUserHistory(){
-            float barWidth;
-            float barSpace;
-            float groupSpace;
-
-            barWidth = 0.3f;
-            barSpace = 0f;
-            groupSpace = 0.4f;
-            topAverageUserPersonalChart.setDescription(null);
-            topAverageUserPersonalChart.setPinchZoom(false);
-            topAverageUserPersonalChart.setScaleEnabled(false);
-            topAverageUserPersonalChart.setDrawBarShadow(false);
-            topAverageUserPersonalChart.setDrawGridBackground(false);
-
-            int groupCount = 6;
-
-            ArrayList xVals = new ArrayList();
-
-            xVals.add("Jan");
-            xVals.add("Feb");
-            xVals.add("Mar");
-            xVals.add("Apr");
-            xVals.add("May");
-            xVals.add("Jun");
-
-            ArrayList yVals1 = new ArrayList();
-            ArrayList yVals2 = new ArrayList();
-
-            yVals1.add(new BarEntry(1, (float) 1));
-            yVals2.add(new BarEntry(1, (float) 2));
-            yVals1.add(new BarEntry(2, (float) 3));
-            yVals2.add(new BarEntry(2, (float) 4));
-            yVals1.add(new BarEntry(3, (float) 5));
-            yVals2.add(new BarEntry(3, (float) 6));
-            yVals1.add(new BarEntry(4, (float) 7));
-            yVals2.add(new BarEntry(4, (float) 8));
-            yVals1.add(new BarEntry(5, (float) 9));
-            yVals2.add(new BarEntry(5, (float) 10));
-            yVals1.add(new BarEntry(6, (float) 11));
-            yVals2.add(new BarEntry(6, (float) 12));
-
-            BarDataSet set1, set2;
-            set1 = new BarDataSet(yVals1, "A");
-            set1.setColor(Color.RED);
-            set2 = new BarDataSet(yVals2, "B");
-            set2.setColor(Color.BLUE);
-            BarData data = new BarData(set1, set2);
-            data.setValueFormatter(new LargeValueFormatter());
-            topAverageUserPersonalChart.setData(data);
-            topAverageUserPersonalChart.getBarData().setBarWidth(barWidth);
-            topAverageUserPersonalChart.getXAxis().setAxisMinimum(0);
-            topAverageUserPersonalChart.getXAxis().setAxisMaximum(0 + topAverageUserPersonalChart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
-            topAverageUserPersonalChart.groupBars(0, groupSpace, barSpace);
-            topAverageUserPersonalChart.getData().setHighlightEnabled(false);
-            topAverageUserPersonalChart.animateY(2500);
-            topAverageUserPersonalChart.invalidate();
-
-            Legend l = topAverageUserPersonalChart.getLegend();
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-            l.setDrawInside(true);
-            l.setYOffset(0f);
-            l.setXOffset(0f);
-            l.setYEntrySpace(0f);
-            l.setTextSize(8f);
-
-            //X-axis
-            XAxis xAxis = topAverageUserPersonalChart.getXAxis();
-            xAxis.setGranularity(1f);
-            xAxis.setGranularityEnabled(true);
-            xAxis.setCenterAxisLabels(true);
-            xAxis.setDrawGridLines(false);
-            xAxis.setAxisMaximum(6);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
-            //Y-axis
-            topAverageUserPersonalChart.getAxisRight().setEnabled(false);
-            YAxis leftAxis = topAverageUserPersonalChart.getAxisLeft();
-            leftAxis.setValueFormatter(new LargeValueFormatter());
-            leftAxis.setDrawGridLines(true);
-            leftAxis.setSpaceTop(35f);
-            leftAxis.setAxisMinimum(0f);
-        }
 
         /**
          * function for second view
@@ -408,7 +326,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
                     if (value>=topUsers.size())
-                        return "National Average Score";
+                        return "National Average";
                     else {
                         return xVals.get(round(value));
                     }
