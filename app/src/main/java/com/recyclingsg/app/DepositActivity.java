@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class DepositActivity extends Activity {
     RelativeLayout rl;
     static Button depositButton;
     static Context context;
+    ImageView depositImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,15 @@ public class DepositActivity extends Activity {
         trashTypeCardView = (CardView) findViewById(R.id.cardViewTrashType);
         unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
         depositButton = (Button) findViewById(R.id.depositButton);
+        depositImage = (ImageView) findViewById(R.id.depositImage);
+        depositImage.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DepositActivity.this, "i am clicked ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         functionWhichRemovesKeyboardOnExternalTouch(rl);
 
@@ -89,6 +101,12 @@ public class DepositActivity extends Activity {
         depositButton.setVisibility(View.INVISIBLE);
         depositButton.setClickable(false);
 
+    }
+
+    private void functionToCallCamera(){
+        //ZHIHAO CAMERA FUNCTIONS HERE
+        ImageView image = depositImage;
+        
     }
 
     public void initialiseDateButtons(){
@@ -130,14 +148,12 @@ public class DepositActivity extends Activity {
 
         // Initialise values of Spinner
         if (tcp.getTrash().size()>0){
-            mSpinnerAdapter.add(tcp.getTrash().get(0).getTrashType());
+            mSpinnerAdapter.add("Select Trash");
             for (TrashInfo x : tcp.getTrash()){
                 String Temp = x.getTrashType();
-                Log.d("INITIALISE SPINNER","THROUGH ARRAY " + Temp);
                 mSpinnerAdapter.add(Temp);
             }
         } else{
-            Log.d("INITIALISE SPINNER","THROUGH DEFAULT");
                 for (String x : TrashInfo.typeOfTrash)
                     mSpinnerAdapter.add(x);
             }
@@ -285,10 +301,9 @@ public class DepositActivity extends Activity {
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         if (tcp.getTrash().get(index).getPriceInfoList().size()>0) {
-            spinnerArrayAdapter.add(tcp.getTrash().get(index).getPriceInfoList().get(0).getTrashName());
+            spinnerArrayAdapter.add("Select SubTrash");
             for (PriceInfo x : tcp.getTrash().get(index).getPriceInfoList()) {
                 String Temp = x.getTrashName();
-                Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + Temp);
                 spinnerArrayAdapter.add(Temp);
             }
         }

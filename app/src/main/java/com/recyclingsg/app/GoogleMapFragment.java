@@ -202,7 +202,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
         this.navigateButtonListener = new OnInfoWindowElemTouchListener(navigateButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
-                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark_focused))
         {
             @Override
             protected void onClickConfirmed(View v, Marker marker) {
@@ -256,6 +256,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         });
 
         //setting my location
+        getDeviceLocation();
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
