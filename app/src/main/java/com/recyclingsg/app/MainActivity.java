@@ -195,7 +195,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
@@ -346,9 +345,7 @@ public class MainActivity extends AppCompatActivity
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
-
             query(view);
-
         }
     };
 
@@ -516,5 +513,9 @@ public class MainActivity extends AppCompatActivity
                 functionWhichRemovesKeyboardOnExternalTouch(innerView);
             }
         }
+    }
+
+    public void onClick_btnCentreMap(View v){
+        mGoogleMapManager.getDeviceLocation();
     }
 }

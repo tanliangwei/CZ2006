@@ -6,8 +6,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +72,8 @@ public class DepositActivity extends Activity {
     RelativeLayout rl;
     static Button depositButton;
     static Context context;
+    public static final String pointTransfer = "pointTransfer";
+
     ImageView depositImage;
     private static final int REQUEST_TAKE_PHOTO = 1;
     String mCurrentPhotoPath;
@@ -90,7 +94,7 @@ public class DepositActivity extends Activity {
         initUnitEditText();
     }
 
-    public void initViews(){
+    public void initViews() {
         rl = (RelativeLayout) findViewById(R.id.depositRelativeLayout);
         trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
         trashCollectionPointText.setText(TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName());
@@ -105,7 +109,7 @@ public class DepositActivity extends Activity {
         unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
         depositButton = (Button) findViewById(R.id.depositButton);
         depositImage = (ImageView) findViewById(R.id.depositImage);
-        depositImage.setOnClickListener(new View.OnClickListener(){
+        depositImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -124,14 +128,14 @@ public class DepositActivity extends Activity {
     }
 
 
-    public void initialiseDateButtons(){
+    public void initialiseDateButtons() {
 
         Calendar mCurrentDate;
         mCurrentDate = Calendar.getInstance();
         int curDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
         int curMonth = mCurrentDate.get(Calendar.MONTH);
-        int curYear= mCurrentDate.get(Calendar.YEAR);
-        dateText.setText(curDay+"/"+curMonth+"/"+curYear);
+        int curYear = mCurrentDate.get(Calendar.YEAR);
+        dateText.setText(curDay + "/" + curMonth + "/" + curYear);
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,21 +144,21 @@ public class DepositActivity extends Activity {
                 mCurrentDate = Calendar.getInstance();
                 int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
                 int month = mCurrentDate.get(Calendar.MONTH);
-                int year= mCurrentDate.get(Calendar.YEAR);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(DepositActivity.this, new DatePickerDialog.OnDateSetListener(){
+                int year = mCurrentDate.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DepositActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                        monthOfYear = monthOfYear+1;
-                        dateText.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        monthOfYear = monthOfYear + 1;
+                        dateText.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
 
                     }
-                }, year,month,day);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });
     }
 
-    public void initWasteTypeSpinner(){
+    public void initWasteTypeSpinner() {
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
@@ -162,17 +166,17 @@ public class DepositActivity extends Activity {
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Initialise values of Spinner
-        if (tcp.getTrash().size()>0){
-            for (TrashInfo x : tcp.getTrash()){
+        if (tcp.getTrash().size() > 0) {
+            for (TrashInfo x : tcp.getTrash()) {
                 String Temp = x.getTrashTypeForSpinner();
                 mSpinnerAdapter.add(Temp);
 
             }
             mSpinnerAdapter.add("Select Trash");
-        } else{
-                for (String x : TrashInfo.typeOfTrash)
-                    mSpinnerAdapter.add(x);
-            }
+        } else {
+            for (String x : TrashInfo.typeOfTrash)
+                mSpinnerAdapter.add(x);
+        }
 
         // Apply the adapter to the spinner
         //Log.d("SIZE OF ADAPTER","IS "+mSpinnerAdapter.getCount());
@@ -182,16 +186,12 @@ public class DepositActivity extends Activity {
 
     }
 
-    private void initUnitEditText(){
-        unitEditText.setOnKeyListener(new View.OnKeyListener()
-        {
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
+    private void initUnitEditText() {
+        unitEditText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
-                    switch (keyCode)
-                    {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             removeKeyboard(DepositActivity.this);
@@ -220,28 +220,28 @@ public class DepositActivity extends Activity {
         checkToSeeIfWeShouldGenerateConfirmButton();
     }
 
-    private static void generateConfirmButton(){
+    private static void generateConfirmButton() {
         RelativeLayout.LayoutParams depositButtonLayoutParams = (RelativeLayout.LayoutParams) depositButton.getLayoutParams();
         depositButtonLayoutParams.removeRule(RelativeLayout.BELOW);
-        depositButtonLayoutParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
+        depositButtonLayoutParams.addRule(RelativeLayout.BELOW, R.id.cardViewUnit);
         depositButton.setVisibility(View.VISIBLE);
         depositButton.setClickable(true);
     }
 
-    private static void removeConfirmButton(){
+    private static void removeConfirmButton() {
         RelativeLayout.LayoutParams depositButtonLayoutParams = (RelativeLayout.LayoutParams) depositButton.getLayoutParams();
         depositButtonLayoutParams.removeRule(RelativeLayout.BELOW);
-        depositButtonLayoutParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
+        depositButtonLayoutParams.addRule(RelativeLayout.BELOW, R.id.cardViewUnit);
         depositButton.setVisibility(View.INVISIBLE);
         depositButton.setClickable(false);
     }
 
-    private static void checkToSeeIfWeShouldGenerateConfirmButton(){
+    private static void checkToSeeIfWeShouldGenerateConfirmButton() {
 
         String text = unitEditText.getText().toString();
         try {
             int num = Integer.parseInt(text);
-            Log.i("",num+" is a number");
+            Log.i("", num + " is a number");
             generateConfirmButton();
         } catch (NumberFormatException e) {
             removeConfirmButton();
@@ -251,7 +251,7 @@ public class DepositActivity extends Activity {
     }
 
     private ArrayAdapter<String> createSpinnerAdapter() {
-        ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
+        ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -288,39 +288,40 @@ public class DepositActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
 
 
-                if(trashTypeSelected.toString().equalsIgnoreCase("cash-for-trash") || trashTypeSelected.toString().equalsIgnoreCase("cash for trash") ){
+                if (trashTypeSelected.toString().equalsIgnoreCase("cash-for-trash") || trashTypeSelected.toString().equalsIgnoreCase("cash for trash")) {
                     generateSpinnerForCashForTrash();
-                }else{
+                } else {
                     removeSpinnerForCashForTrash();
                     unitText.setVisibility(View.VISIBLE);
                     unitEditText.setVisibility(View.VISIBLE);
                 }
             }
         }
+
         @Override
-        public void onNothingSelected (AdapterView < ? > adapterView){
+        public void onNothingSelected(AdapterView<?> adapterView) {
 
         }
 
     };
 
-    private void generateSpinnerForCashForTrash(){
+    private void generateSpinnerForCashForTrash() {
 
         RelativeLayout.LayoutParams subTrashCardParams = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
         subTrashCardParams.removeRule(RelativeLayout.BELOW);
-        subTrashCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
+        subTrashCardParams.addRule(RelativeLayout.BELOW, R.id.cardViewTrashType);
         subTrashCardView.setVisibility(View.VISIBLE);
         subTrashCardView.setClickable(true);
 
         RelativeLayout.LayoutParams unitsCardParams = (RelativeLayout.LayoutParams) unitsCardView.getLayoutParams();
         unitsCardParams.removeRule(RelativeLayout.BELOW);
-        unitsCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewSubTrash);
+        unitsCardParams.addRule(RelativeLayout.BELOW, R.id.cardViewSubTrash);
 
         TrashCollectionPointManager.getInstance();
         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         int index = 0;
-        for(int i =0;i<tcp.getTrash().size();i++){
-            if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")){
+        for (int i = 0; i < tcp.getTrash().size(); i++) {
+            if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")) {
                 index = i;
                 break;
             }
@@ -328,7 +329,7 @@ public class DepositActivity extends Activity {
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        if (tcp.getTrash().get(index).getPriceInfoList().size()>0) {
+        if (tcp.getTrash().get(index).getPriceInfoList().size() > 0) {
             for (PriceInfo x : tcp.getTrash().get(index).getPriceInfoList()) {
                 String Temp = x.getTrashName();
                 spinnerArrayAdapter.add(Temp);
@@ -351,32 +352,32 @@ public class DepositActivity extends Activity {
 
     }
 
-    private void removeSpinnerForCashForTrash(){
+    private void removeSpinnerForCashForTrash() {
         RelativeLayout.LayoutParams unitsCardParams = (RelativeLayout.LayoutParams) unitsCardView.getLayoutParams();
         unitsCardParams.removeRule(RelativeLayout.BELOW);
-        unitsCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewTrashType);
+        unitsCardParams.addRule(RelativeLayout.BELOW, R.id.cardViewTrashType);
 
         RelativeLayout.LayoutParams subTrashCardParams = (RelativeLayout.LayoutParams) subTrashCardView.getLayoutParams();
         subTrashCardParams.removeRule(RelativeLayout.BELOW);
-        subTrashCardParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
+        subTrashCardParams.addRule(RelativeLayout.BELOW, R.id.cardViewUnit);
         subTrashCardView.setVisibility(View.INVISIBLE);
         subTrashCardView.setClickable(false);
     }
 
-    public void onClick_deposit_enter(View v){
-        if(v.getId() == R.id.depositButton){
+    public void onClick_deposit_enter(View v) {
+        if (v.getId() == R.id.depositButton) {
             TrashCollectionPointManager.getInstance();
             TrashCollectionPoint currentTCP = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
-            ArrayList<String> CashForTrashUnits=new ArrayList<String>();
-            ArrayList<String> CashForTrashNames=new ArrayList<String>();
-            ArrayList<Double> CashForTrashPrices=new ArrayList<Double>();
+            ArrayList<String> CashForTrashUnits = new ArrayList<String>();
+            ArrayList<String> CashForTrashNames = new ArrayList<String>();
+            ArrayList<Double> CashForTrashPrices = new ArrayList<Double>();
             //get user selected trash
             String trashType = trashTypeSpinner.getSelectedItem().toString();
 
-            if (!trashType.equalsIgnoreCase("Select Trash")){
+            if (!trashType.equalsIgnoreCase("Select Trash")) {
                 //cash for trash names
-                if(trashType.equalsIgnoreCase("cash for trash")||trashType.equalsIgnoreCase("cash-for-trash")){
-                    if(!subTrashSpinner.getSelectedItem().toString().equalsIgnoreCase("Select Sub-Trash")) {
+                if (trashType.equalsIgnoreCase("cash for trash") || trashType.equalsIgnoreCase("cash-for-trash")) {
+                    if (!subTrashSpinner.getSelectedItem().toString().equalsIgnoreCase("Select Sub-Trash")) {
                         String trashName = subTrashSpinner.getSelectedItem().toString();
                         TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
                         int index = 0;
@@ -394,29 +395,31 @@ public class DepositActivity extends Activity {
                                 break;
                             }
                         }
-                        Toast.makeText(getBaseContext(),"Completed Trash deposit" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Completed Trash deposit", Toast.LENGTH_SHORT).show();
                         CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
                         CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
                         CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
-                        Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
-                        startActivity(intentToConfirmationPage);
-                    }else{
-                        Toast.makeText(getBaseContext(),"Select Sub-Trash" , Toast.LENGTH_SHORT).show();
 
+                    } else {
+                        Toast.makeText(getBaseContext(), "Select Sub-Trash", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);
-                float units = Float.valueOf(unitEditText.getText().toString());
-                DepositManager.getInstance();
-                DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
-
-                Intent intent = new Intent(DepositActivity.this, MainActivity.class);
-                startActivity(intent);
-
-            }else{
-                Toast.makeText(getBaseContext(),"Select Trash Type " , Toast.LENGTH_SHORT).show();
             }
+
+            TrashInfo depositTrash = new TrashInfo(trashType, CashForTrashNames, CashForTrashUnits, CashForTrashPrices);
+            float units = Float.valueOf(unitEditText.getText().toString());
+            DepositManager.getInstance();
+            Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
+            //The below code is required to put this block of code in DepositManager
+//          intentToConfirmationPage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Log.d(TAG, "onClick_deposit_enter: Starting Activity");
+            intentToConfirmationPage.putExtra("pointTransfer", Float.toString(DepositManager.createDepositRecord(depositTrash, units, new Date(), currentTCP).getScore()));
+            startActivity(intentToConfirmationPage);
+            Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
+        } else {
+            Toast.makeText(getBaseContext(), "Select Trash Type ", Toast.LENGTH_SHORT).show();
+        }
+    }
 //            //cash for trash names
 //            if(trashType.equalsIgnoreCase("cash for trash")||trashType.equalsIgnoreCase("cash-for-trash")){
 //                if(subTrashSpinner.getSelectedItem()!=null) {
@@ -456,9 +459,6 @@ public class DepositActivity extends Activity {
 //            Intent intent = new Intent(DepositActivity.this, MainActivity.class);
 //            startActivity(intent);
 
-        }
-    }
-
     public void functionWhichRemovesKeyboardOnExternalTouch(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -488,7 +488,7 @@ public class DepositActivity extends Activity {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
 
             // set the dimensions of the image
-            int targetW =100;
+            int targetW = 100;
             int targetH = 100;
 
             // Get the dimensions of the bitmap
@@ -499,7 +499,7 @@ public class DepositActivity extends Activity {
             int photoH = bmOptions.outHeight;
 
             // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
@@ -507,7 +507,7 @@ public class DepositActivity extends Activity {
             bmOptions.inPurgeable = true;
 
             // stream = getContentResolver().openInputStream(data.getData());
-            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),bmOptions);
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
             depositImage.setImageBitmap(bitmap);
             depositImage.setAdjustViewBounds(true);
 
@@ -515,10 +515,11 @@ public class DepositActivity extends Activity {
 
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timeStamp = formatter.format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(

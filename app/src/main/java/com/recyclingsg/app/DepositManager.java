@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.content.Intent;
 import android.util.Log;
 
 import java.util.Date;
@@ -31,7 +32,7 @@ public class DepositManager {
     public DepositManager(){}
 
     //public DepositRecord(String userid, Date date, float units, TrashInfo trashInfo, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
-    public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
+    public static DepositRecord createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         UserManager.getInstance();
         String UserID = UserManager.getUserId();
         String UserName = UserManager.getUserName();
@@ -50,7 +51,7 @@ public class DepositManager {
         DatabaseManager.getInstance();
         DatabaseManager.addDepositRecord(dr);
 
-
+        return dr;
     }
 
     // to calculate revenue
