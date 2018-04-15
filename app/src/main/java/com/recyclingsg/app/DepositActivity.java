@@ -334,7 +334,7 @@ public class DepositActivity extends Activity {
             ArrayList<Double> CashForTrashPrices=new ArrayList<Double>();
             //get user selected trash
             String trashType = trashTypeSpinner.getSelectedItem().toString();
-            //cash for trash nameseee
+            //cash for trash names
             if(trashType.equalsIgnoreCase("cash for trash")||trashType.equalsIgnoreCase("cash-for-trash")){
                 String trashName = subTrashSpinner.getSelectedItem().toString();
                 TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
@@ -358,6 +358,7 @@ public class DepositActivity extends Activity {
                 CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
                 Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
                 startActivity(intentToConfirmationPage);
+                Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
             }
 
             TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);
