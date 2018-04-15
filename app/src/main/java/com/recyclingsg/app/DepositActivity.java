@@ -53,6 +53,7 @@ public class DepositActivity extends Activity {
     RelativeLayout rl;
     static Button depositButton;
     static Context context;
+    public static final String pointTransfer = "pointTransfer";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -356,18 +357,17 @@ public class DepositActivity extends Activity {
                 CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
                 CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
                 CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
-                Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
-                startActivity(intentToConfirmationPage);
-                Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
             }
 
             TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);
             float units = Float.valueOf(unitEditText.getText().toString());
             DepositManager.getInstance();
             DepositManager.createDepositRecord(depositTrash,units,new Date(),currentTCP);
-
-            Intent intent = new Intent(DepositActivity.this, MainActivity.class);
-            startActivity(intent);
+            Intent intentToConfirmationPage = new Intent(context, DepositCompleteActivity.class);
+            Log.d(TAG, "onClick_deposit_enter: Starting Activity");
+            intentToConfirmationPage.putExtra("pointTransfer", "50");
+            this.startActivity(intentToConfirmationPage);
+            Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
 
         }
     }

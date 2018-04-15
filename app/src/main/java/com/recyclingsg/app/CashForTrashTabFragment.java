@@ -55,7 +55,6 @@ public class CashForTrashTabFragment extends Fragment {
         CashForTrashTabFragment fragment = new CashForTrashTabFragment();
         fragment.setArguments(args);
         return fragment;
-
     }
 
 

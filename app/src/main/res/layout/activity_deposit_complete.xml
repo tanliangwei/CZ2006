@@ -7,25 +7,12 @@ android:layout_height="match_parent"
 android:background="@drawable/deposit_complete_gradient"
 tools:context="com.recyclingsg.app.DepositCompleteActivity">
 
-
-<ImageButton
-    android:id="@+id/depositComplete_exit"
-    android:layout_width="160dp"
-    android:layout_height="48dp"
-    android:layout_marginBottom="20dp"
-    android:layout_marginEnd="14dp"
-    android:adjustViewBounds="false"
-    android:background="@mipmap/ic_deposit_exit"
-    android:cropToPadding="false"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
-
 <ImageButton
     android:id="@+id/depositComplete_continue"
     android:layout_width="160dp"
     android:layout_height="48dp"
-    android:layout_marginBottom="20dp"
-    android:layout_marginStart="14dp"
+    android:layout_marginBottom="30dp"
+    android:layout_marginStart="110dp"
     android:background="@mipmap/ic_deposit_confirm"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
@@ -36,7 +23,7 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
     android:layout_height="110dp"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="48dp"
+    android:layout_marginTop="25dp"
     android:background="@mipmap/ic_deposit_slogan"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +33,9 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
     android:id="@+id/ic_coins"
     android:layout_width="80dp"
     android:layout_height="40dp"
-    android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
     android:background="@mipmap/ic_deposit_coins"
+    android:layout_marginStart="5dp"
     app:layout_constraintStart_toEndOf="@+id/txt_points"
     app:layout_constraintTop_toBottomOf="@+id/depositComplete_sologan" />
 
@@ -56,11 +43,11 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
     android:id="@+id/txt_points"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="124dp"
-    android:layout_marginTop="12dp"
+    android:layout_marginStart="80dp"
+    android:layout_marginTop="5dp"
     android:text="Points: "
-    android:textColor="@android:color/holo_orange_light"
-    android:textSize="24sp"
+    android:textColor="#E4E259"
+    android:textSize="27dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/depositComplete_sologan" />
 
@@ -87,15 +74,15 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
 
 <ImageView
     android:id="@+id/ic_signCheck"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="88dp"
+    android:layout_marginTop="5dp"
     android:src="@mipmap/ic_signcheck"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/txt_depostiConfirm" />
+    app:layout_constraintTop_toBottomOf="@+id/txt_depostiConfirm"/>
 
 
 </android.support.constraint.ConstraintLayout>

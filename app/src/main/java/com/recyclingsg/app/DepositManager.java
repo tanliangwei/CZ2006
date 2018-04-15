@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.content.Intent;
 import android.util.Log;
 
 import java.util.Date;
@@ -49,8 +50,6 @@ public class DepositManager {
         //adding to data base
         DatabaseManager.getInstance();
         DatabaseManager.addDepositRecord(dr);
-
-
     }
 
     // to calculate revenue
