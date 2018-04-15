@@ -148,11 +148,11 @@ public class DepositActivity extends Activity {
 
         // Initialise values of Spinner
         if (tcp.getTrash().size()>0){
-            mSpinnerAdapter.add("Select Trash");
             for (TrashInfo x : tcp.getTrash()){
                 String Temp = x.getTrashType();
                 mSpinnerAdapter.add(Temp);
             }
+            mSpinnerAdapter.add("Select Trash");
         } else{
                 for (String x : TrashInfo.typeOfTrash)
                     mSpinnerAdapter.add(x);
@@ -191,12 +191,18 @@ public class DepositActivity extends Activity {
         });
     }
 
-    public static void removeKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+    public void removeKeyboard(Activity activity) {
+//        InputMethodManager inputMethodManager =
+//                (InputMethodManager) activity.getSystemService(
+//                        Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(
+//                activity.getCurrentFocus().getWindowToken(), 0);
+
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         checkToSeeIfWeShouldGenerateConfirmButton();
     }
 
@@ -296,16 +302,15 @@ public class DepositActivity extends Activity {
                 break;
             }
         }
-        Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + tcp.getTrash().get(index).getTrashType() + " "+ tcp.getTrash().get(index).getPriceInfoList().size());
         ArrayList<String> spinnerArray = new ArrayList<String>();
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         if (tcp.getTrash().get(index).getPriceInfoList().size()>0) {
-            spinnerArrayAdapter.add("Select SubTrash");
             for (PriceInfo x : tcp.getTrash().get(index).getPriceInfoList()) {
                 String Temp = x.getTrashName();
                 spinnerArrayAdapter.add(Temp);
             }
+            spinnerArrayAdapter.add("Select SubTrash");
         }
         //adapter = ArrayAdapter.createFromResource(this, R.array.cashForTrashSubCategories, android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -313,7 +318,6 @@ public class DepositActivity extends Activity {
         subTrashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getBaseContext(), adapterView.getItemAtPosition(i).toString() + " is selected", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -338,10 +342,6 @@ public class DepositActivity extends Activity {
 
     public void onClick_deposit_enter(View v){
         if(v.getId() == R.id.depositButton){
-            Log.d("on_click deposit enter", "Enter button clicked");
-            //String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices)
-            //public static void createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint)
-            //creating the new trash info
             TrashCollectionPointManager.getInstance();
             TrashCollectionPoint currentTCP = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
             ArrayList<String> CashForTrashUnits=new ArrayList<String>();
@@ -351,29 +351,33 @@ public class DepositActivity extends Activity {
             String trashType = trashTypeSpinner.getSelectedItem().toString();
             //cash for trash names
             if(trashType.equalsIgnoreCase("cash for trash")||trashType.equalsIgnoreCase("cash-for-trash")){
-                String trashName = subTrashSpinner.getSelectedItem().toString();
-                TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
-                int index = 0;
-                for(int i =0;i<tcp.getTrash().size();i++){
-                    if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")){
-                        index = i;
-                        break;
+                if(subTrashSpinner.getSelectedItem()!=null) {
+                    String trashName = subTrashSpinner.getSelectedItem().toString();
+                    TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                    int index = 0;
+                    for (int i = 0; i < tcp.getTrash().size(); i++) {
+                        if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")) {
+                            index = i;
+                            break;
+                        }
                     }
-                }
-                // getting the appropriate trash info
-                TrashInfo temp = tcp.getTrash().get(index);
-                for(int i =0;i<temp.getPriceInfoList().size();i++){
-                    if (temp.getPriceInfoList().get(i).getTrashName().equalsIgnoreCase(trashName)){
-                        index = i;
-                        break;
+                    // getting the appropriate trash info
+                    TrashInfo temp = tcp.getTrash().get(index);
+                    for (int i = 0; i < temp.getPriceInfoList().size(); i++) {
+                        if (temp.getPriceInfoList().get(i).getTrashName().equalsIgnoreCase(trashName)) {
+                            index = i;
+                            break;
+                        }
                     }
+                    CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
+                    CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
+                    CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
+                    Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
+                    startActivity(intentToConfirmationPage);
+                }else{
+                    Toast.makeText(getBaseContext(),"Select SubTrash " , Toast.LENGTH_SHORT).show();
+
                 }
-                CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
-                CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
-                CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
-                Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
-                startActivity(intentToConfirmationPage);
-                Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
             }
 
             TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);
