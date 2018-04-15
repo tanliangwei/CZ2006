@@ -107,30 +107,6 @@ public class FacebookLogin extends AppCompatActivity {
                 final String userId = loginResult.getAccessToken().getUserId();
                 UserManager.setUserID(userId);
                 StatisticsManager.refreshData();
-/*
-                Bundle params = new Bundle();
-                params.putString("fields","picture.type(large)");
-                new GraphRequest(AccessToken.getCurrentAccessToken(), , HttpMethod.GET, new Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        if(response!=null){
-                            try{
-                                JSONObject data = response.getJSONObject();
-                                if (data.has("picture")){
-                                    String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
-                                    URL url = new URL(profilePicUrl);
-                                    Bitmap profilePic = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                                    UserManager.setBitMap(profilePic);
-                                }
-                            }
-                            catch(Exception e){
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }).executeAsync();
-*/
-                //UserManager.setFacebookProfilePicture(userId);
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
