@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,6 +106,15 @@ public class MainActivity extends AppCompatActivity
 //        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
 //        //navUserId.setText(UserManager.getUserId());
 //        navUserId.setText("User ID");
+
+        ImageView nav_profile = (ImageView)findViewById(R.id.nav_profile);
+        nav_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);;
+                startActivity(intent);
+            }
+        });
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -193,6 +203,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
 
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");

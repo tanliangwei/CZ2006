@@ -169,9 +169,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.infoSnippet = (TextView)infoWindow.findViewById(R.id.descriptionText);
         this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
 
+        //kelvin liang
+        //this is your shit
+
         this.depositButtonListener = new OnInfoWindowElemTouchListener(depositButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
-                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark_focused))
         {
             @Override
             protected void onClickConfirmed(View v, Marker marker) {
