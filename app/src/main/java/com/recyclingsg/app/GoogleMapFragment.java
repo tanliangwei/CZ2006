@@ -256,6 +256,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         });
 
         //setting my location
+        getDeviceLocation();
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
