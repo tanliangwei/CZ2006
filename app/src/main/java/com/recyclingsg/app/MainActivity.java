@@ -450,6 +450,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("activity",activity);
                 startActivity(intent);
 
+
             }
             else {
                 Intent intent = new Intent(MainActivity.this, PostPrivateCollectionPointActivity.class);

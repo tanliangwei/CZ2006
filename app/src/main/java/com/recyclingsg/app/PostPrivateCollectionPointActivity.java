@@ -26,18 +26,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-import static android.content.ContentValues.TAG;
-import static android.content.res.Configuration.KEYBOARD_12KEY;
 
 public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
@@ -50,20 +43,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     EditText addressFillField;
     EditText zipFillField;
     EditText contactDetailsFillField;
-    EditText openingTimeFillField;
-    EditText closingTimeFillField;
     EditText descriptionFillField;
     Button postPrivateCollectionPointButton;
-    Spinner typeOfTrashSpinner;
-    ArrayAdapter<String> mSpinnerAdapter;
-//    EditText trashNameFillField;
-//    EditText trashPricesFillField;
-//    EditText trashUnitFillField;
-    Button addTypeOfTrash;
-    String trashTypeSelected;
-    List<TrashTypePost> ttpList;
-    TrashTypeListAdapter trashTypeListAdapter;
-    private String current = "";
+
     GoogleGeocoder googleGeocoder;
     List<String> typeOfTrashes;
     List<String> trashNames;
@@ -96,7 +78,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             }
         });
 
-        ttpList = new ArrayList<>();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -110,61 +91,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     }
 
 
-
-
-
-    public void compileTtpList() {
-        if (((CheckBox)findViewById(R.id.checkbox_cashfortrash)).isChecked()){
-            typeOfTrashes.add("Cash for Trash");
-            compileCFTposts();
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_eWaste)).isChecked()){
-            typeOfTrashes.add("eWaste");
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_second_hand)).isChecked()){
-            typeOfTrashes.add("Second Hand Goods");
-        }
-
-
-    }
-    public void compileCFTposts(){
-        if (((CheckBox)findViewById(R.id.checkbox_aluminium_drink_cans)).isChecked()) {
-            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_aluminium_drink_cans)).toString().substring(1));
-            trashNames.add("Aluminium drink cans");
-            trashPrices.add(price);
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_metal_tins)).isChecked()) {
-            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_metal_tins)).toString().substring(1));
-            trashNames.add("Metal Tins");
-            trashPrices.add(price);
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_old_clothing)).isChecked()) {
-            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_old_clothing)).toString().substring(1));
-            trashNames.add("Old Clothing / bedsheet ");
-            trashPrices.add(price);
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_papers)).isChecked()) {
-            Double price = Double.parseDouble(((EditText) findViewById(R.id.price_papers)).toString().substring(1));
-            trashNames.add("Papers");
-            trashPrices.add(price);
-        }
-        if (((CheckBox)findViewById(R.id.checkbox_small_appliances)).isChecked()) {
-            trashNames.add("Small Appliances");
-            trashPrices.add((double) 0);
-        }
-
-    }
-
-
-    void saveTtpToList(TrashTypePost ttp){
-
-        if (ttp.typeOfTrash.equals("Cash For Trash")){
-        trashNames.add(ttp.trashName);
-        trashPrices.add(Double.parseDouble(ttp.trashPrice));
-        trashUnits.add(ttp.trashUnit);
-        }
-        typeOfTrashes.add(ttp.typeOfTrash);
-        }
 
     //this function is called when the submit button is pressed
     private void submitCollectionPointForm() {
@@ -201,7 +127,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             // the TRASHTYPE will contain a cash for trash
             //TRASHNAME and TRASHPRICES will be the names and prices arranged in order. so like aluminium, $2, units will be '$/kg' in string
 
-
+            tabAdapter.compileTtpList((ArrayList<String>)typeOfTrashes, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices, (ArrayList<String>) trashUnits);
 
             //calling trash collection point manager.
             TrashCollectionPointManager.getInstance();
@@ -217,79 +143,6 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-
-
-    class TrashTypePost{
-        String typeOfTrash;
-        String trashName;
-        String trashPrice;
-        String trashUnit;
-    }
-
-
-
-    class TrashTypeViewHolder {
-        TextView list_typeOfTrash;
-        TextView list_trashName;
-        TextView list_trashPrice;
-        TextView list_trashUnit;
-
-        TrashTypeViewHolder(View view){
-            list_typeOfTrash = (TextView) view.findViewById(R.id.trash_type_display);
-            list_trashName = (TextView) view.findViewById(R.id.trash_name_display);
-            list_trashPrice = (TextView) view.findViewById(R.id.trash_price_display);
-            list_trashUnit = (TextView) view.findViewById(R.id.trash_unit_display);
-
-        }
-
-        public void setText(TrashTypePost ttp){
-
-            list_typeOfTrash.setText(ttp.typeOfTrash);
-
-            if (ttp.trashName == null || ttp.trashPrice == null || ttp.trashUnit == null){
-                list_trashName.setVisibility(View.INVISIBLE);
-                list_trashPrice.setVisibility(View.INVISIBLE);
-                list_trashUnit.setVisibility(View.INVISIBLE);
-            } else{
-                list_trashName.setText(ttp.trashName);
-                list_trashPrice.setText(ttp.trashPrice);
-                list_trashUnit.setText(ttp.trashUnit);
-            }
-        }
-
-
-    }
-
-
-    class TrashTypeListAdapter extends ArrayAdapter<TrashTypePost>{
-
-        List<TrashTypePost> list;
-        public TrashTypeListAdapter(Activity context, List<TrashTypePost> list){
-            super(context, 0, list);
-            this.list = list;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            TrashTypeViewHolder trashTypeViewHolder;
-            if (convertView == null){
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_trashtype_to_post,parent,false);
-                trashTypeViewHolder = new TrashTypeViewHolder(convertView);
-                convertView.setTag(trashTypeViewHolder);
-            }else{
-                trashTypeViewHolder = (TrashTypeViewHolder) convertView.getTag();
-            }
-            trashTypeViewHolder.setText(list.get(position));
-            return convertView;
-        }
-
-    }
-
-
-
-
 
 
 }
