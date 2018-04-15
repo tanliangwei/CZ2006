@@ -14,9 +14,16 @@ import android.widget.TextView;
  */
 public class eWasteTabFragment extends Fragment {
 
-
+    CheckBox cbEWaste;
     public eWasteTabFragment() {
         // Required empty public constructor
+    }
+
+    public boolean isChecked(){
+        if (cbEWaste.isChecked())
+            return true;
+        else
+            return false;
     }
 
 
@@ -24,7 +31,7 @@ public class eWasteTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_layout_ewaste,container,false);
-        CheckBox cbEWaste = (CheckBox) rootView.findViewById(R.id.checkbox_eWaste);
+        cbEWaste = (CheckBox) rootView.findViewById(R.id.checkbox_eWaste);
 
         return rootView;
     }

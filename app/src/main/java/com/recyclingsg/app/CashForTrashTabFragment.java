@@ -15,7 +15,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 import static android.content.res.Configuration.KEYBOARD_12KEY;
@@ -26,6 +29,7 @@ import static android.content.res.Configuration.KEYBOARD_12KEY;
 
 public class CashForTrashTabFragment extends Fragment {
 
+    private View mView;
     private static final String TAG="CashForTrashTabFragment";
 
     private int mPage;
@@ -62,7 +66,7 @@ public class CashForTrashTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_layout_cashfortrash, container,false);
-
+        mView = rootView;
         cbCashForTrash = (CheckBox) rootView.findViewById(R.id.checkbox_cashfortrash);
         cbAluminium = (CheckBox) rootView.findViewById(R.id.checkbox_aluminium_drink_cans);
         cbAluminium.setVisibility(View.INVISIBLE);
@@ -141,13 +145,13 @@ public class CashForTrashTabFragment extends Fragment {
         });
 
         etAluminium.setRawInputType(KEYBOARD_12KEY);
-        etAluminium.addTextChangedListener( new priceTextWatcher(etAluminium));
+        etAluminium.addTextChangedListener( new PriceTextWatcher(etAluminium));
         etOldClothing.setRawInputType(KEYBOARD_12KEY);
-        etOldClothing.addTextChangedListener( new priceTextWatcher(etOldClothing));
+        etOldClothing.addTextChangedListener( new PriceTextWatcher(etOldClothing));
         etPapers.setRawInputType(KEYBOARD_12KEY);
-        etPapers.addTextChangedListener( new priceTextWatcher(etPapers));
+        etPapers.addTextChangedListener( new PriceTextWatcher(etPapers));
         etMetalTin.setRawInputType(KEYBOARD_12KEY);
-        etMetalTin.addTextChangedListener( new priceTextWatcher(etMetalTin));
+        etMetalTin.addTextChangedListener( new PriceTextWatcher(etMetalTin));
 
 
         
@@ -323,38 +327,96 @@ public class CashForTrashTabFragment extends Fragment {
 
     }
 
-        class priceTextWatcher implements TextWatcher{
-                EditText editText;
-            priceTextWatcher(EditText editText){
-                this.editText = editText;
-            }
+    public boolean isChecked(){
+        if ( cbCashForTrash.isChecked())
+            return true;
+        else return false;
+    }
 
-            DecimalFormat dec = new DecimalFormat("0.00");
+    private ArrayList<String> trashNames = new ArrayList<>();
+    private ArrayList<Double> trashPrices = new ArrayList<>();
+    private ArrayList<String> trashUnits = new ArrayList<>();
 
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public ArrayList<String> getTrashNames() {
+        return trashNames;
+    }
 
-            }
+    public ArrayList<Double> getTrashPrices() {
+        return trashPrices;
+    }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
-                    String userInput = "" + charSequence.toString().replaceAll("[^\\d]", "");
-                    if (userInput.length() > 0) {
-                        Float in = Float.parseFloat(userInput);
-                        float percen = in / 100;
-                        editText.setText("$" + dec.format(percen));
-                        editText.setSelection(editText.getText().length());
-                    }
-                }
+    public ArrayList<String> getTrashUnits() {
+        return trashUnits;
+    }
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+    public void compileCFTposts(){
+        if (cbAluminium.isChecked()) {
+            Log.d(TAG, "compileCFTposts: add aluminium to lists");
+            Double price = Double.parseDouble(etAluminium.getText().toString().substring(1));
+            trashNames.add("Aluminium drink cans");
+            trashPrices.add(price);
+            trashUnits.add("$/kg");
         }
+        if (cbMetalTin.isChecked()) {
+            Double price = Double.parseDouble(etMetalTin.getText().toString().substring(1));
+            trashNames.add("Metal Tins");
+            trashPrices.add(price);
+            trashUnits.add("$/kg");
+
+        }
+        if (cbOldClothing.isChecked()) {
+            Double price = Double.parseDouble(etOldClothing.getText().toString().substring(1));
+            trashNames.add("Old Clothing / bedsheet ");
+            trashPrices.add(price);
+            trashUnits.add("$/kg");
+
+        }
+        if (cbPapers.isChecked()) {
+            Double price = Double.parseDouble(etPapers.getText().toString().substring(1));
+            trashNames.add("Papers");
+            trashPrices.add(price);
+            trashUnits.add("$/kg");
+
+        }
+        if (cbSmallAppliances.isChecked()) {
+            trashNames.add("Small Appliances");
+            trashPrices.add((double) 0);
+            trashUnits.add("Varies by article");
+        }
+    }
+
+    class PriceTextWatcher implements TextWatcher{
+            EditText editText;
+        PriceTextWatcher(EditText editText){
+            this.editText = editText;
+        }
+
+        DecimalFormat dec = new DecimalFormat("0.00");
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (!charSequence.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
+                String userInput = "" + charSequence.toString().replaceAll("[^\\d]", "");
+                if (userInput.length() > 0) {
+                    Float in = Float.parseFloat(userInput);
+                    float percen = in / 100;
+                    editText.setText("$" + dec.format(percen));
+                    editText.setSelection(editText.getText().length());
+                }
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
 
 
 
