@@ -27,10 +27,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
@@ -104,14 +104,7 @@ public class MainActivity extends AppCompatActivity
 //        //navUserId.setText(UserManager.getUserId());
 //        navUserId.setText("User ID");
 
-        ImageView nav_profile = (ImageView)findViewById(R.id.nav_profile);
-        nav_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FacebookLogin.class);;
-                startActivity(intent);
-            }
-        });
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
