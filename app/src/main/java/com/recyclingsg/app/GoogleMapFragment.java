@@ -268,6 +268,11 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         }
     }
 
+    private LatLng offsetLatLng(LatLng x, double offset){
+        return new LatLng(x.latitude, x.longitude - offset);
+
+    }
+
     public static int getPixelsFromDp(Context context, float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int)(dp * scale + 0.5f);
@@ -378,9 +383,9 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private MarkerOptions assignIcon(TrashCollectionPoint tcp, MarkerOptions markerOptions){
 
         if( tcp instanceof PrivateTrashCollectionPoint)
-            markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.green_man_icon)));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource((R.mipmap.final_marker_person)));
         else if (tcp instanceof PublicTrashCollectionPoint)
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.green_loc_icon));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.final_marker));
         return markerOptions;
     }
 
