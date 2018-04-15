@@ -73,9 +73,9 @@ public class FacebookLogin extends Activity {
         // Get the Intent that started this activity and extract the string
         String message=" ";
         message = (String)intent.getStringExtra("message");
-//        if(notLoggedIn){
-//            LoginManager.getInstance().logOut();
-//        }
+        if(notLoggedIn){
+            LoginManager.getInstance().logOut();
+        }
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
