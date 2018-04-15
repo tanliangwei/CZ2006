@@ -31,6 +31,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.getApplicationContext();
         // to call startup functions.
         Configuration.getInstance();
         Configuration.startUp();
@@ -463,6 +466,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("activity",activity);
                 startActivity(intent);
             }
+
             else {
                 Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intent);
@@ -476,7 +480,9 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("activity",activity);
             startActivity(intent);
         }
-
+        else if(id == R.id.nav_logout){
+            LoginManager.getInstance().logOut();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

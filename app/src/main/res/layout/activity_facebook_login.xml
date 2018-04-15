@@ -24,6 +24,7 @@
         android:layout_height="79dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintHorizontal_bias="0.59"
