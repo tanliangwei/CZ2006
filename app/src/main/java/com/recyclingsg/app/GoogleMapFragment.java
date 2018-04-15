@@ -3,6 +3,7 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -78,6 +80,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private Button depositButton;
     private Button navigateButton;
     private OnInfoWindowElemTouchListener depositButtonListener;
+    private OnInfoWindowElemTouchListener navigateButtonListener;
 
 
 
@@ -168,6 +171,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.infoTitle = (TextView)infoWindow.findViewById(R.id.trashCollectionPointTitle);
         this.infoSnippet = (TextView)infoWindow.findViewById(R.id.descriptionText);
         this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
+        this.navigateButton=(Button)infoWindow.findViewById(R.id.navigateButton);
 
         //kelvin liang
         //this is your shit
@@ -184,6 +188,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 if(FacebookLogin.getLoginStatus()) {
                     Intent intent = new Intent(getActivity(), FacebookLogin.class);
                     String message = "Please login in to Facebook first.";
+                    String activity = "Deposit";
+                    intent.putExtra("activity",activity);
                     intent.putExtra("message", message);
                     startActivity(intent);
                 }
@@ -193,7 +199,32 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 }
             }
         };
+
+        this.navigateButtonListener = new OnInfoWindowElemTouchListener(navigateButton,
+                getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),
+                getResources().getDrawable(R.drawable.com_facebook_button_icon))
+        {
+            @Override
+            protected void onClickConfirmed(View v, Marker marker) {
+                // Here we can perform some action triggered after clicking the button
+//                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+
+                TrashCollectionPointManager.getInstance();
+                TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+                latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
+                String collectionPointName = tcp.getCollectionPointName();
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+
+            }
+        };
+
+
         this.depositButton.setOnTouchListener(depositButtonListener);
+        this.navigateButton.setOnTouchListener(navigateButtonListener);
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -201,7 +232,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
                 TrashCollectionPointManager.getInstance();
                 TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
-                Toast.makeText(getActivity(), marker.getTitle() + "at " +TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName(), Toast.LENGTH_SHORT).show();
                 return null;
             }
 
@@ -210,7 +240,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 // Setting up the infoWindow with current's marker info
                 infoTitle.setText(marker.getTitle());
                 infoSnippet.setText(marker.getSnippet());
-                depositButtonListener.setMarker(marker);
+                navigateButtonListener.setMarker(marker);
 
                 // We must call this to set the current marker and infoWindow references
                 // to the MapWrapperLayout
@@ -220,13 +250,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 TrashCollectionPointManager.getInstance();
                 TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
                 TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
-                Toast.makeText(getActivity(), marker.getTitle() + "coordinates are " +TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString(), Toast.LENGTH_SHORT).show();
                 return infoWindow;
             }
+
         });
 
         //setting my location
-
         try {
             if (getLocationPermission()) {
                 //Location Permission already granted
@@ -236,23 +265,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
         }
-
-        mMap.addMarker(new MarkerOptions()
-                .title("Prague")
-                .snippet("Czech Republic")
-                .position(new LatLng(50.08, 14.43)));
-
-        mMap.addMarker(new MarkerOptions()
-                .title("Paris")
-                .snippet("France")
-                .position(new LatLng(48.86,2.33)));
-
-        mMap.addMarker(new MarkerOptions()
-                .title("London")
-                .snippet("United Kingdom")
-                .position(new LatLng(51.51,-0.1)));
-
-
     }
 
     public static int getPixelsFromDp(Context context, float dp) {
@@ -324,13 +336,22 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     private void moveCamera(LatLng latLng, float zoom){
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
     }
 
     public void moveCameraToUserSelectedLocation (){
         moveCamera(userSelectedLocation,DEFAULT_ZOOM);
+    }
+
+    public void moveCameraToUserSelectedCollectionPoint(Marker marker){
+        Log.e("gege","i am in move camera to collectin point");
+        Projection projection = mMap.getProjection();
+        LatLng markerPosition = marker.getPosition();
+        Point markerPoint = projection.toScreenLocation(markerPosition);
+        Point targetPoint = new Point(markerPoint.x, markerPoint.y - 300);
+        LatLng targetPosition = projection.fromScreenLocation(targetPoint);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(targetPosition), 1000, null);
     }
 
     public void clearMapOfMarkers(){

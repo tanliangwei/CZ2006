@@ -85,17 +85,17 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ic_signCheck"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="88dp"
-        android:src="@mipmap/ic_signcheck"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_depostiConfirm" />
+<ImageView
+    android:id="@+id/ic_signCheck"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="88dp"
+    android:src="@mipmap/ic_signcheck"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/txt_depostiConfirm" />
 
 
 </android.support.constraint.ConstraintLayout>

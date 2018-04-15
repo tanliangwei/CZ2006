@@ -2,32 +2,156 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <CheckBox
-        android:id="@+id/checkbox_aluminium_drink_cans"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/checkbox_metal_tins_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/checkbox_papers_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/checkbox_old_clothing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
 
     <CheckBox
-        android:id="@+id/checkbox_small_appliances"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/checkbox_cashfortrash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"/>
+        android:text="Collect Cash for trash"
+        android:buttonTint="#000000"
+        android:clickable="true"
+        android:focusable="true"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/checkbox_aluminium_drink_cans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aluminium drink cans"
+            android:buttonTint="#000000"
+            />
+        <EditText
+            android:id="@+id/price_aluminium_drink_cans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Price"/>
+        <TextView
+            android:id="@+id/unit_aluminium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/ kg"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <CheckBox
+            android:id="@+id/checkbox_metal_tins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Metal tins"
+            android:buttonTint="#000000"
+
+            />
+
+        <EditText
+            android:id="@+id/price_metal_tins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Price"/>
+        <TextView
+            android:id="@+id/unit_metal_tins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/ kg"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <CheckBox
+            android:id="@+id/checkbox_papers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Papers"
+            android:buttonTint="#000000"
+
+            />
+
+        <EditText
+            android:id="@+id/price_papers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Price"/>
+        <TextView
+            android:id="@+id/unit_papers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/ kg"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <CheckBox
+            android:id="@+id/checkbox_old_clothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Old clothing / old bedsheet"
+            android:buttonTint="#000000"
+
+        />
+
+        <EditText
+            android:id="@+id/price_old_clothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Price"/>
+        <TextView
+            android:id="@+id/unit_old_clothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/ kg"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <CheckBox
+            android:id="@+id/checkbox_small_appliances"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Small electrical appliances"
+            android:buttonTint="#000000"
+
+            />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>
