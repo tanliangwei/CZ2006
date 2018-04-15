@@ -130,14 +130,12 @@ public class DepositActivity extends Activity {
 
         // Initialise values of Spinner
         if (tcp.getTrash().size()>0){
-            mSpinnerAdapter.add(tcp.getTrash().get(0).getTrashType());
+            mSpinnerAdapter.add("Select Trash");
             for (TrashInfo x : tcp.getTrash()){
                 String Temp = x.getTrashType();
-                Log.d("INITIALISE SPINNER","THROUGH ARRAY " + Temp);
                 mSpinnerAdapter.add(Temp);
             }
         } else{
-            Log.d("INITIALISE SPINNER","THROUGH DEFAULT");
                 for (String x : TrashInfo.typeOfTrash)
                     mSpinnerAdapter.add(x);
             }
@@ -285,10 +283,9 @@ public class DepositActivity extends Activity {
         ArrayAdapter<String> spinnerArrayAdapter = createSpinnerAdapter();
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         if (tcp.getTrash().get(index).getPriceInfoList().size()>0) {
-            spinnerArrayAdapter.add(tcp.getTrash().get(index).getPriceInfoList().get(0).getTrashName());
+            spinnerArrayAdapter.add("Select SubTrash");
             for (PriceInfo x : tcp.getTrash().get(index).getPriceInfoList()) {
                 String Temp = x.getTrashName();
-                Log.d("INITIALISE CFT SPINNER", "THROUGH ARRAY " + Temp);
                 spinnerArrayAdapter.add(Temp);
             }
         }
