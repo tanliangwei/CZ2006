@@ -12,10 +12,17 @@
 
 
 
-    <FrameLayout
+    <!--<FrameLayout-->
+        <!--android:id="@+id/mapfragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <com.recyclingsg.app.MapWrapperLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapfragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"  />
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/search_bar"
@@ -88,7 +95,7 @@
 
 
 
-    <Button
+    <!--<Button
         android:id="@+id/Navigation"
         android:layout_width="123dp"
         android:layout_height="wrap_content"
@@ -96,7 +103,7 @@
         android:onClick="navigate"
         android:text="Navigation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trash_type_selection_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/trash_type_selection_spinner" />-->
 
     <Button
         android:id="@+id/btn_homeInfo"
@@ -107,28 +114,6 @@
         android:background="@mipmap/ic_btn_homeinfo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:onClick="loadFacebookLogin"
-        android:text="Login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Navigation" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="loadDepositCategoryActivity"
-        android:text="Deposit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     <Button
         android:id="@+id/btn_centerMap"

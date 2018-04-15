@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/cardView1"
+                android:layout_below="@id/cardView1"
                 android:layout_marginTop="15dp"
 
                 android:elevation="6dp"
@@ -72,12 +72,12 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@id/cardView5"
+                android:id="@+id/cardView5"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/cardView4"
+                android:layout_below="@id/cardView4"
                 android:layout_marginTop="12dp"
                 android:elevation="6dp"
                 android:translationZ="4dp"
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="130dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
@@ -147,7 +147,7 @@
                     android:layout_marginLeft="130dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:paddingBottom="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="10dp"
@@ -161,9 +161,9 @@
                 android:id="@+id/cardView3"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_alignEnd="@+id/cardView2"
-                android:layout_alignRight="@+id/cardView2"
-                android:layout_below="@+id/cardView2"
+                android:layout_alignEnd="@id/cardView2"
+                android:layout_alignRight="@id/cardView2"
+                android:layout_below="@id/cardView2"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:elevation="6dp"
@@ -204,92 +204,62 @@
                 android:id="@+id/cardView6"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_alignEnd="@+id/cardView5"
-                android:layout_alignRight="@+id/cardView5"
-                android:layout_below="@+id/cardView5"
+                android:layout_alignEnd="@id/cardView5"
+                android:layout_alignRight="@id/cardView5"
+                android:layout_below="@id/cardView5"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:elevation="6dp"
                 android:translationZ="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/description_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="12dp"
-                    android:text="Trash Type: "
+                    android:text="Description: "
                     android:textColor="#4DBC4D"
                     android:textSize="22dp"
                     android:textStyle="normal" />
-
-                <Spinner
-                    android:id="@+id/trash_type_to_post_spinner"
+                <EditText
+                    android:id="@+id/description_fill_up_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="180dp"
-                    android:text="trash" />
+                    android:layout_marginLeft="130dp"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:hint="Insert Text Here"
+                    android:textColor="#616161"
+                    android:textSize="22dp" />
 
             </android.support.v7.widget.CardView>
+
+
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView7"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_alignEnd="@+id/cardView6"
+                android:layout_height="300dp"
+                android:layout_alignEnd="@id/cardView6"
                 android:layout_marginTop="10dp"
-                android:layout_alignRight="@+id/cardView6"
-                android:layout_below="@+id/cardView6"
+                android:layout_below="@id/cardView6"
                 android:layout_gravity="center_horizontal"
                 android:elevation="6dp"
                 android:translationZ="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/textView7"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="12dp"
-                    android:text="Sub Trash"
-                    android:textColor="#4DBC4D"
-                    android:textSize="22dp"
-                    android:textStyle="normal" />
-
-                <Spinner
-                    android:id="@+id/subtrashtypespinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="180dp"
-                    android:text="trash" />
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView10"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_alignEnd="@+id/cardView6"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/cardView7"
-                android:layout_gravity="center_horizontal"
-                android:elevation="6dp"
-                android:translationZ="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <android.support.design.widget.TabLayout

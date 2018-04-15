@@ -14,6 +14,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -37,6 +38,7 @@ public class FacebookLogin extends Activity {
         notLoggedIn=(AccessToken.getCurrentAccessToken()==null);
     }
     private void startTargetActivity(String activity){
+        Log.e(TAG,"STARTTARGETACTIVITY") ;
         try {
             Intent goToTargetActivity;
             Intent goToMain = new Intent(this,MainActivity.class);
@@ -65,12 +67,15 @@ public class FacebookLogin extends Activity {
         FacebookSdk.getApplicationContext();
         setContentView(R.layout.activity_facebook_login);
         final Intent intent = getIntent();
+
+        Log.e(TAG,"ONCREATE") ;
+
         // Get the Intent that started this activity and extract the string
         String message=" ";
         message = (String)intent.getStringExtra("message");
-        if(notLoggedIn){
-            LoginManager.getInstance().logOut();
-        }
+//        if(notLoggedIn){
+//            LoginManager.getInstance().logOut();
+//        }
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
@@ -79,10 +84,12 @@ public class FacebookLogin extends Activity {
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile"));
+        loginButton.setLoginBehavior(LoginBehavior.WEB_ONLY);
         AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if(currentAccessToken==null){
+                    Log.e(TAG,"CURRENTACCESSTOKENNULL") ;
                     Log.d(TAG,"onLogout Caught");
                     updateLoginStatus();
                     UserManager.setUserName(null);
@@ -148,7 +155,8 @@ public class FacebookLogin extends Activity {
                 request.setParameters(parameters);
                 request.executeAsync();
                 //go back to target activity if successful logged in
-                String activity = intent.getStringExtra("activity");
+                String activity = " ";
+                activity = intent.getStringExtra("activity");
                 startTargetActivity(activity);
 
             }
@@ -156,11 +164,13 @@ public class FacebookLogin extends Activity {
             @Override
             public void onCancel() {
                 // App code
+                Log.e(TAG,"LOGIN ACTIVITY CANCEL") ;
                 Log.v("LoginActivity", "cancel");
             }
 
             @Override
             public void onError(FacebookException exception) {
+                Log.e(TAG,"ERRROR") ;
                 Log.v("LoginActivity", exception.getCause().toString());
             }
 

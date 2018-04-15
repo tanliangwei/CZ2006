@@ -121,14 +121,24 @@
             android:layout_alignRight="@id/descriptionLabel"
             android:layout_below="@id/trashPointTitle"
             android:fontFamily="@font/myriadpro"
-            android:text="Insert Description Text Here"
+            android:text="Insert Description Texfewfwfewfeefewft Here"
             android:textColor="#4DBC4D"
+<<<<<<< HEAD
             android:gravity="left"
             android:textAlignment="gravity"
 
             android:textSize="18dp"
 
+||||||| merged common ancestors
+
+            android:textSize="20dp"
+
+=======
+            android:textSize="20dp"
+>>>>>>> a32534250df1821f9d4ea1573feb6d65ec8275e5
             />
+
+
 
     </android.support.v7.widget.CardView>
 </android.widget.RelativeLayout>

@@ -164,7 +164,7 @@ public class DepositActivity extends Activity {
                     {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
-                            removeKeyboard(DepositActivity.this);
+                            //removeKeyboard(DepositActivity.this);
                             return true;
                         default:
                             break;
@@ -335,7 +335,7 @@ public class DepositActivity extends Activity {
             //get user selected trash
             String trashType = trashTypeSpinner.getSelectedItem().toString();
             //cash for trash nameseee
-            if(subTrashSpinner!=null){
+            if(trashType.equalsIgnoreCase("cash for trash")||trashType.equalsIgnoreCase("cash-for-trash")){
                 String trashName = subTrashSpinner.getSelectedItem().toString();
                 TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
                 int index = 0;
