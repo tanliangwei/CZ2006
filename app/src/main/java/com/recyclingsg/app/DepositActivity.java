@@ -164,7 +164,7 @@ public class DepositActivity extends Activity {
                     {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
-                            //removeKeyboard(DepositActivity.this);
+                            removeKeyboard(DepositActivity.this);
                             return true;
                         default:
                             break;
