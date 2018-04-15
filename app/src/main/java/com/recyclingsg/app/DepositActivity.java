@@ -356,6 +356,8 @@ public class DepositActivity extends Activity {
                 CashForTrashUnits.add(temp.getPriceInfoList().get(index).getUnit());
                 CashForTrashNames.add(temp.getPriceInfoList().get(index).getTrashName());
                 CashForTrashPrices.add(temp.getPriceInfoList().get(index).getPricePerUnit());
+                Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
+                startActivity(intentToConfirmationPage);
             }
 
             TrashInfo depositTrash = new TrashInfo(trashType,CashForTrashNames,CashForTrashUnits,CashForTrashPrices);

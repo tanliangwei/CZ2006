@@ -69,25 +69,23 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         View popUp = inflater.inflate(R.layout.layout_popup, null);
         Log.d("TAG", "onClick: customInfoWindow Created! ");
 
-        TextView popUpTitle = (TextView) popUp.findViewById(R.id.popup_title);
-        TextView popUpContent = (TextView) popUp.findViewById(R.id.popup_content);
-        ImageView popUpImage = (ImageView) popUp.findViewById(R.id.popup_image);
+        TextView trashPointTitle = (TextView) popUp.findViewById(R.id.trashPointTitle);
+        TextView descriptionText = (TextView) popUp.findViewById(R.id.descriptionText);
+        ImageView trashTypeImageView = (ImageView) popUp.findViewById(R.id.trashTypeImageView);
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
 
             //trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
             //trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
-        popUpTitle.setText(title);
-        popUpContent.setText(description);
-        customInfoWindowButton.setText("Hold Down to Navigate");
+        trashPointTitle.setText(title);
+        descriptionText.setText(description);
 
             //trashCollectionPointManager.setUserSelectedTrashPoint();
         TrashCollectionPointManager.getInstance();
         TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
         TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
 
-        popUpContent.setText("Hello dudes");
-        customInfoWindowButton.setText("Hold Down to Navigate/n");
+        customInfoWindowButton.setText("Navigate");
         Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
         popUP = popUp;
         return popUp;

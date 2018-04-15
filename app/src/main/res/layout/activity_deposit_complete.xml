@@ -87,8 +87,8 @@ tools:context="com.recyclingsg.app.DepositCompleteActivity">
 
 <ImageView
     android:id="@+id/ic_signCheck"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="88dp"
