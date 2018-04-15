@@ -17,15 +17,19 @@ public class DepositCompleteActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ImageButton depositCompleteContinue = findViewById(R.id.depositComplete_continue);
-        depositCompleteContinue.callOnClick(onClick_confirm_button(););
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit_complete);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //Extra points the user will receive
         Intent intentFromDepositActivity = getIntent();
         String DepositActivityStringTransfer = intentFromDepositActivity.getStringExtra(DepositActivity.pointTransfer);
-        String points = "0";
+        ImageButton depositCompleteContinue = findViewById(R.id.depositComplete_continue);
+        depositCompleteContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick_confirm_button(view);
+            }
+        });
         TextView txt_points = (TextView) findViewById(R.id.txt_points);
         if(this != null){
         if(DepositActivityStringTransfer != null) {
@@ -35,6 +39,7 @@ public class DepositCompleteActivity extends Activity {
             }
         }
     }
+
     public void onClick_confirm_button(View v){
         if(v.getId() == R.id.depositComplete_continue){
             Intent intentBackToStartPage = new Intent(this.getApplicationContext(), MainActivity.class);

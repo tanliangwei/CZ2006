@@ -27,7 +27,16 @@ public class ScoreManager {
     public ScoreManager(){}
 
     //calculating score, now hard coded to 5
-    public static float calculateScore(TrashInfo trashPrice, float units){
-        return 5;
+    public static float calculateScore(TrashInfo trashInfo, float units){
+        switch(trashInfo.getTrashTypeForSpinner()) {
+            case ("Second Hand Goods"):
+                return units * 2;
+            case ("    EWaste    "):
+                return units * 3;
+            case ("Cash For Trash"):
+                return units * 4;
+        }
+        return (units);
+
     }
 }

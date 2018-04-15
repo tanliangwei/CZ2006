@@ -1,8 +1,7 @@
 package com.recyclingsg.app;
 
-import android.content.Context;
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,11 +27,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.getApplicationContext();
         // to call startup functions.
         Configuration.getInstance();
         Configuration.startUp();
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
 
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
@@ -464,15 +466,23 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("activity",activity);
                 startActivity(intent);
             }
+
             else {
                 Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intent);
             }
 
-        } else if (id == R.id.nav_settings) {
-            //TODO this will jump to settings activity
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(MainActivity.this, FacebookLogin.class);
+            String message = "Welcome to the Facebook login!";
+            String activity = "Login";
+            intent.putExtra("message", message);
+            intent.putExtra("activity",activity);
+            startActivity(intent);
         }
-
+        else if(id == R.id.nav_logout){
+            LoginManager.getInstance().logOut();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

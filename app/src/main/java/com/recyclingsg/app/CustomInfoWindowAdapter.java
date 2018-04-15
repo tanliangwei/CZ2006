@@ -66,11 +66,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         // Getting view from the layout file info_window_layout
         View popUp = inflater.inflate(R.layout.layout_popup, null);
         Log.d("TAG", "onClick: customInfoWindow Created! ");
-
+        
         TextView trashPointTitle = (TextView) popUp.findViewById(R.id.trashPointTitle);
         TextView descriptionText = (TextView) popUp.findViewById(R.id.descriptionText);
         ImageView trashTypeImageView = (ImageView) popUp.findViewById(R.id.trashTypeImageView);
-
         Button customInfoWindowButton = popUp.findViewById(R.id.testButton);
 
 

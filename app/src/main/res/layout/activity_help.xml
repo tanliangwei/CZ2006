@@ -8,8 +8,8 @@
 
 
     <android.support.v7.widget.CardView
-        android:layout_width="368dp"
-        android:layout_height="254dp"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -27,8 +27,8 @@
 
             <ImageView
                 android:id="@+id/ic_help_ewaste"
-                android:layout_width="580dp"
-                android:layout_height="180dp"
+                android:layout_width="480dp"
+                android:layout_height="160dp"
                 android:layout_gravity="top|center_horizontal"
                 android:paddingTop="10dp"
                 android:src="@mipmap/ic_help_ewaste" />
@@ -39,26 +39,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:gravity="center_horizontal"
-                android:paddingBottom="8dp"
+                android:paddingBottom="0dp"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
-                android:paddingTop="8dp"
+                android:paddingTop="0dp"
                 android:text="E-Waste"
-                android:textSize="30sp" />
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
 
         </LinearLayout>
-
 
 
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="368dp"
-        android:layout_height="254dp"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="240dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,8 +72,8 @@
 
             <ImageView
                 android:id="@+id/ic_help_cashfortrade"
-                android:layout_width="580dp"
-                android:layout_height="180dp"
+                android:layout_width="480dp"
+                android:layout_height="160dp"
                 android:layout_gravity="top|center_horizontal"
                 android:paddingTop="10dp"
                 android:src="@mipmap/ic_help_cashfortrade" />
@@ -84,12 +84,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:gravity="center_horizontal"
-                android:paddingBottom="8dp"
+                android:paddingBottom="0dp"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
-                android:paddingTop="8dp"
+                android:paddingTop="0dp"
                 android:text="Cash-For-Trade"
-                android:textSize="30sp" />
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -101,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="216dp"
         android:backgroundTint="#57a846"
         android:onClick="onClickConfirm"
         android:text="Confirm"
