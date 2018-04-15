@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 //        TextView navUserId = (TextView) headerView.findViewById(R.id.nav_userId);
 //        //navUserId.setText(UserManager.getUserId());
 //        navUserId.setText("User ID");
-        
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
