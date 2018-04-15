@@ -149,8 +149,9 @@ public class DepositActivity extends Activity {
         // Initialise values of Spinner
         if (tcp.getTrash().size()>0){
             for (TrashInfo x : tcp.getTrash()){
-                String Temp = x.getTrashType();
+                String Temp = x.getTrashTypeForSpinner();
                 mSpinnerAdapter.add(Temp);
+
             }
             mSpinnerAdapter.add("Select Trash");
         } else{
@@ -212,6 +213,14 @@ public class DepositActivity extends Activity {
         depositButton.setClickable(true);
     }
 
+    private static void removeConfirmButton(){
+        RelativeLayout.LayoutParams depositButtonLayoutParams = (RelativeLayout.LayoutParams) depositButton.getLayoutParams();
+        depositButtonLayoutParams.removeRule(RelativeLayout.BELOW);
+        depositButtonLayoutParams.addRule(RelativeLayout.BELOW,R.id.cardViewUnit);
+        depositButton.setVisibility(View.INVISIBLE);
+        depositButton.setClickable(false);
+    }
+
     private static void checkToSeeIfWeShouldGenerateConfirmButton(){
 
         String text = unitEditText.getText().toString();
@@ -220,6 +229,7 @@ public class DepositActivity extends Activity {
             Log.i("",num+" is a number");
             generateConfirmButton();
         } catch (NumberFormatException e) {
+            removeConfirmButton();
             Toast.makeText(context, "Enter valid units",
                     Toast.LENGTH_SHORT).show();
         }
