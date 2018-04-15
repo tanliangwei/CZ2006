@@ -34,6 +34,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
 /**
  * Created by kelvin on 21/3/18.
  */
@@ -55,11 +71,17 @@ public class DepositActivity extends Activity {
     static Button depositButton;
     static Context context;
     ImageView depositImage;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private ImageView mImageView;
+    String mCurrentPhotoPath;
+    private File photoFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deposit_activity_2);
+
+        mImageView = (ImageView) findViewById(R.id.depositImage);
 
         //initialising context
         context = this.getApplicationContext();
@@ -89,7 +111,7 @@ public class DepositActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(DepositActivity.this, "i am clicked ", Toast.LENGTH_SHORT).show();
+                dispatchTakePictureIntent(view);
             }
         });
 
@@ -103,11 +125,6 @@ public class DepositActivity extends Activity {
 
     }
 
-    private void functionToCallCamera(){
-        //ZHIHAO CAMERA FUNCTIONS HERE
-        ImageView image = depositImage;
-        
-    }
 
     public void initialiseDateButtons(){
 
@@ -407,6 +424,78 @@ public class DepositActivity extends Activity {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
                 functionWhichRemovesKeyboardOnExternalTouch(innerView);
+            }
+        }
+    }
+
+    //Taking pictures
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+
+            // set the dimensions of the image
+            int targetW =100;
+            int targetH = 100;
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            // stream = getContentResolver().openInputStream(data.getData());
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),bmOptions);
+            mImageView.setImageBitmap(bitmap);
+
+        }
+
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+
+    public void dispatchTakePictureIntent(View v) {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "com.recyclingsg.app.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
