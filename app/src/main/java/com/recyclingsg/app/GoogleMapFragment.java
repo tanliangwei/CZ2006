@@ -269,7 +269,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             if (getLocationPermission()) {
                 //Location Permission already granted
                 mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
             }
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
@@ -393,7 +393,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
 
-    private void getDeviceLocation(){
+    public void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
