@@ -72,7 +72,6 @@ public class DepositActivity extends Activity {
     static Context context;
     ImageView depositImage;
     private static final int REQUEST_TAKE_PHOTO = 1;
-    private ImageView mImageView;
     String mCurrentPhotoPath;
     private File photoFile = null;
 
@@ -81,7 +80,6 @@ public class DepositActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deposit_activity_2);
 
-        mImageView = (ImageView) findViewById(R.id.depositImage);
 
         //initialising context
         context = this.getApplicationContext();
@@ -456,7 +454,8 @@ public class DepositActivity extends Activity {
 
             // stream = getContentResolver().openInputStream(data.getData());
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),bmOptions);
-            mImageView.setImageBitmap(bitmap);
+            depositImage.setImageBitmap(bitmap);
+            depositImage.setAdjustViewBounds(true);
 
         }
 

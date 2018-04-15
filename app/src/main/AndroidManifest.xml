@@ -32,6 +32,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true"
@@ -65,12 +66,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FacebookLogin" />
+        <activity android:name=".FacebookLogin"
+                  android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".ToActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".PostPrivateCollectionPointActivity"
@@ -81,12 +84,14 @@
         <activity
             android:name=".DepositCategoryActivity"
             android:label="Deposit Category"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".DepositActivity"
             android:label="Deposit Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".StatisticsActivity"
@@ -102,7 +107,8 @@
         <activity
             android:name=".HelpActivity"
             android:label="Help"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
 
     </application>
 
