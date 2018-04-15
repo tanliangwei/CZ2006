@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class DepositActivity extends Activity {
     RelativeLayout rl;
     static Button depositButton;
     static Context context;
+    ImageView depositImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,15 @@ public class DepositActivity extends Activity {
         trashTypeCardView = (CardView) findViewById(R.id.cardViewTrashType);
         unitsCardView = (CardView) findViewById(R.id.cardViewUnit);
         depositButton = (Button) findViewById(R.id.depositButton);
+        depositImage = (ImageView) findViewById(R.id.depositImage);
+        depositImage.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DepositActivity.this, "i am clicked ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         functionWhichRemovesKeyboardOnExternalTouch(rl);
 
@@ -89,6 +101,12 @@ public class DepositActivity extends Activity {
         depositButton.setVisibility(View.INVISIBLE);
         depositButton.setClickable(false);
 
+    }
+
+    private void functionToCallCamera(){
+        //ZHIHAO CAMERA FUNCTIONS HERE
+        ImageView image = depositImage;
+        
     }
 
     public void initialiseDateButtons(){
