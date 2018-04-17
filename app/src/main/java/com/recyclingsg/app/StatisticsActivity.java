@@ -322,6 +322,7 @@ public class StatisticsActivity extends AppCompatActivity {
             BarData barData = new BarData(bardataIB);
             xAxis.setLabelCount(xVals.size()+1, false);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setLabelRotationAngle(-30f);
             xAxis.setValueFormatter(new IAxisValueFormatter() {
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
