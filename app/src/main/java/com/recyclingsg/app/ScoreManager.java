@@ -36,9 +36,11 @@ public class ScoreManager {
      * This function calculates the score obtained by the particular deposit.
      * @param trashInfo Trash Information object containing information about the trash being deposited
      * @param units Units of Trash deposited
-     * @return The score to rewarded to users
+     * @return The score to rewarded to users, -1 if the units param is negative
      */
     public static float calculateScore(TrashInfo trashInfo, float units){
+        if (units<=0)
+            return 0;
         switch(trashInfo.getTrashTypeForSpinner()) {
             case ("Second Hand Goods"):
                 return units * 2;
@@ -48,6 +50,5 @@ public class ScoreManager {
                 return units * 4;
         }
         return (units);
-
     }
 }

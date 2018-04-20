@@ -80,19 +80,6 @@ public class StatisticsActivity extends AppCompatActivity {
     private static BarChart topAverageUserPersonalChart;
 
     /**
-     * the date selectors are defined here
-     */
-    private TextView fromDate;
-    private TextView toDate;
-
-    /**
-     * caching all the data here
-     */
-    private static ArrayList<TopUser> topUsers = null;
-    private static NationalStat nationalStat = null;
-    private static double userScore = -1;
-
-    /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
@@ -101,7 +88,6 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-        loadAllStatistics();
         // initialiseTheDateButtons();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -118,49 +104,6 @@ public class StatisticsActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
-
-//    private void initialiseTheDateButtons(){
-//        fromDate = (TextView)findViewById(R.id.fromDate);
-//        toDate = (TextView) findViewById(R.id.toDate);
-//        fromDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Calendar mCurrentDate;
-//                mCurrentDate = Calendar.getInstance();
-//                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-//                int month = mCurrentDate.get(Calendar.MONTH);
-//                int year= mCurrentDate.get(Calendar.YEAR);
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-//                        monthOfYear = monthOfYear+1;
-//                        fromDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-//
-//                    }
-//                }, year,month,day);
-//                datePickerDialog.show();
-//            }
-//        });
-//        toDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Calendar mCurrentDate;
-//                mCurrentDate = Calendar.getInstance();
-//                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-//                int month = mCurrentDate.get(Calendar.MONTH);
-//                int year= mCurrentDate.get(Calendar.YEAR);
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener(){
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-//                        monthOfYear = monthOfYear+1;
-//                        toDate.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-//
-//                    }
-//                }, year,month,day);
-//                datePickerDialog.show();
-//            }
-//        });
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,17 +125,6 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * The function below loads all the statistics
-     */
-    public void loadAllStatistics(){
-        StatisticsManager.getInstance();
-        topUsers = StatisticsManager.getTopUsers();
-        nationalStat = StatisticsManager.getNationalStat();
-        userScore = StatisticsManager.getUserScore();
-
     }
 
     /**
@@ -229,8 +161,6 @@ public class StatisticsActivity extends AppCompatActivity {
             switch (viewNumber){
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_statistics1, container, false);
-                    // textView = (TextView) rootView.findViewById(R.id.section_label);
-                    // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     pieChart = (PieChart) rootView.findViewById(R.id.PieChart);
                     loadNationalView();
                     rootView.canScrollVertically(1);
@@ -238,8 +168,6 @@ public class StatisticsActivity extends AppCompatActivity {
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_statistics2, container, false);
-                    // textView = (TextView) rootView.findViewById(R.id.section_label);
-                    // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                     barChart = (BarChart) rootView.findViewById(R.id.BarChart);
                     loadTopUserView();
                     rootView.canScrollVertically(1);
@@ -270,7 +198,6 @@ public class StatisticsActivity extends AppCompatActivity {
             }
             return null;
         }
-
 
         /**
          * function for second view
@@ -367,9 +294,6 @@ public class StatisticsActivity extends AppCompatActivity {
             pieChart.setRotationEnabled(true);
             pieChart.setHighlightPerTapEnabled(true);
 
-            // add a selection listener
-            //pieChart.setOnChartValueSelectedListener(this);
-
             setNationalPercentageData();
 
             pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
@@ -378,12 +302,6 @@ public class StatisticsActivity extends AppCompatActivity {
         private void setNationalPercentageData() {
             ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
-            // NOTE: The order of the entries when being added to the entries array determines their position around the center of
-            // the chart.
-//            for (int i = 0; i < count ; i++) {
-//                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-//                        TrashInfo.typeOfTrash[i]));
-//            }
             entries.add(new PieEntry(StatisticsManager.getNationalStat().getCashForTrashCount(), "Cash for Trash"));
             entries.add(new PieEntry(StatisticsManager.getNationalStat().getEwastCount(),"E-waste"));
             entries.add(new PieEntry(StatisticsManager.getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
@@ -418,7 +336,6 @@ public class StatisticsActivity extends AppCompatActivity {
             colors.add(ColorTemplate.getHoloBlue());
 
             dataSet.setColors(colors);
-            //dataSet.setSelectionShift(0f);
 
             PieData data = new PieData(dataSet);
             data.setValueFormatter(new PercentFormatter());
