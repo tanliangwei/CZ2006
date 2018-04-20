@@ -48,15 +48,14 @@ public class MainActivity extends AppCompatActivity
     //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     //vars
-    private GoogleMapFragment mGoogleMapManager;
     private EditText mSearchText;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mAutoCompleteAdapter;
     private boolean selectedLocation = false;
-    private DatabaseManager databaseManager = DatabaseManager.getInstance();
-    private FilterManager filterManager = new FilterManager();
     private String userSelectedTrashType;
     private Menu menu;
+    private QueryFacade queryFacade;
+
 
     public MainActivity() throws Exception {
     }
@@ -69,10 +68,12 @@ public class MainActivity extends AppCompatActivity
         Configuration.startUp();
         setContentView(R.layout.activity_main);
 
+
+        queryFacade = QueryFacade.getInstance();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        mGoogleMapManager = new GoogleMapFragment();
-        fragmentTransaction.add(R.id.mapfragment, mGoogleMapManager);
+        fragmentTransaction.add(R.id.mapfragment, queryFacade.getGoogleMapFragment());
         fragmentTransaction.commit();
 
 
@@ -245,11 +246,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        mGoogleMapManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 //
@@ -289,7 +285,7 @@ public class MainActivity extends AppCompatActivity
                         PlaceBufferResponse places = task.getResult();
                         Place userSelectedPlace = places.get(0);
 
-                        mGoogleMapManager.setUserSelectedLocation(userSelectedPlace);
+                        queryFacade.getGoogleMapFragment().setUserSelectedLocation(userSelectedPlace);
                         Log.i(TAG, "onComplete: Location in CollectionPointManager changed to " + userSelectedPlace.getName());
                         places.release();
                         selectedLocation = true;
@@ -355,58 +351,10 @@ public class MainActivity extends AppCompatActivity
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
-            query(view);
+            queryFacade.query(view, userSelectedTrashType);
         }
     };
 
-    private void query(View view) {
-        Log.d(TAG, "onClick: taking user to query results");
-
-        if (userSelectedTrashType == null){
-            Context context = getApplicationContext();
-            CharSequence text = "Please select a waste type before query";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            return;
-        }
-
-        // display relevant collection points
-        switch (userSelectedTrashType) {
-            case "eWaste":
-                filterManager.filterPublicByCurrentDate((databaseManager.getEWastePublicTrashCollectionPoints()));
-                filterManager.filterPrivateByCurrentDate(databaseManager.getEWastePrivateTrashCollectionPoints());
-                Log.d(TAG, "query: the number of private trash collection point is "+ databaseManager.getEWastePrivateTrashCollectionPoints().size());
-                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-                break;
-            case "Cash For Trash":
-                Log.d(TAG, "query: selected Cash for Trash");;
-                filterManager.filterPublicByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                filterManager.filterPrivateByCurrentDate(databaseManager.getCashForTrashPrivateTrashCollectionPoints());
-                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-
-                Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
-                break;
-
-            case "Second Hand Goods":
-                filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
-                filterManager.filterPrivateByCurrentDate(databaseManager.getSecondHandPrivateTrashCollectionPoints());
-                mGoogleMapManager.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-                break;
-        }
-
-
-        //move camera
-
-        if (selectedLocation==true) {
-            mGoogleMapManager.moveCameraToUserSelectedLocation();
-        }
-
-    }
 
     //Side navigation
 
@@ -528,6 +476,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick_btnCentreMap(View v){
-        mGoogleMapManager.getDeviceLocation();
+        queryFacade.getGoogleMapFragment().getDeviceLocation();
     }
 }
