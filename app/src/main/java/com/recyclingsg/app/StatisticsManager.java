@@ -204,7 +204,8 @@ class SimpleDepositLog{
         if(trashType.equalsIgnoreCase("cash-for-trash")){
             this.trashType = "cash for trash";
         }
-        else if(trashType.equalsIgnoreCase("e-waste-recycling")|| trashType.equalsIgnoreCase("e-waste") || trashType.equalsIgnoreCase("EWaste")){
+        else if(trashType.equalsIgnoreCase("e-waste-recycling")|| trashType.equalsIgnoreCase("e-waste")
+                || trashType.equalsIgnoreCase("EWaste") || trashType.equalsIgnoreCase("    EWaste    ")){
             this.trashType = "e-waste";
         }
         else{
