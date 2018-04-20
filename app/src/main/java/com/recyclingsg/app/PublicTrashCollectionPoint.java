@@ -1,11 +1,9 @@
 package com.recyclingsg.app;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
 /**
- * This class contains the basic attributes of a Public Trash Collection Point. It represents public firms and organisation which collects trash.
+ * This class is a Public Trash Collection Point. It represents public firms and organisation which collects trash.
  * @author Honey Stars
  * @version 1.0
  */
