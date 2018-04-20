@@ -10,7 +10,18 @@ public class PrivateTrashCollectionPoint extends TrashCollectionPoint {
     private String ownerName;
     private String ownerId;
 
-    //constructor
+    /**
+     *
+     * @param name
+     * @param xCoordinate
+     * @param yCoordinate
+     * @param openTime
+     * @param closeTime
+     * @param trashInfo
+     * @param daysOpen
+     * @param description
+     * @param address
+     */
     public PrivateTrashCollectionPoint(String name, double xCoordinate, double yCoordinate, int openTime, int closeTime, ArrayList<TrashInfo> trashInfo, int[] daysOpen, String description, String address){
 
         super(name,xCoordinate,yCoordinate,openTime,closeTime, trashInfo,daysOpen,description, address);
