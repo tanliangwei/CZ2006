@@ -46,6 +46,12 @@ import com.recyclingsg.app.control.UserManager;
 import com.recyclingsg.app.control.Configuration;
 import com.recyclingsg.app.entity.TrashInfo;
 
+/**
+ * This class is the main activity of the application. It is the home page and contains buttons to all other use cases.
+ * @author Honey Stars
+ * @version 1.0
+ */
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleMapFragment.OnFragmentInteractionListener {
 
@@ -303,7 +309,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     };
-    
+
     private ArrayAdapter<String> createSpinnerAdapter() {
         ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
             

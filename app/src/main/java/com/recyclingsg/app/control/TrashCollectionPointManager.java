@@ -14,7 +14,9 @@ import static android.content.ContentValues.TAG;
 
 
 /**
- * Created by Howard on 12/3/2018.
+ * This class is the Trash Collection Point Manager. It is in charge of adding Trash Collection Point to users as well as storing the Trash Collection Point selected by the User.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class TrashCollectionPointManager {
@@ -25,7 +27,11 @@ public class TrashCollectionPointManager {
     //to be removed
 
     private static TrashCollectionPointManager instance;
-    //this ensures that there is only one instance of  DatabaseManager in the whole story
+
+    /**
+     * This returns a singleton instance of the Trash Collection Point Manager.
+     * @return Singleton instance of Trash Collection Point Manager
+     */
     public static TrashCollectionPointManager getInstance(){
         if (instance == null) {
             try {

@@ -32,6 +32,9 @@ public class ScoreManager {
         return instance;
     }
 
+    /**
+     * Creates an instance of Score Manager.
+     */
     private ScoreManager(){}
 
     /**

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Qu Zhe on 2018-4-1.
+ * This class is the statistic manager. It is in charge of displaying the statistics in a readable format for the user to track his performance.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class StatisticsManager {
@@ -40,11 +42,18 @@ public class StatisticsManager {
 
     //the constructor and instance management code
     private static final StatisticsManager instance = new StatisticsManager();
-    //this ensures that there is only one instance of StatisticsManager in the whole story
+
+    /**
+     * This returns a singleton instance of the Statistics Manager.
+     * @return Singleton instance of Statistics Manager
+     */
     public static StatisticsManager getInstance(){
         return instance;
     }
-    //constructor for Statistics manager
+
+    /**
+     * Creates an instance of Statistics Manager.
+     */
     private StatisticsManager() {
     }
 
