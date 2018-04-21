@@ -1,7 +1,6 @@
 package com.recyclingsg.app;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private boolean selectedLocation = false;
     private String userSelectedTrashType;
     private Menu menu;
-    private QueryFacade queryFacade;
+    private AppFacade appFacade;
     private GoogleMapFragment googleMapFragment;
 
     public MainActivity() throws Exception {
@@ -68,9 +67,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-        queryFacade = QueryFacade.getInstance();
+        appFacade = AppFacade.getInstance();
         googleMapFragment = new GoogleMapFragment();
-        queryFacade.setmGoogleMapFragment(googleMapFragment);
+        appFacade.setmGoogleMapFragment(googleMapFragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.mapfragment, googleMapFragment);
@@ -350,7 +349,7 @@ public class MainActivity extends AppCompatActivity
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
-            queryFacade.query(view, userSelectedTrashType);
+            appFacade.query(view, userSelectedTrashType);
         }
     };
 

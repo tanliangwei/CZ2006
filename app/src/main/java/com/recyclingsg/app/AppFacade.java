@@ -3,31 +3,30 @@ package com.recyclingsg.app;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.Filter;
 import android.widget.Toast;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListener{
+public class AppFacade implements GoogleMapFragment.OnFragmentInteractionListener{
 
     private DatabaseInterface databaseManager;
     private FilterManager filterManager;
-    private static final String TAG = "QueryFacade";
-    private static final QueryFacade ourInstance = new QueryFacade();
+    private static final String TAG = "AppFacade";
+    private static final AppFacade ourInstance = new AppFacade();
     private GoogleMapFragment mGoogleMapFragment;
 
-    public static QueryFacade getInstance() {
+    public static AppFacade getInstance() {
         return ourInstance;
     }
 
-    private QueryFacade() {
-        databaseManager = DatabaseManager.getInstance();
+    private AppFacade() {
         filterManager = FilterManager.getInstance();
+    }
 
+    public void addDatabaseInterface(DatabaseInterface db){
+        this.databaseManager = db;
     }
 
 

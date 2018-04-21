@@ -14,7 +14,6 @@ public class Configuration {
      * This returns a singleton instance of the Configuration.
      * @return Singleton instance of  Configuration
      */
-    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
     //this ensures that there is only one instance of  DatabaseManager in the whole story
     public static Configuration getInstance() {
         if (instance == null) {
@@ -33,10 +32,17 @@ public class Configuration {
      * Loads all the data required by the Application.
      */
     public void startUp(){
-        StatisticsManager.getInstance().addDatabaseManager();
-        databaseManager.addStatisticsManager();
-        databaseManager.addUserManager();
-        databaseManager.loadData();
+        DatabaseFactory dbFactory= new DatabaseFactory();
+        DatabaseInterface db = dbFactory.makeDatabaseManager("SQL");
+        db.addStatisticsManager();
+        db.addUserManager();
+        StatisticsManager.getInstance().addDatabaseInterface(db);
+        UserManager.getInstance().addDatabaseInterface(db);
+        DepositManager.getInstance().addDatabaseInterface(db);
+        AppFacade.getInstance().addDatabaseInterface(db);
+
+
+        db.loadData();
 
     }
 }
