@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by jiahengzhang on 16/3/18.
+ * This class is a the configuration class. It is used at the start of the application runtime to load and call certain data and functions.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class FilterManager {
@@ -22,9 +24,13 @@ public class FilterManager {
     }
 
 
+    /**
+     * The creates an instance of Filter Manager
+     */
     public FilterManager(){}
     private ArrayList<TrashCollectionPoint> openTrashCollectionPoints =new ArrayList<TrashCollectionPoint>();
     private ArrayList<TrashCollectionPoint> closedTrashCollectionPoints = new ArrayList<TrashCollectionPoint>();
+
 
     public void filterPublicByCurrentDate(ArrayList<PublicTrashCollectionPoint> beforeFilterTrashCollectionPoints){
         Log.d(TAG, "filterByCurrentDate: "+ beforeFilterTrashCollectionPoints.get(0).getCollectionPointName()+beforeFilterTrashCollectionPoints.get(0).getCoordinate());

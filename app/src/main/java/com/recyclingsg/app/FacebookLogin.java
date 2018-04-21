@@ -32,12 +32,18 @@ public class FacebookLogin extends AppCompatActivity {
     private static boolean notLoggedIn = true; // true means didn't login
     CallbackManager callbackManager;
 
+
     public static boolean getLoginStatus(){
         return notLoggedIn;
     }
     private void updateLoginStatus(){
         notLoggedIn=(AccessToken.getCurrentAccessToken()==null);
     }
+
+    /**
+     * This starts the activity in which it was initially called from. So that the user can continue performing his/her intended actions.
+     * @param activity The activity which precedes this activity
+     */
     private void startTargetActivity(String activity){
         Log.e(TAG,"STARTTARGETACTIVITY") ;
         try {
