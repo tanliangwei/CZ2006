@@ -39,7 +39,7 @@ import com.google.android.gms.location.places.PlaceBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.recyclingsg.app.control.QueryFacade;
+import com.recyclingsg.app.control.AppFacade;
 import com.recyclingsg.app.R;
 import com.recyclingsg.app.control.StatisticsManager;
 import com.recyclingsg.app.control.UserManager;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     private boolean selectedLocation = false;
     private String userSelectedTrashType;
     private Menu menu;
-    private QueryFacade queryFacade;
+    private AppFacade appFacade;
     private GoogleMapFragment googleMapFragment;
 
     public MainActivity() throws Exception {
@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-        queryFacade = QueryFacade.getInstance();
+        appFacade = AppFacade.getInstance();
         googleMapFragment = new GoogleMapFragment();
-        queryFacade.setmGoogleMapFragment(googleMapFragment);
+        appFacade.setmGoogleMapFragment(googleMapFragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.mapfragment, googleMapFragment);
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity
     private AdapterView.OnClickListener mSearchButtonListener = new AdapterView.OnClickListener(){
         @Override
         public void onClick(View view) {
-            queryFacade.query(view, userSelectedTrashType);
+            appFacade.query(view, userSelectedTrashType);
         }
     };
 

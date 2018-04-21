@@ -28,4 +28,6 @@ public interface DatabaseInterface {
     public void pullDepositStat();
     public void pullDepositStat(final Date begDate, final Date endDate, final int n_top);
     public void pullDepositLogByUserId();
+
+
 }

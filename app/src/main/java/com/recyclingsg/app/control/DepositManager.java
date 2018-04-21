@@ -17,6 +17,11 @@ import java.util.Date;
 public class DepositManager {
 
     private static final String TAG = "DepositManager";
+    DatabaseInterface databaseManager;
+
+    public void addDatabaseInterface(DatabaseInterface db){
+        this.databaseManager = db;
+    }
 
     //the constructor and instance management code
     private static DepositManager instance;
@@ -64,7 +69,6 @@ public class DepositManager {
         DepositRecord dr = new DepositRecord(UserID, date,units, trashInfo,score,trashCollectionPointID,revenue,UserName);
 
         //adding to data base
-        DatabaseInterface databaseManager = DatabaseManager.getInstance();
         databaseManager.addDepositRecord(dr);
 
         return dr;

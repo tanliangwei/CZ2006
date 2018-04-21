@@ -17,7 +17,12 @@ public class UserManager {
     private String userName;
     private String userID;
     private Bitmap bitmap;
-    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
+    private DatabaseInterface databaseManager;
+
+    public void addDatabaseInterface(DatabaseInterface db){
+        this.databaseManager = db;
+    }
+
 
 
     private static UserManager instance;

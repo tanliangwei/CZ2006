@@ -84,7 +84,6 @@ public class DepositActivity extends Activity {
 
         //initialising context
         context = this.getApplicationContext();
-        TrashCollectionPointManager.getInstance();
         initViews();
         initialiseDateButtons();
         initWasteTypeSpinner();

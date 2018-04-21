@@ -48,9 +48,10 @@ public class StatisticsManager {
     private StatisticsManager() {
     }
 
-    public void addDatabaseManager(){
-        this.databaseManager = DatabaseManager.getInstance();
+    public void addDatabaseInterface(DatabaseInterface db){
+        this.databaseManager = db;
     }
+
 
 
 
