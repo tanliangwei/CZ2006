@@ -30,7 +30,9 @@ import java.net.MalformedURLException;
 import java.util.Date;
 
 /**
- * Created by tanliangwei on 16/3/18.
+ * This class is the DatabaseManager. It is in charged of communicating with the server to provide and save data for the different use cases of this application.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class DatabaseManager implements DatabaseInterface {
@@ -76,6 +78,11 @@ public class DatabaseManager implements DatabaseInterface {
     public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
+    /**
+     * This function returns an array containing the trash collection points belonging to the category specified by the user
+     * @param category The category of trash type selected
+     * @return An array containing the trash collection point belonging to the category specified
+     */
     @Override
     public ArrayList<TrashCollectionPoint> getTrashCollectionPoint(String category) {
         ArrayList<TrashCollectionPoint> temp = new ArrayList<TrashCollectionPoint>();
@@ -106,14 +113,23 @@ public class DatabaseManager implements DatabaseInterface {
 
     //the constructor and instance management code
     private static final DatabaseManager instance = new DatabaseManager();
-    //this ensures that there is only one instance of  DatabaseManager in the whole story
+
+    /**
+     * This returns a singleton instance of the Database Manager.
+     * @return Singleton instance of Database Manager
+     */
     public static DatabaseManager getInstance(){
         return instance;
     }
-    //constructor for database manger
+
+    /**
+     * This creates an instance of the database manager.
+     */
     private DatabaseManager(){}
 
-    //loads all data. This is called in the startup class
+    /**
+     * This loads and cache the public trash collection points.
+     */
     public void loadData(){
         //Pull public cash for trash
         pullPublicCashForTrash();
@@ -136,6 +152,7 @@ public class DatabaseManager implements DatabaseInterface {
     public void pullPublicSecondHandFromDatabase(){
         pullPublicData("2nd-hand-goods-collection-points");
     }
+
 
     public void addStatisticsManager(){
         this.statisticsManager = StatisticsManager.getInstance();
@@ -649,10 +666,19 @@ public class DatabaseManager implements DatabaseInterface {
         }
     }
 
+    /**
+     * Pull deposit statistics from the server to be cached.
+     */
     public void pullDepositStat(){
         pullDepositStat(null, null, -1);
     }
 
+    /**
+     * Pull deposit information between a time period from the server to be cached.
+     * @param begDate The starting date
+     * @param endDate The ending date
+     * @param n_top Number of top users
+     */
     public void pullDepositStat(final Date begDate, final Date endDate, final int n_top){
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
@@ -752,6 +778,9 @@ public class DatabaseManager implements DatabaseInterface {
     }
 
 
+    /**
+     * Pulls deposit information relevant to the user.
+     */
     public void pullDepositLogByUserId() {
         Thread thread = new Thread(new Runnable() {
             @Override

@@ -54,6 +54,23 @@ public class TrashCollectionPointManager {
         userSelectedTrashPointID = id;
     }
 
+
+    /**
+     * This function creates a Private Trash Collection Point based on information entered by user so that it can be saved.
+     * @param name Name of Trash Collection Point
+     * @param address Address of Trash Collection Point
+     * @param zip ZIP code of Trash Collection Point
+     * @param contactDetail Contact details to be used at Trash Collection Point
+     * @param trashTypes Trash types collected at Trash Collection Point
+     * @param units Units of trash types
+     * @param trashNames Sub-Trash Types. To be entered if you wish to collect Cash-For-Trash
+     * @param trashPrices The trash prices of the Sub-Trash Types. To be entered if you wish to collect Cash-For-Trash
+     * @param openTime The opening time of the Trash Collection Point
+     * @param closeTime The closing time of the Trash Collection Point
+     * @param description The preference of the Trash Collector
+     * @param days The days which the Trash Collection Point is open
+     * @param context The context of the current activity
+     */
     public void createPrivateTrashCollectionPoint(String name, String address, String zip, String contactDetail, ArrayList<String> trashTypes,ArrayList<String> units, ArrayList<String> trashNames, ArrayList<Double> trashPrices, String openTime, String closeTime, String description, int[] days,Context context) {
 
         Log.d(TAG, "createPrivateTrashCollectionPoint: creating..");

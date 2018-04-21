@@ -9,7 +9,7 @@ import com.recyclingsg.app.entity.TrashInfo;
 import java.util.Date;
 
 /**
- * This class is a the Deposit Manager class. It is used to handle deposition of trash.
+ * This class is the Deposit Manager class. It is used to handle deposition of trash.
  * @author Honey Stars
  * @version 1.0
  */

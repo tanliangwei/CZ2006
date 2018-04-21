@@ -13,12 +13,18 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Howard on 24/3/2018.
+ * This class is GoogleGeocoder class. It converts addresses to coordinates so that they can be displayed by Google Maps
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class GoogleGeocoder {
     private static final GoogleGeocoder ourInstance = new GoogleGeocoder();
 
+    /**
+     * This returns a singleton instance of the Google.
+     * @return Singleton instance of Deposit Manager
+     */
     public static GoogleGeocoder getInstance() {
         return ourInstance;
     }
@@ -26,6 +32,13 @@ public class GoogleGeocoder {
     private GoogleGeocoder() {
     }
 
+
+    /**
+     * This function converts a ZIP code to coordinates so that it can be displayed on a map.
+     * @param zipCode The ZIP code to be converted
+     * @param context The context of the current activity.
+     * @return The Lat-Long object containing coordinates.
+     */
     public LatLng getLatLngFromAddress(String zipCode, Context context){
     
         Geocoder coder = new Geocoder(context);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class is the statistic manager. It is in charge of displaying the statistics in a readable format for the user to track his performance.
+ * This class is the statistic manager. It is in charged of displaying the statistics in a readable format for the user to track his performance.
  * @author Honey Stars
  * @version 1.0
  */

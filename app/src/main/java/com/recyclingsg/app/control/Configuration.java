@@ -1,7 +1,7 @@
 package com.recyclingsg.app.control;
 
 /**
- * This class is a the configuration class. It is used at the start of the application runtime to load and call certain data and functions.
+ * This class is the configuration class. It is used at the start of the application runtime to load and call certain data and functions.
  * @author Honey Stars
  * @version 1.0
  */
