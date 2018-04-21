@@ -1,9 +1,9 @@
-<com.recyclingsg.app.MapWrapperLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.recyclingsg.app.boundary.MapWrapperLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".boundary.MainActivity" >
 
     <fragment
         android:id="@+id/map_new"
@@ -11,4 +11,4 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-</com.recyclingsg.app.MapWrapperLayout>
+</com.recyclingsg.app.boundary.MapWrapperLayout>

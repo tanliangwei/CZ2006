@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.recyclingsg.app.GoogleMapFragment"
+    tools:context="com.recyclingsg.app.boundary.GoogleMapFragment"
     android:id="@+id/mapFrameLayout"
 >
 
@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".GoogleMapFragment"
+        tools:context=".boundary.GoogleMapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"/>
 
