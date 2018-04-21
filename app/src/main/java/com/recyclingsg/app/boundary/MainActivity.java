@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerOpened(View drawerView){
                 Log.d(TAG, "drawer opened");
                 updateLoginView();
-                updateItemTitle();
+                updateLoginButton();
             }
         };
         drawer.addDrawerListener(toggle);
@@ -136,6 +136,9 @@ public class MainActivity extends AppCompatActivity
 
 //Test comment
 
+    /**
+     * This function updates the navigation bar to contain the User's name and his points.
+     */
     public void updateLoginView(){
         //String userID = UserManager.getUserId();
         String userName = UserManager.getInstance().getUserName();
@@ -159,7 +162,11 @@ public class MainActivity extends AppCompatActivity
             }
 
     }
-    public void updateItemTitle(){
+
+    /**
+     * This updates the login/logout button to display the appropriate words.
+     */
+    public void updateLoginButton(){
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
         menu = navView.getMenu();
         MenuItem menuItem = menu.findItem(R.id.nav_login);
@@ -174,8 +181,6 @@ public class MainActivity extends AppCompatActivity
             Log.e(TAG,"fail to set title");
         }
     }
-
-
 
     public void initSearchButton(){
         Log.d(TAG, "initButton: initializing Search Button");
@@ -223,13 +228,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 //
 
     }
-
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
@@ -300,8 +303,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     };
-
-
+    
     private ArrayAdapter<String> createSpinnerAdapter() {
         ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_dropdown_item) {
             

@@ -203,7 +203,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         /**
-         * function for second view
+         * This retrieves the top 10 user of Singapore and display them on a bar chart on the map.
          */
         private void loadTopUserView(){
             barChart.getDescription().setEnabled(false);
@@ -269,7 +269,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         /**
-         * function for first view
+         * This retrieves the deposit data and display a pie chart which shows the percentage of each trash category
          */
         private void loadNationalView(){
 
@@ -302,6 +302,9 @@ public class StatisticsActivity extends AppCompatActivity {
             pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         }
 
+        /**
+         * This function sets the national data on the pie chart
+         */
         private void setNationalPercentageData() {
             ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 

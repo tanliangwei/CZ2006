@@ -4,13 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Software-Engineering.iml" filepath="$PROJECT_DIR$/Software-Engineering.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/software eng git.iml" filepath="$PROJECT_DIR$/software eng git.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../quzhe/myproject/Software-Engineering/software eng git.iml" filepath="$PROJECT_DIR$/../../../quzhe/myproject/Software-Engineering/software eng git.iml" />
-||||||| merged common ancestors
-      <module fileurl="file://$PROJECT_DIR$/../../../quzhe/myproject/Software-Engineering/software eng git.iml" filepath="$PROJECT_DIR$/../../../quzhe/myproject/Software-Engineering/software eng git.iml" />
-=======
->>>>>>> 2a7223090533f3d0ec434b2facc581f5961f4282
     </modules>
   </component>
 </project>
