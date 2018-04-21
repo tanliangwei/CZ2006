@@ -58,6 +58,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String TAG = "GoogleMapFragment";
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
     private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
             new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
@@ -209,9 +210,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 // Here we can perform some action triggered after clicking the button
 //                Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
 
-                TrashCollectionPointManager.getInstance();
-                TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
-                String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+                TrashCollectionPoint tcp= trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                String latlngLocation = trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
                 latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
                 String collectionPointName = tcp.getCollectionPointName();
                 Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);
@@ -230,8 +230,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
             @Override
             public View getInfoWindow(Marker marker) {
                 TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
-                TrashCollectionPointManager.getInstance();
-                TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
+                trashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
                 return null;
             }
 
@@ -255,9 +254,8 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
                 mapWrapperLayout.setMarkerWithInfoWindow(marker, infoWindow);
 
                 //to set certain things
-                TrashCollectionPointManager.getInstance();
-                TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
-                TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+                trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+                trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
                 return infoWindow;
             }
 
@@ -482,21 +480,19 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        TrashCollectionPointManager.getInstance();
-        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        TrashCollectionPoint tcp= trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         Date openTime= tcp.getOpenTime();
         Date closeTime=tcp.getCloseTime();
-        String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
-        int zipcode = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getZipCode();
+        String latlngLocation = trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+        int zipcode = trashCollectionPointManager.getUserSelectedTrashCollectionPoint().getZipCode();
         Toast.makeText(this.getContext(), "Info Window Clicked\n" +openTime+"\n"+closeTime+"\n"+tcp.getCollectionPointName() , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInfoWindowLongClick(Marker marker) {
         //Toast.makeText(this.getContext(), "Info Window Long Clicked", Toast.LENGTH_SHORT).show();
-        TrashCollectionPointManager.getInstance();
-        TrashCollectionPoint tcp= TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
-        String latlngLocation = TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
+        TrashCollectionPoint tcp= trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        String latlngLocation = trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString();
         latlngLocation=latlngLocation.substring(10,latlngLocation.length()-1);
         String collectionPointName = tcp.getCollectionPointName();
         Uri gmmIntentUri = Uri.parse("geo:0,0?q="+latlngLocation+"+"+collectionPointName);

@@ -96,11 +96,13 @@ public class StatisticsActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private StatisticsManager statisticsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        statisticsManager = StatisticsManager.getInstance();
         loadAllStatistics();
         // initialiseTheDateButtons();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -188,10 +190,9 @@ public class StatisticsActivity extends AppCompatActivity {
      * The function below loads all the statistics
      */
     public void loadAllStatistics(){
-        StatisticsManager.getInstance();
-        topUsers = StatisticsManager.getTopUsers();
-        nationalStat = StatisticsManager.getNationalStat();
-        userScore = StatisticsManager.getUserScore();
+        topUsers = statisticsManager.getTopUsers();
+        nationalStat = statisticsManager.getNationalStat();
+        userScore = statisticsManager.getUserScore();
 
     }
 
@@ -249,7 +250,7 @@ public class StatisticsActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.deposit_history_layout, container, false);
                     TableLayout depositHistoryTable = rootView.findViewById(R.id.DepositHistoryTable);
 
-                    ArrayList<SimpleDepositLog> depositLogs = StatisticsManager.getDepositLogs();
+                    ArrayList<SimpleDepositLog> depositLogs = StatisticsManager.getInstance().getDepositLogs();
                     for(int i=depositLogs.size()-1; i>=0; i--){
                         SimpleDepositLog log = depositLogs.get(i);
                         View tableRowView = inflater.inflate(R.layout.deposit_record_view, depositHistoryTable, false);
@@ -295,7 +296,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
             barChart.getLegend().setEnabled(false);
 
-            final ArrayList<TopUser> topUsers = StatisticsManager.getTopUsers();
+            final ArrayList<TopUser> topUsers = StatisticsManager.getInstance().getTopUsers();
             ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
             final ArrayList<String> xVals = new ArrayList<>();
 
@@ -306,7 +307,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 xVals.add(user.getUserName());
             }
 
-            double nationalAvgScore = StatisticsManager.getNationalStat().getAvgScore();
+            double nationalAvgScore = StatisticsManager.getInstance().getNationalStat().getAvgScore();
             ArrayList<BarEntry> nationY = new ArrayList<>();
 
             nationY.add(new BarEntry(topUsers.size(), (float)nationalAvgScore));
@@ -384,9 +385,9 @@ public class StatisticsActivity extends AppCompatActivity {
 //                entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
 //                        TrashInfo.typeOfTrash[i]));
 //            }
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getCashForTrashCount(), "Cash for Trash"));
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getEwastCount(),"E-waste"));
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getCashForTrashCount(), "Cash for Trash"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getEwastCount(),"E-waste"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
 
             PieDataSet dataSet = new PieDataSet(entries, "Trash Type");
 

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
     private String userSelectedTrashType;
     private Menu menu;
     private QueryFacade queryFacade;
-
+    private GoogleMapFragment googleMapFragment;
 
     public MainActivity() throws Exception {
     }
@@ -64,16 +64,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         FacebookSdk.getApplicationContext();
         // to call startup functions.
-        Configuration.getInstance();
-        Configuration.startUp();
+        Configuration.getInstance().startUp();
         setContentView(R.layout.activity_main);
 
 
         queryFacade = QueryFacade.getInstance();
-
+        googleMapFragment = new GoogleMapFragment();
+        queryFacade.setmGoogleMapFragment(googleMapFragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.mapfragment, queryFacade.getGoogleMapFragment());
+        fragmentTransaction.add(R.id.mapfragment, googleMapFragment);
         fragmentTransaction.commit();
 
 
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         //Setting up side Navigation
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        StatisticsManager.refreshData();
+        StatisticsManager.getInstance();
+        StatisticsManager.getInstance().refreshData();
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
     public void updateLoginView(){
         //String userID = UserManager.getUserId();
-        String userName = UserManager.getUserName();
+        String userName = UserManager.getInstance().getUserName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         //ImageView navPicture = findViewById(R.id.nav_profile);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
             } else {
                 // navPicture.setImageBitmap(UserManager.getFacebookProfilePicture());
                 navUsername.setText(userName);
-                navPoints.setText("Points: " + StatisticsManager.getUserScore());
+                navPoints.setText("Points: " + StatisticsManager.getInstance().getUserScore());
                 //TODO Please make sure that statistic manager is constructed before calling the following function
                 //StatisticsManager.getInstance();
                 //navPoints.setText("Points: " + StatisticsManager.getUserScore());
@@ -245,7 +245,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 //
@@ -285,7 +284,7 @@ public class MainActivity extends AppCompatActivity
                         PlaceBufferResponse places = task.getResult();
                         Place userSelectedPlace = places.get(0);
 
-                        queryFacade.getGoogleMapFragment().setUserSelectedLocation(userSelectedPlace);
+                        googleMapFragment.setUserSelectedLocation(userSelectedPlace);
                         Log.i(TAG, "onComplete: Location in CollectionPointManager changed to " + userSelectedPlace.getName());
                         places.release();
                         selectedLocation = true;
@@ -476,6 +475,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick_btnCentreMap(View v){
-        queryFacade.getGoogleMapFragment().getDeviceLocation();
+        googleMapFragment.getDeviceLocation();
     }
 }

@@ -10,10 +10,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class UserManager {
-
-    private static String userID;
-    private static String userName;
-    private static Bitmap bitmap;
+    private String userName;
+    private String userID;
+    private Bitmap bitmap;
 
 
 
@@ -60,27 +59,26 @@ public class UserManager {
     }*/
     //public static void setBitMap(Bitmap thebitmap){bitmap=thebitmap;}
     //public static Bitmap getFacebookProfilePicture(){return bitmap;}
-    public static String getUserId() {
+    public String getUserId() {
         return userID;
     }
 
-    public static String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public static void setUserID(String id) {
+    public void setUserID(String id) {
         userID = id;
     }
 
-    public static void setUserName(String name) {
+    public void setUserName(String name) {
         userName = name;
     }
 
-    public static void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
+    public void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
         ptcp.setOwnerId(userID);
         ptcp.setOwnerName(userName);
-        DatabaseManager.getInstance();
-        DatabaseManager.savePrivateTrashCollectionPoint(ptcp);
+        DatabaseManager.getInstance().savePrivateTrashCollectionPoint(ptcp);
         Log.d(TAG, "addPrivateTrashCollectionPointToUser: ");
     }
 }

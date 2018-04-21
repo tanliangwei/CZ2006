@@ -29,61 +29,55 @@ import java.util.Date;
 
 public class DatabaseManager {
     private static final String TAG = "DatabaseManager";
+    private StatisticsManager statisticsManager;
+    private UserManager userManager;
 
     //The attributes
     // public trash collection points
-    private static ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PublicTrashCollectionPoint> SecondHandPublicTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PublicTrashCollectionPoint> EWastePublicTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PublicTrashCollectionPoint> SecondHandPublicTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PublicTrashCollectionPoint> CashForTrashPublicTrashCollectionPoints = new ArrayList<>();
 
     //private trash collection points
-    private static ArrayList<PrivateTrashCollectionPoint> EWastePrivateTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PrivateTrashCollectionPoint> SecondHandPrivateTrashCollectionPoints = new ArrayList<>();
-    private static ArrayList<PrivateTrashCollectionPoint> CashForTrashPrivateTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PrivateTrashCollectionPoint> EWastePrivateTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PrivateTrashCollectionPoint> SecondHandPrivateTrashCollectionPoints = new ArrayList<>();
+    private ArrayList<PrivateTrashCollectionPoint> CashForTrashPrivateTrashCollectionPoints = new ArrayList<>();
 
     //getter methods
-    public static ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
+    public ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
         pullPrivateData("e-waste");
         delay(300);
         Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
-    public static ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
+    public ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
         pullPrivateData("second-hand-goods");
         delay(300);
         Log.d(TAG,"pull second-hand-goods private points: "+SecondHandPrivateTrashCollectionPoints.size());
         return SecondHandPrivateTrashCollectionPoints;
     }
-    public static ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
+    public ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
         pullPrivateData("cash-for-trash");
         delay(300);
         Log.d(TAG,"pull cash-for-trash private points: "+CashForTrashPrivateTrashCollectionPoints.size());
         return CashForTrashPrivateTrashCollectionPoints;
     }
 
-    public static ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
-    public static ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
-    public static ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
+    public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
 
     //the constructor and instance management code
-    private static DatabaseManager instance;
+    private static final DatabaseManager instance = new DatabaseManager();
     //this ensures that there is only one instance of  DatabaseManager in the whole story
     public static DatabaseManager getInstance(){
-        if (instance == null) {
-            try {
-                instance = new DatabaseManager();
-            } catch (Exception e) {
-                Log.e(TAG, "failed to construct DatabaseManager instance");
-                e.printStackTrace();
-            }
-        }
         return instance;
     }
     //constructor for database manger
     private DatabaseManager(){}
 
     //loads all data. This is called in the startup class
-    public static void loadData(){
+    public void loadData(){
         //Pull public cash for trash
         pullPublicCashForTrash();
         //Pull public eWaste
@@ -93,26 +87,33 @@ public class DatabaseManager {
     }
 
     //API functions
-    public static void pullPublicEWasteFromDatabase(){
+    public void pullPublicEWasteFromDatabase(){
         pullPublicData("e-waste-recycling");
     }
 
-    public static void pullPublicCashForTrash(){
+    public void pullPublicCashForTrash(){
         pullPublicData("cash-for-trash");
     }
 
-    public static void pullPublicSecondHandFromDatabase(){
+    public void pullPublicSecondHandFromDatabase(){
         pullPublicData("2nd-hand-goods-collection-points");
     }
 
+    public void addStatisticsManager(){
+        this.statisticsManager = StatisticsManager.getInstance();
+    }
+    public void addUserManager(){this.userManager = UserManager.getInstance();}
 
-    private static void pullPublicData(final String type){
+
+    private void pullPublicData(final String type){
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run(){
                 String sURL = "http://www.sjtume.cn/cz2006/api/get-public-points?token=9ca2218ae5c6f5166850cc749085fa6d&point_type="; //Url to server
                 sURL = sURL + type;
+
+                Log.d(TAG, "run: HERE IT IS " + sURL);
 
                 URL url = null;
                 try {
@@ -232,7 +233,7 @@ public class DatabaseManager {
         thread.start();
     }
 
-    private static void pullPrivateData(final String type){
+    private void pullPrivateData(final String type){
         if(type == "cash-for-trash"){
             CashForTrashPrivateTrashCollectionPoints.clear();
         }else if(type == "e-waste"){
@@ -367,7 +368,7 @@ public class DatabaseManager {
     }
 
     //function for querying
-    public static ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashInfo trashQuery){
+    public ArrayList<TrashCollectionPoint> queryCollectionPoint(TrashInfo trashQuery){
         ArrayList<TrashCollectionPoint> retCollectionPoint = new ArrayList<TrashCollectionPoint>();
         ArrayList<PublicTrashCollectionPoint> tempArray;
         String trashType = null;
@@ -392,7 +393,7 @@ public class DatabaseManager {
         return retCollectionPoint;
     }
 
-    public static String to_trashType(TrashInfo trashQuery) throws Exception{
+    public String to_trashType(TrashInfo trashQuery) throws Exception{
         if(trashQuery.getTrashName() == "Second Hand Goods"){
             return "2nd-hand-goods-collection-points";
         }else if(trashQuery.getTrashName() == "eWaste"){
@@ -409,7 +410,7 @@ public class DatabaseManager {
      * @param collectionPoint the collection point to add
      * @return true if success
      */
-    public static boolean savePrivateTrashCollectionPoint(final PrivateTrashCollectionPoint collectionPoint){
+    public boolean savePrivateTrashCollectionPoint(final PrivateTrashCollectionPoint collectionPoint){
         Log.d(TAG, "savePrivateTrashCollectionPoint: ");
         Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerId());
         Log.d(TAG, "savePrivateTrashCollectionPoint: " + collectionPoint.getOwnerName());
@@ -525,7 +526,7 @@ public class DatabaseManager {
      * @param depositRecord the deposit record to add
      * @return true if success
      */
-    public static boolean addDepositRecord(final DepositRecord depositRecord){
+    public boolean addDepositRecord(final DepositRecord depositRecord){
         String dateStr = depositRecord.getDate().toString();
 
         Thread thread = new Thread(new Runnable() {
@@ -604,7 +605,7 @@ public class DatabaseManager {
         return true;
     }
 
-    private static void delay(int time){
+    private void delay(int time){
         try{
             Thread.sleep(time);
             Log.d(TAG, "pulling private data");
@@ -615,19 +616,19 @@ public class DatabaseManager {
         }
     }
 
-    public static void pullDepositStat(){
+    public void pullDepositStat(){
         pullDepositStat(null, null, -1);
     }
 
-    public static void pullDepositStat(final Date begDate, final Date endDate, final int n_top){
+    public void pullDepositStat(final Date begDate, final Date endDate, final int n_top){
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run(){
                 String sURL = "http://www.sjtume.cn/cz2006/api/get-deposit-stat?token=9ca2218ae5c6f5166850cc749085fa6d"; //Url to server
                 // set optional parameters
-                if (UserManager.getUserId()!=null){
-                    sURL += ("&user_id="+UserManager.getUserId());
+                if (userManager.getUserId()!=null){
+                    sURL += ("&user_id="+userManager.getUserId());
                 }
 
                 if(begDate != null){
@@ -684,14 +685,14 @@ public class DatabaseManager {
                 int cashForTrashCount = rootobj.get("cash_for_trash_cnt").getAsInt();
                 int ewasteCount = rootobj.get("ewaste_cnt").getAsInt();
                 int secondHandCount = rootobj.get("second_hand_good_cnt").getAsInt();
-                StatisticsManager.setNationalStat(new NationalStat(avgScore, userCount,
+                statisticsManager.setNationalStat(new NationalStat(avgScore, userCount,
                         cashForTrashCount, ewasteCount, secondHandCount));
                 Log.d(TAG, "successfully pulled national statistics");
 
                 // set user score
                 if(!rootobj.get("user_score").isJsonNull()){
                     double score = rootobj.get("user_score").getAsDouble();
-                    StatisticsManager.setUserScore(score);
+                    statisticsManager.setUserScore(score);
                     Log.d(TAG, "successfully pulled user score");
                 }
                 else{
@@ -709,23 +710,23 @@ public class DatabaseManager {
                     TopUser topUser = new TopUser(userName, score);
                     topUserArrayList.add(topUser);
                 }
-                StatisticsManager.setTopUsers(topUserArrayList);
+                statisticsManager.setTopUsers(topUserArrayList);
                 Log.d(TAG, "successfully pulled "+topUserArrayList.size()+" top users");
-                StatisticsManager.setLastUpdate(new Date());
+                statisticsManager.setLastUpdate(new Date());
             }
         });
         thread.start();
     }
 
 
-    public static void pullDepositLogByUserId() {
+    public void pullDepositLogByUserId() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 String sURL = "http://www.sjtume.cn/cz2006/api/get-user-deposit-log?token=9ca2218ae5c6f5166850cc749085fa6d"; //Url to server
                 // set optional parameters
-                if (UserManager.getUserId() != null) {
-                    sURL += ("&user_id=" + UserManager.getUserId());
+                if (userManager.getUserId() != null) {
+                    sURL += ("&user_id=" + userManager.getUserId());
                 }
                 // return if not logged in
                 else {
@@ -781,7 +782,7 @@ public class DatabaseManager {
                     SimpleDepositLog newlog = new SimpleDepositLog(userName, date, trashType, score);
                     logs.add(newlog);
                 }
-                StatisticsManager.setDepositLogs(logs);
+                statisticsManager.setDepositLogs(logs);
             }
         });
         thread.start();

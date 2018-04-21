@@ -18,7 +18,7 @@ public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListe
     private FilterManager filterManager;
     private static final String TAG = "QueryFacade";
     private static final QueryFacade ourInstance = new QueryFacade();
-    private static GoogleMapFragment mGoogleMapFragment;
+    private GoogleMapFragment mGoogleMapFragment;
 
     public static QueryFacade getInstance() {
         return ourInstance;
@@ -26,11 +26,13 @@ public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListe
 
     private QueryFacade() {
         databaseManager = DatabaseManager.getInstance();
-        filterManager = new FilterManager();
-        mGoogleMapFragment = new GoogleMapFragment();
+        filterManager = FilterManager.getInstance();
+
+    }
 
 
-
+    public void setmGoogleMapFragment(GoogleMapFragment mGoogleMapFragment) {
+        this.mGoogleMapFragment = mGoogleMapFragment;
     }
 
     public GoogleMapFragment getGoogleMapFragment() {
@@ -60,7 +62,7 @@ public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListe
                 filterManager.getClosedTrashCollectionPoints().clear();
                 break;
             case "Cash For Trash":
-                Log.d(TAG, "query: selected Cash for Trash");;
+                Log.d(TAG, "query: selected Cash for Trash");
                 filterManager.filterPublicByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
                 filterManager.filterPrivateByCurrentDate(databaseManager.getCashForTrashPrivateTrashCollectionPoints());
                 mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());

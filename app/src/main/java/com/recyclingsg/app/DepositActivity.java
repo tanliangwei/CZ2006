@@ -72,6 +72,7 @@ public class DepositActivity extends Activity {
     RelativeLayout rl;
     static Button depositButton;
     static Context context;
+    TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
     public static final String pointTransfer = "pointTransfer";
 
     ImageView depositImage;
@@ -97,7 +98,7 @@ public class DepositActivity extends Activity {
     public void initViews() {
         rl = (RelativeLayout) findViewById(R.id.depositRelativeLayout);
         trashCollectionPointText = (TextView) findViewById(R.id.textViewName2);
-        trashCollectionPointText.setText(TrashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName());
+        trashCollectionPointText.setText(trashCollectionPointManager.getUserSelectedTrashCollectionPoint().getCollectionPointName());
         dateText = (TextView) findViewById(R.id.textViewDate2);
         unitText = (TextView) findViewById(R.id.textViewUnit2);
         unitEditText = (EditText) findViewById(R.id.unitEditText);
@@ -159,7 +160,7 @@ public class DepositActivity extends Activity {
     }
 
     public void initWasteTypeSpinner() {
-        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        TrashCollectionPoint tcp = trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> mSpinnerAdapter = createSpinnerAdapter();
         // Specify the layout to use when the list of choices appears
@@ -317,8 +318,7 @@ public class DepositActivity extends Activity {
         unitsCardParams.removeRule(RelativeLayout.BELOW);
         unitsCardParams.addRule(RelativeLayout.BELOW, R.id.cardViewSubTrash);
 
-        TrashCollectionPointManager.getInstance();
-        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        TrashCollectionPoint tcp = trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         int index = 0;
         for (int i = 0; i < tcp.getTrash().size(); i++) {
             if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")) {
@@ -366,8 +366,7 @@ public class DepositActivity extends Activity {
 
     public void onClick_deposit_enter(View v) {
         if (v.getId() == R.id.depositButton) {
-            TrashCollectionPointManager.getInstance();
-            TrashCollectionPoint currentTCP = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+            TrashCollectionPoint currentTCP = trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
             ArrayList<String> CashForTrashUnits = new ArrayList<String>();
             ArrayList<String> CashForTrashNames = new ArrayList<String>();
             ArrayList<Double> CashForTrashPrices = new ArrayList<Double>();
@@ -379,7 +378,7 @@ public class DepositActivity extends Activity {
                 if (trashType.equalsIgnoreCase("cash for trash") || trashType.equalsIgnoreCase("cash-for-trash")) {
                     if (!subTrashSpinner.getSelectedItem().toString().equalsIgnoreCase("Select Sub-Trash")) {
                         String trashName = subTrashSpinner.getSelectedItem().toString();
-                        TrashCollectionPoint tcp = TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+                        TrashCollectionPoint tcp = trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
                         int index = 0;
                         for (int i = 0; i < tcp.getTrash().size(); i++) {
                             if (tcp.getTrash().get(i).getTrashType().equalsIgnoreCase("cash-for-trash")) {
@@ -408,12 +407,11 @@ public class DepositActivity extends Activity {
 
             TrashInfo depositTrash = new TrashInfo(trashType, CashForTrashNames, CashForTrashUnits, CashForTrashPrices);
             float units = Float.valueOf(unitEditText.getText().toString());
-            DepositManager.getInstance();
             Intent intentToConfirmationPage = new Intent(this, DepositCompleteActivity.class);
             //The below code is required to put this block of code in DepositManager
 //          intentToConfirmationPage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Log.d(TAG, "onClick_deposit_enter: Starting Activity");
-            intentToConfirmationPage.putExtra("pointTransfer", Float.toString(DepositManager.createDepositRecord(depositTrash, units, new Date(), currentTCP).getScore()));
+            intentToConfirmationPage.putExtra("pointTransfer", Float.toString(DepositManager.getInstance().createDepositRecord(depositTrash, units, new Date(), currentTCP).getScore()));
             startActivity(intentToConfirmationPage);
             Log.d(TAG, "onClick_deposit_enter: DepositConfirmClicked");
         } else {

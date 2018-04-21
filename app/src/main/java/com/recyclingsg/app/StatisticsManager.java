@@ -11,12 +11,14 @@ import java.util.Date;
  */
 
 public class StatisticsManager {
+
+
     private static ArrayList<TopUser> topUsers = null;
     private static NationalStat nationalStat = null;
     private static double userScore = -1;
     private static Date lastUpdate = null;
     private static ArrayList<SimpleDepositLog> depositLogs = new ArrayList<>();
-
+    private DatabaseManager databaseManager;
 
     /**
      * refresh the cached data,
@@ -28,29 +30,27 @@ public class StatisticsManager {
      * @param endDate the ending time of the time window to query
      * @param n_top the number of top users to query
      */
-    public static void refreshData(Date begDate, Date endDate, int n_top){
-        DatabaseManager.pullDepositStat(begDate, endDate, n_top);
-        DatabaseManager.pullDepositLogByUserId();
+    public void refreshData(Date begDate, Date endDate, int n_top){
+        databaseManager.pullDepositStat(begDate, endDate, n_top);
+        databaseManager.pullDepositLogByUserId();
     }
 
     private static final String TAG = "Statistics Manager";
 
     //the constructor and instance management code
-    private static StatisticsManager instance;
-    //this ensures that there is only one instance of  DepositManager in the whole story
+    private static final StatisticsManager instance = new StatisticsManager();
+    //this ensures that there is only one instance of StatisticsManager in the whole story
     public static StatisticsManager getInstance(){
-        if (instance == null) {
-            try {
-                instance = new StatisticsManager();
-            } catch (Exception e) {
-                Log.e(TAG, "failed to construct StatisticsManager instance");
-                e.printStackTrace();
-            }
-        }
         return instance;
     }
-    //constructor for database manger
-    public StatisticsManager(){}
+    //constructor for Statistics manager
+    private StatisticsManager() {
+    }
+
+    public void addDatabaseManager(){
+        this.databaseManager = DatabaseManager.getInstance();
+    }
+
 
 
 
@@ -58,21 +58,21 @@ public class StatisticsManager {
      * refresh the cached data with default parameters,
      * querying whole history and at most 10 top users
      */
-    public static void refreshData(){
-        DatabaseManager.pullDepositStat();
-        DatabaseManager.pullDepositLogByUserId();
+    public void refreshData(){
+        databaseManager.pullDepositStat();
+        databaseManager.pullDepositLogByUserId();
     }
 
     /**
      * get the score of the current user, make sure the user has logged in when calling this method,
      * @return the user score
      */
-    public static double getUserScore(){
+    public double getUserScore(){
         if(userScore == -1){
-            DatabaseManager.pullDepositStat();
+            databaseManager.pullDepositStat();
         }
         if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
-            DatabaseManager.pullDepositStat();
+            databaseManager.pullDepositStat();
         }
         return userScore;
     }
@@ -82,12 +82,12 @@ public class StatisticsManager {
      * @return a list of TopUser instance
      * @see TopUser
      */
-    public static ArrayList<TopUser> getTopUsers() {
+    public ArrayList<TopUser> getTopUsers() {
         if(topUsers == null){
-            DatabaseManager.pullDepositStat();
+            databaseManager.pullDepositStat();
         }
         if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
-            DatabaseManager.pullDepositStat();
+            databaseManager.pullDepositStat();
         }
         return topUsers;
     }
@@ -97,39 +97,39 @@ public class StatisticsManager {
      * @return national statistics
      * @see NationalStat
      */
-    public static NationalStat getNationalStat() {
+    public NationalStat getNationalStat() {
         if(nationalStat == null){
-            DatabaseManager.pullDepositStat();
-            DatabaseManager.pullDepositLogByUserId();
+            databaseManager.pullDepositStat();
+            databaseManager.pullDepositLogByUserId();
         }
         if(lastUpdate==null ||  (new Date().getTime()-lastUpdate.getTime())/1000 < 10){
-            DatabaseManager.pullDepositStat();
-            DatabaseManager.pullDepositLogByUserId();
+            databaseManager.pullDepositStat();
+            databaseManager.pullDepositLogByUserId();
         }
         return nationalStat;
     }
 
-    public static void setNationalStat(NationalStat nationalStat) {
+    public void setNationalStat(NationalStat nationalStat) {
         StatisticsManager.nationalStat = nationalStat;
     }
 
-    public static void setTopUsers(ArrayList<TopUser> topUsers) {
+    public void setTopUsers(ArrayList<TopUser> topUsers) {
         StatisticsManager.topUsers = topUsers;
     }
 
-    public static void setUserScore(double userScore) {
+    public void setUserScore(double userScore) {
         StatisticsManager.userScore = userScore;
     }
 
-    public static void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(Date lastUpdate) {
         StatisticsManager.lastUpdate = lastUpdate;
     }
 
-    public static void setDepositLogs(ArrayList<SimpleDepositLog> depositLogs) {
+    public void setDepositLogs(ArrayList<SimpleDepositLog> depositLogs) {
         StatisticsManager.depositLogs = depositLogs;
     }
 
-    public static ArrayList<SimpleDepositLog> getDepositLogs() {
+    public ArrayList<SimpleDepositLog> getDepositLogs() {
         return depositLogs;
     }
 }

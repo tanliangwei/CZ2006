@@ -27,7 +27,7 @@ public class ScoreManager {
     public ScoreManager(){}
 
     //calculating score, now hard coded to 5
-    public static float calculateScore(TrashInfo trashInfo, float units){
+    public float calculateScore(TrashInfo trashInfo, float units){
         switch(trashInfo.getTrashTypeForSpinner()) {
             case ("Second Hand Goods"):
                 return units * 2;

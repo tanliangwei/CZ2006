@@ -93,8 +93,8 @@ public class FacebookLogin extends AppCompatActivity {
                     Log.e(TAG,"CURRENTACCESSTOKENNULL") ;
                     Log.d(TAG,"onLogout Caught");
                     updateLoginStatus();
-                    UserManager.setUserName(null);
-                    UserManager.setUserID(null);
+                    UserManager.getInstance().setUserName(null);
+                    UserManager.getInstance().setUserID(null);
 
                 }
 
@@ -105,8 +105,8 @@ public class FacebookLogin extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 updateLoginStatus();
                 final String userId = loginResult.getAccessToken().getUserId();
-                UserManager.setUserID(userId);
-                StatisticsManager.refreshData();
+                UserManager.getInstance().setUserID(userId);
+                StatisticsManager.getInstance().refreshData();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -117,7 +117,7 @@ public class FacebookLogin extends AppCompatActivity {
                                 try {
                                     String name = jsonObject.getString("name");
 
-                                    UserManager.setUserName(name);
+                                    UserManager.getInstance().setUserName(name);
 
                                     Log.d(TAG, "got user name "+name);
 
