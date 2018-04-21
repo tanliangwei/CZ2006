@@ -188,6 +188,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * This initialises the search button for querying
+     */
     public void initSearchButton(){
         Log.d(TAG, "initButton: initializing Search Button");
         Button button = (Button) findViewById(R.id.search_button);
@@ -196,6 +200,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * This initialises the drop down menu for users to select the trash type
+     */
     public void initWasteTypeSpinner(){
         Log.d(TAG, "initWasteTypeSpinner: initialising Waste Type dropdown menu");
 
@@ -218,6 +225,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * This sets up the auto complete field
+     */
     public void initAutoCompleteField(){
         Log.d(TAG, "initAutoComplete: initializing autocomplete text field");
         mGeoDataClient = Places.getGeoDataClient(this,null);

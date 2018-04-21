@@ -21,6 +21,11 @@ import com.recyclingsg.app.control.GoogleGeocoder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the Post Private Collection Point Activity. It displays editable fields relevant to creation of a private trash collection point and records them to be created.
+ * @author Honey Stars
+ * @version 1.0
+ */
 
 public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
@@ -82,8 +87,9 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     }
 
 
-
-    //this function is called when the submit button is pressed
+    /**
+     * This function obtains information regarding the creation of a private trash collection point and passes it to the TrashCollectionPointManager for creation of trash collection point.
+     */
     private void submitCollectionPointForm() {
         String name = nameFillField.getText().toString();
         String address = addressFillField.getText().toString();

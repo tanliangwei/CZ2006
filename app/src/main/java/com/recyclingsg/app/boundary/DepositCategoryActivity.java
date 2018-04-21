@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.recyclingsg.app.R;
+/**
+ * This Class is not used.
+ * @author Honey Stars
+ * @version 1.0
+ */
+
 
 public class DepositCategoryActivity extends AppCompatActivity {
 

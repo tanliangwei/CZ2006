@@ -43,6 +43,11 @@ import com.recyclingsg.app.control.TrashCollectionPointManager;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class is the Google Map Fragment. It is embedded in main activity and is in charged of displaying the maps as well as related objects like
+ * @author Honey Stars
+ * @version 1.0
+ */
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,18 +73,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private static final LatLngBounds BOUNDS_COORD_SG = new LatLngBounds(
             new LatLng( 1.22, 103.585), new LatLng(1.472823, 104.087221));
 
-
-//static final variables
-
-
     private String mParam1;
     private String mParam2;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private OnFragmentInteractionListener mListener;
     private LatLng userSelectedLocation;
-
-    //by bobby
     private ViewGroup infoWindow;
     private TextView infoTitle;
     private TextView infoSnippet;
@@ -89,21 +88,34 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private OnInfoWindowElemTouchListener navigateButtonListener;
 
 
+    /**
+     * This creates an instance of Google Map Fragment
+     */
+    public GoogleMapFragment() {
+    }
 
+    /**
+     * This returns the Coordinate Bounds of Singapore.
+     * @return The bounds of Singapore in terms of latitude and longtitude
+     */
     public static LatLngBounds getBoundsCoordSg() {
         return BOUNDS_COORD_SG;
     }
 
+    /**
+     * Returns the location selected by the user
+     * @return Coordinates of the location selected by the user
+     */
     public LatLng getUserSelectedLocation() {
         return userSelectedLocation;
     }
 
+    /**
+     * This sets the current location of the user to the location selected by him/her
+     * @param userSelectedPlace The place selected by the user.
+     */
     public void setUserSelectedLocation(Place userSelectedPlace) {
-        Log.d(TAG, "setUserSelectedLocation: User Selects Location: " + userSelectedPlace.getName() );
         this.userSelectedLocation = userSelectedPlace.getLatLng();
-    }
-
-    public GoogleMapFragment() {
     }
 
     /**
@@ -114,7 +126,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
      * @param param2 Parameter 2.
      * @return A new instance of fragment GoogleMapFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static GoogleMapFragment newInstance(String param1, String param2) {
         GoogleMapFragment fragment = new GoogleMapFragment();
         Bundle args = new Bundle();
@@ -355,10 +366,17 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
     }
 
+    /**
+     * This centres the camera to the location selected by the user.
+     */
     public void moveCameraToUserSelectedLocation (){
         moveCamera(userSelectedLocation,DEFAULT_ZOOM);
     }
 
+    /**
+     * This function centres the map to the Trash Collection Point selected by the user.
+     * @param marker The marker of the Trash Collection Point which he created
+     */
     public void moveCameraToUserSelectedCollectionPoint(Marker marker){
         Log.e("gege","i am in move camera to collectin point");
         Projection projection = mMap.getProjection();
@@ -369,10 +387,17 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         mMap.animateCamera(CameraUpdateFactory.newLatLng(targetPosition), 1000, null);
     }
 
+    /**
+     * This function removes all the Trash Collection Points on the map
+     */
     public void clearMapOfMarkers(){
         mMap.clear();
     }
 
+    /**
+     * This displays the Trash Collection Points on the map
+     * @param collectionPoints The array of Trash Collection Points to be displayed
+     */
     public void displayCollectionPoints(ArrayList<TrashCollectionPoint> collectionPoints){
         mMap.clear();
         Log.d(TAG, "displayCollectionPoints: Map clearing");

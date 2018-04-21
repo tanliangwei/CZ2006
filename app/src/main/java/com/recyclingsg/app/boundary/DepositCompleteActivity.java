@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import com.recyclingsg.app.R;
 
+/**
+ * This class is the Deposit Complete Activity. It starts upon the completion of adding deposit records and displays points and information of the deposit to the user.
+ * @author Honey Stars
+ * @version 1.0
+ */
 
 public class DepositCompleteActivity extends Activity {
 

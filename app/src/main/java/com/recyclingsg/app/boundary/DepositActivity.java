@@ -49,7 +49,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * DepositActivity handles the deposit user interface
+ * This class is the Deposit Activity. It is in charged of receiving inputs and displaying editable fields which are relevant to deposition.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class DepositActivity extends Activity {
@@ -122,7 +124,6 @@ public class DepositActivity extends Activity {
         depositButton.setClickable(false);
 
     }
-
 
     public void initialiseDateButtons() {
 
@@ -215,6 +216,7 @@ public class DepositActivity extends Activity {
         }
         checkToSeeIfWeShouldGenerateConfirmButton();
     }
+
 
     private static void generateConfirmButton() {
         RelativeLayout.LayoutParams depositButtonLayoutParams = (RelativeLayout.LayoutParams) depositButton.getLayoutParams();
