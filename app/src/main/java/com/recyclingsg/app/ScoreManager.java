@@ -3,7 +3,9 @@ package com.recyclingsg.app;
 import android.util.Log;
 
 /**
- * Created by tanliangwei on 23/3/18.
+ * This class is the Score Manager Class. It is in charge of calculating the scores earned for deposits.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class ScoreManager {
@@ -11,7 +13,11 @@ public class ScoreManager {
 
     //the constructor and instance management code
     private static ScoreManager instance;
-    //this ensures that there is only one instance of  ScoreManager in the whole story
+
+    /**
+     * This returns a singleton instance of the Score Manager.
+     * @return Singleton instance of Score Manager
+     */
     public static ScoreManager getInstance(){
         if (instance == null) {
             try {
@@ -23,11 +29,18 @@ public class ScoreManager {
         }
         return instance;
     }
-    //constructor for database manger
-    public ScoreManager(){}
 
-    //calculating score, now hard coded to 5
-    public float calculateScore(TrashInfo trashInfo, float units){
+    private ScoreManager(){}
+
+    /**
+     * This function calculates the score obtained by the particular deposit.
+     * @param trashInfo Trash Information object containing information about the trash being deposited
+     * @param units Units of Trash deposited
+     * @return The score to rewarded to users, -1 if the units param is negative
+     */
+    public static float calculateScore(TrashInfo trashInfo, float units){
+        if (units<=0)
+            return 0;
         switch(trashInfo.getTrashTypeForSpinner()) {
             case ("Second Hand Goods"):
                 return units * 2;
@@ -37,6 +50,5 @@ public class ScoreManager {
                 return units * 4;
         }
         return (units);
-
     }
 }

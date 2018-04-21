@@ -1,5 +1,11 @@
 package com.recyclingsg.app;
 
+/**
+ * This class contains information about the trash category as well as the sub-categories if they exist.
+ * @author Honey Stars
+ * @version 1.0
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,11 +27,7 @@ PriceInfo paperPrice = myAcceptableTrash.getTrashPrice("paper");
 
 public class TrashInfo {
 
-    //basic constructor
     public  TrashInfo(){}
-    public TrashInfo(String name, float prices){
-        setTrashType(name);
-    }
 
     //constructor for E-waste and Second Hand where there is no price or fixed price.
     public TrashInfo(String name){ setTrashType(name);}
