@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public interface DatabaseInterface {
-    public ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints();
-    public ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints();
-    public ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints();
+    @Deprecated
     public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints();
+    @Deprecated
     public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints();
+    @Deprecated
     public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints();
 
+
+    public ArrayList<TrashCollectionPoint> getTrashCollectionPoint(String category);
     public void loadData();
     public boolean addDepositRecord(final DepositRecord depositRecord);
 

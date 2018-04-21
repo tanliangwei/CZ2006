@@ -52,32 +52,33 @@ public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListe
             return;
         }
 
+        filterManager.filterByCurrentDate((databaseManager.getTrashCollectionPoint(userSelectedTrashType)));
+        mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+        filterManager.getClosedTrashCollectionPoints().clear();
+
         // display relevant collection points
-        switch (userSelectedTrashType) {
-            case "eWaste":
-                filterManager.filterPublicByCurrentDate((databaseManager.getEWastePublicTrashCollectionPoints()));
-                filterManager.filterPrivateByCurrentDate(databaseManager.getEWastePrivateTrashCollectionPoints());
-                Log.d(TAG, "query: the number of private trash collection point is "+ databaseManager.getEWastePrivateTrashCollectionPoints().size());
-                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-                break;
-            case "Cash For Trash":
-                Log.d(TAG, "query: selected Cash for Trash");
-                filterManager.filterPublicByCurrentDate(databaseManager.getCashForTrashPublicTrashCollectionPoints());
-                filterManager.filterPrivateByCurrentDate(databaseManager.getCashForTrashPrivateTrashCollectionPoints());
-                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-
-                Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
-                break;
-
-            case "Second Hand Goods":
-                filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
-                filterManager.filterPrivateByCurrentDate(databaseManager.getSecondHandPrivateTrashCollectionPoints());
-                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
-                filterManager.getClosedTrashCollectionPoints().clear();
-                break;
-        }
+//        switch (userSelectedTrashType) {
+//            case "eWaste":
+//                filterManager.filterByCurrentDate((databaseManager.getTrashCollectionPoint(userSelectedTrashType)));
+//                Log.d(TAG, "query: the number of private trash collection point is "+ databaseManager.getEWastePrivateTrashCollectionPoints().size());
+//                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+//                filterManager.getClosedTrashCollectionPoints().clear();
+//                break;
+//            case "Cash For Trash":
+//                filterManager.filterByCurrentDate((databaseManager.getTrashCollectionPoint(userSelectedTrashType)));
+//                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+//                filterManager.getClosedTrashCollectionPoints().clear();
+//
+//                Log.d(TAG, "query: Collection Points are" + filterManager.getOpenTrashCollectionPoints());
+//                break;
+//
+//            case "Second Hand Goods":
+//                filterManager.filterPublicByCurrentDate(databaseManager.getSecondHandPublicTrashCollectionPoints());
+//                filterManager.filterPrivateByCurrentDate(databaseManager.getSecondHandPrivateTrashCollectionPoints());
+//                mGoogleMapFragment.displayCollectionPoints(filterManager.getClosedTrashCollectionPoints());
+//                filterManager.getClosedTrashCollectionPoints().clear();
+//                break;
+//        }
 
 
         //move camera

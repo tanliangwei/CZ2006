@@ -44,20 +44,23 @@ public class DatabaseManager implements DatabaseInterface {
     private ArrayList<PrivateTrashCollectionPoint> SecondHandPrivateTrashCollectionPoints = new ArrayList<>();
     private ArrayList<PrivateTrashCollectionPoint> CashForTrashPrivateTrashCollectionPoints = new ArrayList<>();
 
+
+
+
     //getter methods
-    public ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
+    private ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
         pullPrivateData("e-waste");
-        delay(300);
+        
         Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
-    public ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
+    private ArrayList<PrivateTrashCollectionPoint> getSecondHandPrivateTrashCollectionPoints() {
         pullPrivateData("second-hand-goods");
         delay(300);
         Log.d(TAG,"pull second-hand-goods private points: "+SecondHandPrivateTrashCollectionPoints.size());
         return SecondHandPrivateTrashCollectionPoints;
     }
-    public ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
+    private ArrayList<PrivateTrashCollectionPoint> getCashForTrashPrivateTrashCollectionPoints() {
         pullPrivateData("cash-for-trash");
         delay(300);
         Log.d(TAG,"pull cash-for-trash private points: "+CashForTrashPrivateTrashCollectionPoints.size());
@@ -67,6 +70,34 @@ public class DatabaseManager implements DatabaseInterface {
     public ArrayList<PublicTrashCollectionPoint> getEWastePublicTrashCollectionPoints(){return EWastePublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getSecondHandPublicTrashCollectionPoints(){return SecondHandPublicTrashCollectionPoints;}
     public ArrayList<PublicTrashCollectionPoint> getCashForTrashPublicTrashCollectionPoints(){return CashForTrashPublicTrashCollectionPoints;}
+
+    @Override
+    public ArrayList<TrashCollectionPoint> getTrashCollectionPoint(String category) {
+        ArrayList<TrashCollectionPoint> temp = new ArrayList<TrashCollectionPoint>();
+        switch (category) {
+            case "eWaste":
+                ArrayList<PrivateTrashCollectionPoint> privateEWasteTCP = getEWastePrivateTrashCollectionPoints();
+                temp.addAll(privateEWasteTCP);
+                Log.e("hello"," its size is now "+temp.size());
+                temp.addAll(getEWastePublicTrashCollectionPoints());
+                Log.e("hello"," its size is now "+temp.size());
+                return temp;
+            case "Cash For Trash":
+                ArrayList<PrivateTrashCollectionPoint> privateCFTTCP = getCashForTrashPrivateTrashCollectionPoints();
+                temp.addAll(privateCFTTCP);
+                temp.addAll(getCashForTrashPublicTrashCollectionPoints());
+                return temp;
+
+            case "Second Hand Goods":
+                ArrayList<PrivateTrashCollectionPoint> privateSecondHandGoodsTCP = getSecondHandPrivateTrashCollectionPoints();
+                temp.addAll(privateSecondHandGoodsTCP);
+                temp.addAll(getSecondHandPublicTrashCollectionPoints());
+                return temp;
+            default:
+                Log.e("No relevant TCP"," Found");
+                return null;
+        }
+    }
 
     //the constructor and instance management code
     private static final DatabaseManager instance = new DatabaseManager();
@@ -85,6 +116,7 @@ public class DatabaseManager implements DatabaseInterface {
         pullPublicEWasteFromDatabase();
         //Pull public SecondHand, currently unsupported
         pullPublicSecondHandFromDatabase();
+
     }
 
     //API functions
