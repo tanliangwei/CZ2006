@@ -90,7 +90,6 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
         statisticsManager = StatisticsManager.getInstance();
-        loadAllStatistics();
         // initialiseTheDateButtons();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -134,9 +133,9 @@ public class StatisticsActivity extends AppCompatActivity {
      * The function below loads all the statistics
      */
     public void loadAllStatistics(){
-        topUsers = statisticsManager.getTopUsers();
-        nationalStat = statisticsManager.getNationalStat();
-        userScore = statisticsManager.getUserScore();
+//        topUsers = statisticsManager.getTopUsers();
+//        nationalStat = statisticsManager.getNationalStat();
+//        userScore = statisticsManager.getUserScore();
 
     }
 
@@ -315,9 +314,9 @@ public class StatisticsActivity extends AppCompatActivity {
         private void setNationalPercentageData() {
             ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getCashForTrashCount(), "Cash for Trash"));
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getEwastCount(),"E-waste"));
-            entries.add(new PieEntry(StatisticsManager.getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getCashForTrashCount(), "Cash for Trash"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getEwastCount(),"E-waste"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
 
             PieDataSet dataSet = new PieDataSet(entries, "Trash Type");
 

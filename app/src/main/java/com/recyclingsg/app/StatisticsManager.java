@@ -13,11 +13,11 @@ import java.util.Date;
 public class StatisticsManager {
 
 
-    private static ArrayList<TopUser> topUsers = null;
-    private static NationalStat nationalStat = null;
-    private static double userScore = -1;
-    private static Date lastUpdate = null;
-    private static ArrayList<SimpleDepositLog> depositLogs = new ArrayList<>();
+    private ArrayList<TopUser> topUsers = null;
+    private NationalStat nationalStat = null;
+    private double userScore = -1;
+    private Date lastUpdate = null;
+    private ArrayList<SimpleDepositLog> depositLogs = new ArrayList<>();
     private DatabaseManager databaseManager;
 
     /**
@@ -110,23 +110,23 @@ public class StatisticsManager {
     }
 
     public void setNationalStat(NationalStat nationalStat) {
-        StatisticsManager.nationalStat = nationalStat;
+        this.nationalStat = nationalStat;
     }
 
     public void setTopUsers(ArrayList<TopUser> topUsers) {
-        StatisticsManager.topUsers = topUsers;
+        this.topUsers = topUsers;
     }
 
     public void setUserScore(double userScore) {
-        StatisticsManager.userScore = userScore;
+        this.userScore = userScore;
     }
 
     public void setLastUpdate(Date lastUpdate) {
-        StatisticsManager.lastUpdate = lastUpdate;
+        this.lastUpdate = lastUpdate;
     }
 
     public void setDepositLogs(ArrayList<SimpleDepositLog> depositLogs) {
-        StatisticsManager.depositLogs = depositLogs;
+        this.depositLogs = depositLogs;
     }
 
     public ArrayList<SimpleDepositLog> getDepositLogs() {
