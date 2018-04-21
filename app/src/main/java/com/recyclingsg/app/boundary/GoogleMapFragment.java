@@ -179,8 +179,6 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
         this.depositButton = (Button)infoWindow.findViewById(R.id.depositButton);
         this.navigateButton=(Button)infoWindow.findViewById(R.id.navigateButton);
 
-        //kelvin liang
-        //this is your shit
 
         this.depositButtonListener = new OnInfoWindowElemTouchListener(depositButton,
                 getResources().getDrawable(R.drawable.common_google_signin_btn_icon_light),

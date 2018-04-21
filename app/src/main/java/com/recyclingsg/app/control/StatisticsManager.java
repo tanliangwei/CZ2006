@@ -56,7 +56,7 @@ public class StatisticsManager {
      */
     private StatisticsManager() {
     }
-
+    // this adds databaseManager
     public void addDatabaseInterface(DatabaseInterface db){
         this.databaseManager = db;
     }

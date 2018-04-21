@@ -1,6 +1,7 @@
 package com.recyclingsg.app.boundary;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -103,10 +104,22 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
         if (name.equals("") ||
                 address.equals("") ||
                 zipcode.equals("") ||
-                contact.equals("")) {
+                contact.equals("") ||
+                description.equals("")) {
             Log.d(TAG, "onClick: null fields present");
             Toast.makeText(getApplicationContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+
+        else {
+
+                GoogleGeocoder gc = GoogleGeocoder.getInstance();
+                if (gc.getLatLngFromAddress(zipcode, this)==null){
+                    Toast.makeText(this, "Zipcode not found", Toast.LENGTH_SHORT);
+                    return;
+                }
+
+
+
             Toast.makeText(this, "Submitting Form..", Toast.LENGTH_SHORT).show();
 
             int[] daysOpen = new int[7];

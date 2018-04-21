@@ -29,7 +29,7 @@ public class DatabaseManagerTest {
 
     @Test
     public void pullPublicSecondHandFromDatabase() throws Exception {
-        DatabaseManager.getInstance().pullPublicEWasteFromDatabase();
+        DatabaseManager.getInstance().pullPublicSecondHandFromDatabase();
         Thread.sleep(1000);
         assertEquals(21,DatabaseManager.getInstance().getSecondHandPublicTrashCollectionPoints().size());
     }
