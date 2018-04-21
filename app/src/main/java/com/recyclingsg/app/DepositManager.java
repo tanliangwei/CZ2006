@@ -37,7 +37,6 @@ public class DepositManager {
         String UserName = UserManager.getInstance().getUserName();
 
         //get score and revenue
-        ScoreManager.getInstance();
         float score = ScoreManager.getInstance().calculateScore(trashInfo, units);
         float revenue = calculateRevenue(trashInfo, units);
 
@@ -47,7 +46,8 @@ public class DepositManager {
         DepositRecord dr = new DepositRecord(UserID, date,units, trashInfo,score,trashCollectionPointID,revenue,UserName);
 
         //adding to data base
-        DatabaseManager.getInstance().addDepositRecord(dr);
+        DatabaseInterface databaseManager = DatabaseManager.getInstance();
+        databaseManager.addDepositRecord(dr);
 
         return dr;
     }

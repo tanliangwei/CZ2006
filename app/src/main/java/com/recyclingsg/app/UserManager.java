@@ -13,7 +13,7 @@ public class UserManager {
     private String userName;
     private String userID;
     private Bitmap bitmap;
-
+    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
 
 
     private static UserManager instance;
@@ -78,7 +78,7 @@ public class UserManager {
     public void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
         ptcp.setOwnerId(userID);
         ptcp.setOwnerName(userName);
-        DatabaseManager.getInstance().savePrivateTrashCollectionPoint(ptcp);
+        databaseManager.savePrivateTrashCollectionPoint(ptcp);
         Log.d(TAG, "addPrivateTrashCollectionPointToUser: ");
     }
 }

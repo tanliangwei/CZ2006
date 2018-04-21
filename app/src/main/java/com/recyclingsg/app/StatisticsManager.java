@@ -18,7 +18,7 @@ public class StatisticsManager {
     private double userScore = -1;
     private Date lastUpdate = null;
     private ArrayList<SimpleDepositLog> depositLogs = new ArrayList<>();
-    private DatabaseManager databaseManager;
+    private DatabaseInterface databaseManager;
 
     /**
      * refresh the cached data,

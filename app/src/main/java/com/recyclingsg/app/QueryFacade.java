@@ -14,7 +14,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class QueryFacade implements GoogleMapFragment.OnFragmentInteractionListener{
 
-    private DatabaseManager databaseManager;
+    private DatabaseInterface databaseManager;
     private FilterManager filterManager;
     private static final String TAG = "QueryFacade";
     private static final QueryFacade ourInstance = new QueryFacade();

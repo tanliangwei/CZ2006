@@ -7,6 +7,7 @@ package com.recyclingsg.app;
 public class Configuration {
     //the constructor and instance management code
     private static Configuration instance;
+    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
     //this ensures that there is only one instance of  DatabaseManager in the whole story
     public static Configuration getInstance() {
         if (instance == null) {
@@ -20,9 +21,9 @@ public class Configuration {
     //load all the necessary things.
     public void startUp(){
         StatisticsManager.getInstance().addDatabaseManager();
-        DatabaseManager.getInstance().addStatisticsManager();
-        DatabaseManager.getInstance().addUserManager();
-        DatabaseManager.getInstance().loadData();
+        databaseManager.addStatisticsManager();
+        databaseManager.addUserManager();
+        databaseManager.loadData();
 
     }
 }

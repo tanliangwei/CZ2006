@@ -38,7 +38,7 @@ public class ScoreManager {
      * @param units Units of Trash deposited
      * @return The score to rewarded to users, -1 if the units param is negative
      */
-    public static float calculateScore(TrashInfo trashInfo, float units){
+    public float calculateScore(TrashInfo trashInfo, float units){
         if (units<=0)
             return 0;
         switch(trashInfo.getTrashTypeForSpinner()) {

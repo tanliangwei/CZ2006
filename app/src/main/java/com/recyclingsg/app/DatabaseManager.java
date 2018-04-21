@@ -1,5 +1,6 @@
 package com.recyclingsg.app;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ import java.util.Date;
  * Created by tanliangwei on 16/3/18.
  */
 
-public class DatabaseManager {
+public class DatabaseManager implements DatabaseInterface {
     private static final String TAG = "DatabaseManager";
     private StatisticsManager statisticsManager;
     private UserManager userManager;

@@ -13,23 +13,23 @@ import static org.junit.Assert.*;
 public class DatabaseManagerTest {
     @Test
     public void testPullPublicEWasteFromDatabase() throws Exception {
-        DatabaseManager.pullPublicEWasteFromDatabase();
+        DatabaseManager.getInstance().pullPublicEWasteFromDatabase();
         Thread.sleep(1000);
-        assertEquals(407,DatabaseManager.getEWastePublicTrashCollectionPoints().size());
+        assertEquals(407,DatabaseManager.getInstance().getEWastePublicTrashCollectionPoints().size());
     }
 
     @Test
     public void pullPublicCashForTrash() throws Exception {
-        DatabaseManager.pullPublicCashForTrash();
+        DatabaseManager.getInstance().pullPublicCashForTrash();
         Thread.sleep(1000);
-        assertEquals(109,DatabaseManager.getCashForTrashPublicTrashCollectionPoints().size());
+        assertEquals(109,DatabaseManager.getInstance().getCashForTrashPublicTrashCollectionPoints().size());
     }
 
     @Test
     public void pullPublicSecondHandFromDatabase() throws Exception {
-        DatabaseManager.pullPublicEWasteFromDatabase();
+        DatabaseManager.getInstance().pullPublicEWasteFromDatabase();
         Thread.sleep(1000);
-        assertEquals(21,DatabaseManager.getSecondHandPublicTrashCollectionPoints().size());
+        assertEquals(21,DatabaseManager.getInstance().getSecondHandPublicTrashCollectionPoints().size());
     }
 }
 
