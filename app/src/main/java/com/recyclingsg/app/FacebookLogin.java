@@ -25,6 +25,11 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+/**
+ * This class is a the Facebook Login class. It is used to log the user into an account so that we can identify him.
+ * @author Honey Stars
+ * @version 1.0
+ */
 
 public class FacebookLogin extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
@@ -33,6 +38,10 @@ public class FacebookLogin extends AppCompatActivity {
     CallbackManager callbackManager;
 
 
+    /**
+     * Returns you the login status of the user.
+     * @return a boolean with true indicating logged in and false indicating not
+     */
     public static boolean getLoginStatus(){
         return notLoggedIn;
     }

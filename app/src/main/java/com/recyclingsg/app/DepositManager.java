@@ -6,7 +6,9 @@ import android.util.Log;
 import java.util.Date;
 
 /**
- * Created by tanliangwei on 23/3/18.
+ * This class is a the Deposit Manager class. It is used to handle deposition of trash.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class DepositManager {
@@ -16,6 +18,10 @@ public class DepositManager {
     //the constructor and instance management code
     private static DepositManager instance;
     //this ensures that there is only one instance of  DepositManager in the whole story
+    /**
+     * This returns a singleton instance of the Deposit Manager.
+     * @return Singleton instance of Deposit Manager
+     */
     public static DepositManager getInstance(){
         if (instance == null) {
             try {
@@ -28,10 +34,19 @@ public class DepositManager {
         return instance;
     }
 
-    //constructor for database manger
+    /**
+     * Creates an instance of Deposit Manager
+     */
     public DepositManager(){}
 
-    //public DepositRecord(String userid, Date date, float units, TrashInfo trashInfo, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
+    /**
+     * Creates the Deposit Record using the information written by the User.
+     * @param trashInfo The trash category which the User deposited
+     * @param units The units of trash deposited
+     * @param date The date in which the User deposited
+     * @param trashCollectionPoint The Trash Collection Point where the User deposited the trash
+     * @return The Deposit Record which was created by the User
+     */
     public DepositRecord createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
         String UserID = UserManager.getInstance().getUserId();
         String UserName = UserManager.getInstance().getUserName();
@@ -53,7 +68,13 @@ public class DepositManager {
     }
 
     // to calculate revenue
-    //TODO TrashInfo compatibility issue
+
+    /**
+     * This function returns the revenue earned by the User
+     * @param trashInfo The Trash Information of the trash the User deposited which contains price information
+     * @param Units units of the trash deposited
+     * @return The revenue earned by depositing
+     */
     public float calculateRevenue(TrashInfo trashInfo, float Units){
         // float price = trashInfo.getPrices();
         return 0;
