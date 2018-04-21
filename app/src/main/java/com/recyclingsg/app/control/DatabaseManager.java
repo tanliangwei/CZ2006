@@ -55,7 +55,7 @@ public class DatabaseManager implements DatabaseInterface {
     //getter methods
     private ArrayList<PrivateTrashCollectionPoint> getEWastePrivateTrashCollectionPoints() {
         pullPrivateData("e-waste");
-        
+        delay(300);
         Log.d(TAG,"pull e-waste points: "+EWastePrivateTrashCollectionPoints.size());
         return EWastePrivateTrashCollectionPoints;
     }
@@ -272,13 +272,6 @@ public class DatabaseManager implements DatabaseInterface {
     }
 
     private void pullPrivateData(final String type){
-        if(type == "cash-for-trash"){
-            CashForTrashPrivateTrashCollectionPoints.clear();
-        }else if(type == "e-waste"){
-            EWastePrivateTrashCollectionPoints.clear();
-        }else{
-            SecondHandPrivateTrashCollectionPoints.clear();
-        }
         // Connect to the URL using java's native library
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -323,6 +316,8 @@ public class DatabaseManager implements DatabaseInterface {
                 int count = rootobj.get("count").getAsInt();
                 Log.e(TAG, "successfully pulled "+count+" private "+type+" points");
                 JsonArray collectionPointArray = rootobj.get("points").getAsJsonArray();
+                ArrayList<PrivateTrashCollectionPoint> newPoints = new ArrayList<>();
+
                 for (int i = 0; i < collectionPointArray.size(); i++) {
                     PrivateTrashCollectionPoint newPoint = new PrivateTrashCollectionPoint();
 
@@ -391,13 +386,14 @@ public class DatabaseManager implements DatabaseInterface {
                     }
                     newPoint.setTrash(trashInfos);
 
-                    if(type == "cash-for-trash"){
-                        CashForTrashPrivateTrashCollectionPoints.add(newPoint);
-                    }else if(type == "e-waste"){
-                        EWastePrivateTrashCollectionPoints.add(newPoint);
-                    }else{
-                        SecondHandPrivateTrashCollectionPoints.add(newPoint);
-                    }
+                    newPoints.add(newPoint);
+                }
+                if(type.equalsIgnoreCase("cash-for-trash")){
+                    CashForTrashPrivateTrashCollectionPoints = newPoints;
+                }else if(type.equalsIgnoreCase("e-waste")){
+                    EWastePrivateTrashCollectionPoints = newPoints;
+                }else{
+                    SecondHandPrivateTrashCollectionPoints = newPoints;
                 }
             }
         });
@@ -545,6 +541,9 @@ public class DatabaseManager implements DatabaseInterface {
                         Log.d(TAG,line);
                     }
                     reader.close();
+                    pullPrivateData("cash-for-trash");
+                    pullPrivateData("e-waste");
+                    pullPrivateData("second-hand-goods");
                 }
                 catch (IOException e){
                     Log.e(TAG,e.getMessage());
