@@ -48,7 +48,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         }
         if (shFragment.isCheck()) {
             Log.d(TAG, "compileTtpList: shfragment is checked");
-            trashUnits.add("Second Hand Goods");
+            trashTypes.add("Second Hand Goods");
         }
 
     }

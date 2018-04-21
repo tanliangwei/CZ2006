@@ -21,7 +21,7 @@ public class TrashCollectionPointManager {
     private String userSelectedTrashPointID;
     private  LatLng userSelectedTrashPointCoordinates;
     private TrashCollectionPoint userSelectedTrashPoint;
-
+    private final static String TAG = "TrashPointManager";
     //to be removed
 
     private static TrashCollectionPointManager instance;
@@ -57,6 +57,7 @@ public class TrashCollectionPointManager {
         for(int i=0;i<trashTypes.size();i++){
             if(!trashTypes.get(i).equalsIgnoreCase("Cash For Trash")) {
                 TrashInfo trashinfo = new TrashInfo(trashTypes.get(i));
+                Log.d(TAG, "creating trash info object:"+trashinfo.getTrashType());
                 trashInfoList.add(trashinfo);
             }else if(trashTypes.get(i).equalsIgnoreCase("Cash For Trash")){
                 TrashInfo trashInfo = new TrashInfo(trashTypes.get(i),trashNames,units,trashPrices);

@@ -65,13 +65,12 @@ public class TrashInfo {
         if(trashType.equalsIgnoreCase("ewaste")){
             this.trashType = "e-waste";
         }
-        if(trashType.equalsIgnoreCase("Second Hand Goods")){
-            this.trashType="second-hand-goods";
-        }
-        if(trashType.equalsIgnoreCase("Cash For Trash")){
+        else if(trashType.equalsIgnoreCase("Cash For Trash")){
             this.trashType="cash-for-trash";
         }
-
+        else{
+            this.trashType="second-hand-goods";
+        }
     }
 
     public String getTrashTypeForSpinner(){
