@@ -31,10 +31,19 @@ public class TrashInfo {
 
     public  TrashInfo(){}
 
-    //constructor for E-waste and Second Hand where there is no price or fixed price.
+    /**
+     * This creates a Trash Info object
+     * @param name The category of Trash.
+     */
     public TrashInfo(String name){ setTrashType(name);}
 
-    //constructor for Cash-For-Trash scheme.
+    /**
+     * This creates a Trash Info object
+     * @param trashType The category of trash
+     * @param cashForTrashNames The names of Sub-Trash Type if Cash-For-Trash is selected
+     * @param CashForTrashUnits The units of Sub-Trash Type if Cash-For-Trash is selected
+     * @param cashForTrashPrices The prices of Sub-Trash Type if Cash-For-Trash is selected
+     */
     public TrashInfo(String trashType, ArrayList<String> cashForTrashNames, ArrayList<String> CashForTrashUnits, ArrayList<Double> cashForTrashPrices){
         for(int i=0;i<cashForTrashNames.size();i++){
             String units = null;
@@ -73,6 +82,10 @@ public class TrashInfo {
         }
     }
 
+    /**
+     * Returns the String of the Trash Type to be displayed in drop down menus.
+     * @return
+     */
     public String getTrashTypeForSpinner(){
         if(trashType.equalsIgnoreCase("e-waste")||trashType.equalsIgnoreCase("e-waste-recycling")){
             return "    EWaste    ";
@@ -92,10 +105,21 @@ public class TrashInfo {
     @Deprecated public String getTrashName(){return getTrashType();}
 
 
+    /**
+     * This adds a Sub-Trash Type and its price and unit information to it.
+     * @param trashName The Sub-Trash Type
+     * @param unit The unit
+     * @param pricePerUnit The price per unit
+     */
     public void addTrashPrice(String trashName, String unit, double pricePerUnit) {
         trashPrices.put(trashName, new PriceInfo(trashName, unit, pricePerUnit));
     }
 
+    /**
+     * Return the price of the Sub-Trash Type
+     * @param trashName The name of the Sub-Trash
+     * @return The price
+     */
     public PriceInfo getTrashPrice(String trashName){
         return trashPrices.get(trashName);
     }

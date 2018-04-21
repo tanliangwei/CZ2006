@@ -1,7 +1,9 @@
 package com.recyclingsg.app.entity;
 
 /**
- * Created by quzhe on 2018-4-21.
+ * This class is the Simple Deposit Log Class . It contains information about Trash Depositions in the Database so that this information can be displayed in the Statistics Activity.
+ * @author Honey Stars
+ * @version 1.0
  */
 public class SimpleDepositLog{
     private String depositDate;
@@ -9,6 +11,13 @@ public class SimpleDepositLog{
     private double score;
     private String userName;
 
+    /**
+     * This creates a Simple Deposit Log
+     * @param userName The user who made the deposition
+     * @param depositDate The date of deposition
+     * @param trashType The trash category
+     * @param score The number of points earned
+     */
     public SimpleDepositLog(String userName, String depositDate, String trashType, double score){
         this.userName = userName;
         this.depositDate = depositDate;

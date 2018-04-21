@@ -1,21 +1,31 @@
 package com.recyclingsg.app.entity;
 
 /**
- * Created by quzhe on 2018-4-21.
+ * This class is the National Statistic Class. It stores information about the national statistics such as the average score of users, the number of users as well as the break down of trash categories.
+ * @author Honey Stars
+ * @version 1.0
  */
 public class NationalStat{
     private double avgScore;
     // the number of depositors in the country
     private int userCount;
-    private int ewastCount = 0;
+    private int ewasteCount = 0;
     private int secondHandGoodCount = 0;
     private int cashForTrashCount = 0;
 
-    public NationalStat(double avgScore, int userCount, int cashForTrashCount, int ewastCount, int secondHandGoodCount){
+    /**
+     * This creates a National Statistic Object
+     * @param avgScore The average score
+     * @param userCount The number of users
+     * @param cashForTrashCount The number of cash for trash deposits
+     * @param ewasteCount The number of Ewaste deposits
+     * @param secondHandGoodCount The number of Second Hand Good deposits
+     */
+    public NationalStat(double avgScore, int userCount, int cashForTrashCount, int ewasteCount, int secondHandGoodCount){
         this.avgScore = avgScore;
         this.userCount = userCount;
         this.cashForTrashCount = cashForTrashCount;
-        this.ewastCount = ewastCount;
+        this.ewasteCount = ewasteCount;
         this.secondHandGoodCount = secondHandGoodCount;
     }
 
@@ -31,8 +41,8 @@ public class NationalStat{
         return cashForTrashCount;
     }
 
-    public int getEwastCount() {
-        return ewastCount;
+    public int getEwasteCount() {
+        return ewasteCount;
     }
 
     public int getSecondHandGoodCount() {

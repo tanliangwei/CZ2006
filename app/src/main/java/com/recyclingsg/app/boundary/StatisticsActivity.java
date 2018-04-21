@@ -314,7 +314,7 @@ public class StatisticsActivity extends AppCompatActivity {
             ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
             entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getCashForTrashCount(), "Cash for Trash"));
-            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getEwastCount(),"E-waste"));
+            entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getEwasteCount(),"E-waste"));
             entries.add(new PieEntry(StatisticsManager.getInstance().getNationalStat().getSecondHandGoodCount(),"2nd Hand Goods"));
 
             PieDataSet dataSet = new PieDataSet(entries, "Trash Type");

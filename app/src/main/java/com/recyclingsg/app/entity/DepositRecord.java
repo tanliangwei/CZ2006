@@ -5,7 +5,7 @@ import com.recyclingsg.app.entity.TrashInfo;
 import java.util.Date;
 
 /**
- * This class is a the configuration class. It is used at the start of the application runtime to load and call certain data and functions.
+ * This class is the Deposit Record class. It records and stores the data regarding each deposition.
  * @author Honey Stars
  * @version 1.0
  */
