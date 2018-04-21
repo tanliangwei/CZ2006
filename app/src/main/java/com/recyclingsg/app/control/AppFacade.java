@@ -11,6 +11,12 @@ import com.recyclingsg.app.boundary.GoogleMapFragment;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+/**
+ * This class is the App Facade. It uses the Facade pattern to outsource the management of different classes.
+ * @author Honey Stars
+ * @version 1.0
+ */
+
 public class AppFacade implements GoogleMapFragment.OnFragmentInteractionListener{
 
     private DatabaseInterface databaseManager;
@@ -19,6 +25,10 @@ public class AppFacade implements GoogleMapFragment.OnFragmentInteractionListene
     private static final AppFacade ourInstance = new AppFacade();
     private GoogleMapFragment mGoogleMapFragment;
 
+    /**
+     * This returns a singleton instance of the App Facade.
+     * @return Singleton instance of App Facade
+     */
     public static AppFacade getInstance() {
         return ourInstance;
     }
@@ -41,6 +51,11 @@ public class AppFacade implements GoogleMapFragment.OnFragmentInteractionListene
         return mGoogleMapFragment;
     }
 
+    /**
+     * This function pulls the relevant Trash Collection Points and display them on the map based on the user's query.
+     * @param view The View to display
+     * @param userSelectedTrashType The Trash Type selected.
+     */
     public void query(View view, String userSelectedTrashType) {
         Log.d(TAG, "onClick: taking user to query results");
 
