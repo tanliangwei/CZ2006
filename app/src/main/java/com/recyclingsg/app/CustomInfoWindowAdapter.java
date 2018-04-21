@@ -22,6 +22,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     private Context mContext;
     private View popUP;
     private Button testButton;
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
 
 //    private View.OnTouchListener customWindowOnTouchListener = new View.OnTouchListener() {
@@ -45,15 +46,14 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     @Override
     public View getInfoWindow(Marker marker) {
         TrashCollectionPoint tcp= (TrashCollectionPoint)marker.getTag();
-        TrashCollectionPointManager.getInstance();
-        TrashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
+        trashCollectionPointManager.setUserSelectedTrashCollectionPoint(tcp);
         Log.d("MARKER CLICK","THE SELECTED POINT IS" + tcp.getCollectionPointName());
         return null;
     }
 
     @Override
     public View getInfoContents(Marker marker) {
-        TrashCollectionPoint UserSelectedTCP=TrashCollectionPointManager.getUserSelectedTrashCollectionPoint();
+        TrashCollectionPoint UserSelectedTCP=trashCollectionPointManager.getUserSelectedTrashCollectionPoint();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //String title,description;
         //if(UserSelectedTCP!=null){
@@ -79,12 +79,11 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         descriptionText.setText(description);
 
             //trashCollectionPointManager.setUserSelectedTrashPoint();
-        TrashCollectionPointManager.getInstance();
-        TrashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
-        TrashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
+        trashCollectionPointManager.setUserSelectedTrashPointID(marker.getId());
+        trashCollectionPointManager.setUserSelectedTrashPointCoordinates(marker.getPosition());
 
         customInfoWindowButton.setText("Navigate");
-        Log.d("TAG", "getInfoContents: "+ TrashCollectionPointManager.getInstance().getUserSelectedTrashPointCoordinates().toString().substring(10,TrashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
+        Log.d("TAG", "getInfoContents: "+ trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().substring(10,trashCollectionPointManager.getUserSelectedTrashPointCoordinates().toString().length()-1));
         popUP = popUp;
         return popUp;
     }

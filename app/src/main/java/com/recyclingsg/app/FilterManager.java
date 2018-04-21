@@ -15,6 +15,13 @@ import static android.content.ContentValues.TAG;
 
 public class FilterManager {
 
+    private static final FilterManager ourInstance = new FilterManager();
+
+    public static FilterManager getInstance() {
+        return ourInstance;
+    }
+
+
     public FilterManager(){}
     private ArrayList<TrashCollectionPoint> openTrashCollectionPoints =new ArrayList<TrashCollectionPoint>();
     private ArrayList<TrashCollectionPoint> closedTrashCollectionPoints = new ArrayList<TrashCollectionPoint>();

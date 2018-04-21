@@ -15,9 +15,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class TrashCollectionPointManager {
-    private static String userSelectedTrashPointID;
-    private static  LatLng userSelectedTrashPointCoordinates;
-    private static TrashCollectionPoint userSelectedTrashPoint;
+    private String userSelectedTrashPointID;
+    private  LatLng userSelectedTrashPointCoordinates;
+    private TrashCollectionPoint userSelectedTrashPoint;
 
     //to be removed
 
@@ -41,11 +41,11 @@ public class TrashCollectionPointManager {
         return userSelectedTrashPointID;
     }
 
-    public static void setUserSelectedTrashPointID(String id){
+    public void setUserSelectedTrashPointID(String id){
         userSelectedTrashPointID = id;
     }
 
-    public static void createPrivateTrashCollectionPoint(String name, String address, String zip, String contactDetail, ArrayList<String> trashTypes,ArrayList<String> units, ArrayList<String> trashNames, ArrayList<Double> trashPrices, String openTime, String closeTime, String description, int[] days,Context context) {
+    public void createPrivateTrashCollectionPoint(String name, String address, String zip, String contactDetail, ArrayList<String> trashTypes,ArrayList<String> units, ArrayList<String> trashNames, ArrayList<Double> trashPrices, String openTime, String closeTime, String description, int[] days,Context context) {
 
         Log.d(TAG, "createPrivateTrashCollectionPoint: creating..");
 
@@ -69,25 +69,24 @@ public class TrashCollectionPointManager {
         LatLng privateCollectionCoordinates = googleGeocoder.getLatLngFromAddress(zip, context);
         PrivateTrashCollectionPoint ptcp = new PrivateTrashCollectionPoint(name,privateCollectionCoordinates.latitude,privateCollectionCoordinates.longitude, openingTime,closingTime,trashInfoList,days,description,address);
         //Log.d(TAG, "createPrivateTrashCollectionPoint: "+ptcp.getTrash().get(0).getTrashType());
-        UserManager.getInstance();
-        UserManager.addPrivateTrashCollectionPointToUser(ptcp);
+        UserManager.getInstance().addPrivateTrashCollectionPointToUser(ptcp);
         Log.d(TAG, "createPrivateTrashCollectionPoint: adding private trach collection point to user");
 
     }
 
-    public static TrashCollectionPoint getUserSelectedTrashCollectionPoint(){
+    public TrashCollectionPoint getUserSelectedTrashCollectionPoint(){
         return userSelectedTrashPoint;
     }
 
-    public static void setUserSelectedTrashCollectionPoint(TrashCollectionPoint tcp){
+    public void setUserSelectedTrashCollectionPoint(TrashCollectionPoint tcp){
         userSelectedTrashPoint = tcp;
     }
 
-    public static LatLng getUserSelectedTrashPointCoordinates() {
+    public LatLng getUserSelectedTrashPointCoordinates() {
         return userSelectedTrashPointCoordinates;
     }
 
-    public static void setUserSelectedTrashPointCoordinates(LatLng ustcpc) {
+    public void setUserSelectedTrashPointCoordinates(LatLng ustcpc) {
         userSelectedTrashPointCoordinates = ustcpc;
     }
 }

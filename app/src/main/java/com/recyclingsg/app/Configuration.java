@@ -14,21 +14,29 @@ public class Configuration {
      * This returns a singleton instance of the Configuration.
      * @return Singleton instance of  Configuration
      */
+    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
+    //this ensures that there is only one instance of  DatabaseManager in the whole story
     public static Configuration getInstance() {
         if (instance == null) {
             instance = new Configuration();
         }
         return instance;
     }
-    //constructor for database manger
+
+    /**
+     * Creates an instance of configuration
+     */
     private Configuration(){}
+
 
     /**
      * Loads all the data required by the Application.
      */
-    public static void startUp(){
-        DatabaseManager.getInstance();
-        DatabaseManager.loadData();
+    public void startUp(){
+        StatisticsManager.getInstance().addDatabaseManager();
+        databaseManager.addStatisticsManager();
+        databaseManager.addUserManager();
+        databaseManager.loadData();
 
     }
 }

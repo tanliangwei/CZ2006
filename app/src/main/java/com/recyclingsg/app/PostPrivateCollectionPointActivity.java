@@ -51,6 +51,7 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
     List<String> trashNames;
     List<Double> trashPrices;
     List<String> trashUnits;
+    private TrashCollectionPointManager trashCollectionPointManager = TrashCollectionPointManager.getInstance();
 
 
     @Override
@@ -129,12 +130,10 @@ public class PostPrivateCollectionPointActivity extends AppCompatActivity {
 
             tabAdapter.compileTtpList((ArrayList<String>)typeOfTrashes, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices, (ArrayList<String>) trashUnits);
 
-            //calling trash collection point manager.
-            TrashCollectionPointManager.getInstance();
 
             Log.d(TAG, "submitCollectionPointForm: trashes being posted" + typeOfTrashes);
 
-            TrashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
+            trashCollectionPointManager.createPrivateTrashCollectionPoint(name, address, zipcode, contact,
                     (ArrayList<String>) typeOfTrashes, (ArrayList<String>) trashUnits, (ArrayList<String>) trashNames, (ArrayList<Double>) trashPrices,
                     "0000", "0000", description,  daysOpen, this);
 

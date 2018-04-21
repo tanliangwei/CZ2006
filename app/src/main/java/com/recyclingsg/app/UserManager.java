@@ -6,19 +6,24 @@ import android.util.Log;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by jiahengzhang on 16/3/18.
+ * This class is a the configuration class. It is used at the start of the application runtime to load and call certain data and functions.
+ * @author Honey Stars
+ * @version 1.0
  */
 
 public class UserManager {
-
-    private static String userID;
-    private static String userName;
-    private static Bitmap bitmap;
-
+    private String userName;
+    private String userID;
+    private Bitmap bitmap;
+    private DatabaseInterface databaseManager = DatabaseManager.getInstance();
 
 
     private static UserManager instance;
     //this ensures that there is only one instance of  User Manager in the whole story
+    /**
+     * This returns a singleton instance of the User Manager.
+     * @return Singleton instance of User Manager
+     */
     public static UserManager getInstance(){
         if (instance == null) {
             try {
@@ -31,7 +36,38 @@ public class UserManager {
         return instance;
     }
 
+    /**
+     * Creates an instance of User Manager
+     */
     public UserManager(){}
+
+    public String getUserId() {
+        return userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserID(String id) {
+        userID = id;
+    }
+
+    public void setUserName(String name) {
+        userName = name;
+    }
+
+    /**
+     * This adds the Private Trash Collection Point created to the user and then push it to the Database Manager to be saved.
+     * @param ptcp The Private Trash Collection Point created by this user.
+     */
+    public void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
+        ptcp.setOwnerId(userID);
+        ptcp.setOwnerName(userName);
+        databaseManager.savePrivateTrashCollectionPoint(ptcp);
+        Log.d(TAG, "addPrivateTrashCollectionPointToUser: ");
+    }
+
     /*public static Picture getPicture(){
         Picture picture = new Picture();
         Canvas canvas = picture.beginRecording(bitmap.getWidth(), bitmap.getHeight());
@@ -60,29 +96,6 @@ public class UserManager {
     }*/
     //public static void setBitMap(Bitmap thebitmap){bitmap=thebitmap;}
     //public static Bitmap getFacebookProfilePicture(){return bitmap;}
-    public static String getUserId() {
-        return userID;
-    }
-
-    public static String getUserName() {
-        return userName;
-    }
-
-    public static void setUserID(String id) {
-        userID = id;
-    }
-
-    public static void setUserName(String name) {
-        userName = name;
-    }
-
-    public static void addPrivateTrashCollectionPointToUser(PrivateTrashCollectionPoint ptcp){
-        ptcp.setOwnerId(userID);
-        ptcp.setOwnerName(userName);
-        DatabaseManager.getInstance();
-        DatabaseManager.savePrivateTrashCollectionPoint(ptcp);
-        Log.d(TAG, "addPrivateTrashCollectionPointToUser: ");
-    }
 }
 
 

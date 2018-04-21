@@ -32,14 +32,12 @@ public class DepositManager {
     public DepositManager(){}
 
     //public DepositRecord(String userid, Date date, float units, TrashInfo trashInfo, float score, String TrashCollectionPointID, float Reveneue, String nameOfUser)
-    public static DepositRecord createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
-        UserManager.getInstance();
-        String UserID = UserManager.getUserId();
-        String UserName = UserManager.getUserName();
+    public DepositRecord createDepositRecord(TrashInfo trashInfo, float units, Date date, TrashCollectionPoint trashCollectionPoint){
+        String UserID = UserManager.getInstance().getUserId();
+        String UserName = UserManager.getInstance().getUserName();
 
         //get score and revenue
-        ScoreManager.getInstance();
-        float score = ScoreManager.calculateScore(trashInfo, units);
+        float score = ScoreManager.getInstance().calculateScore(trashInfo, units);
         float revenue = calculateRevenue(trashInfo, units);
 
         String trashCollectionPointID =  trashCollectionPoint.getTrashCollectionPointID();
@@ -48,15 +46,15 @@ public class DepositManager {
         DepositRecord dr = new DepositRecord(UserID, date,units, trashInfo,score,trashCollectionPointID,revenue,UserName);
 
         //adding to data base
-        DatabaseManager.getInstance();
-        DatabaseManager.addDepositRecord(dr);
+        DatabaseInterface databaseManager = DatabaseManager.getInstance();
+        databaseManager.addDepositRecord(dr);
 
         return dr;
     }
 
     // to calculate revenue
     //TODO TrashInfo compatibility issue
-    public static float calculateRevenue(TrashInfo trashInfo, float Units){
+    public float calculateRevenue(TrashInfo trashInfo, float Units){
         // float price = trashInfo.getPrices();
         return 0;
     }
