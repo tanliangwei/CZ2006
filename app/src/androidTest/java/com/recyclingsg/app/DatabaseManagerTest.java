@@ -1,6 +1,8 @@
 package com.recyclingsg.app;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.recyclingsg.app.control.DatabaseManager;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
